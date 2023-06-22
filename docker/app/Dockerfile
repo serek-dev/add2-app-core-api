@@ -1,0 +1,34 @@
+FROM php:8.1.8-fpm-alpine as base
+
+# Use the default production configuration
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 5M/' /usr/local/etc/php/php.ini
+
+RUN apk add --no-cache \
+    libpng-dev \
+    libzip-dev \
+    && docker-php-ext-install gd zip pdo pdo_mysql
+
+COPY --from=composer:2.5.4 /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /app
+
+COPY .env .env
+COPY composer.json composer.json
+COPY composer.lock composer.lock
+COPY symfony.lock symfony.lock
+
+COPY bin bin
+COPY config config
+COPY public public
+COPY tools tools
+COPY resources resources
+COPY src src
+
+RUN mkdir -p var/ && chmod 777 -R var/
+
+RUN composer install --no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader
+
+# Development environment
+FROM base as dev
+RUN composer install --dev
