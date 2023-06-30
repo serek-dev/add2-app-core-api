@@ -17,17 +17,7 @@ services:
       dockerfile: ./docker/app/Dockerfile
       target: dev
     volumes:
-      - ./public/:/app/public/
-      - ./tools/:/app/tools/
-      - ./src/:/app/src/
-      - ./var/:/app/var/
-      - ./config/:/app/config/
-      - ./composer.json:/app/composer.json
-      - ./composer.lock:/app/composer.lock
-      - ./resources/:/app/resources/
-      - ./symfony.lock/:/app/symfony.lock/
-      - ./.env/:/app/.env/
-      - app-volume:/app/
+      - ./:/app/
     expose:
       - 9000
 

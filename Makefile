@@ -10,6 +10,7 @@ fast: stop up _finish ## Attempts to start existing containers
 
 up:
 	$(docker-compose) up --force-recreate -d
+	$(docker-compose) exec app composer install
 	$(docker-compose) exec app sh ./tools/post_deploy.sh
 
 build:
@@ -28,7 +29,7 @@ _finish:
 	@echo "----------------------------------------------------------------------------"
 
 copy_vendor: ### Copy vendor directory into a host machine
-	sudo docker cp $$(docker-compose -f base.yml -f dev.yml ps -q app):/app/vendor .
+	sudo docker cp $$(docker-compose ps -q app):/app/vendor .
 
 envs: ### Debug env file
 	$(docker-compose) exec app php bin/console debug:dotenv
@@ -40,4 +41,8 @@ config_dump: ### Displays merged docker-compose configuration
 	$(docker-compose) config
 
 post_deploy: ### Runs post deploy script
-	docker exec my-flow_app_1 /bin/sh ./tools/post_deploy.sh
+	$(docker-compose) exec app sh ./tools/post_deploy.sh
+
+
+tests_unit: ### Runs unit tests
+	$(docker-compose) exec app composer tests:unit
