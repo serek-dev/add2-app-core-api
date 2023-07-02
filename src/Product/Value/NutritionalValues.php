@@ -6,37 +6,36 @@ declare(strict_types=1);
 namespace App\Product\Value;
 
 
-use InvalidArgumentException;
-
 /**
  * Per 100g of product
  */
 final class NutritionalValues
 {
     public function __construct(
-        private readonly float $proteins,
-        private readonly float $fats,
-        private readonly float $carbs,
+        private readonly Weight $proteins,
+        private readonly Weight $fats,
+        private readonly Weight $carbs,
+        private readonly float $kcal,
     ) {
-        foreach (func_get_args() as $value) {
-            if ($value < 0) {
-                throw new InvalidArgumentException('Value should not be less than 0');
-            }
-        }
     }
 
     public function getProteins(): float
     {
-        return $this->proteins;
+        return $this->proteins->getRaw();
     }
 
     public function getFats(): float
     {
-        return $this->fats;
+        return $this->fats->getRaw();
     }
 
     public function getCarbs(): float
     {
-        return $this->carbs;
+        return $this->carbs->getRaw();
+    }
+
+    public function getKcal(): float
+    {
+        return $this->kcal;
     }
 }
