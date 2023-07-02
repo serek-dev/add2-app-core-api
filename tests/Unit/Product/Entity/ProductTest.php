@@ -17,6 +17,7 @@ final class ProductTest extends TestCase
     {
         $sut = new Product(
             TestHelper::createNutritionValues(),
+            'Product name',
         );
 
         $this->assertInstanceOf(Product::class, $sut);

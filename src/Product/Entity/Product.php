@@ -10,7 +10,9 @@ use App\Product\Value\NutritionalValues;
 
 final class Product
 {
-    public function __construct(NutritionalValues $nutritionalValues)
-    {
+    public function __construct(
+        NutritionalValues $nutritionalValues,
+        string $name
+    ) {
     }
 }
