@@ -18,6 +18,18 @@ final class ProductTest extends TestCase
         $sut = new Product(
             TestHelper::createNutritionValues(),
             'Product name',
+            'Producer'
+        );
+
+        $this->assertInstanceOf(Product::class, $sut);
+    }
+
+    public function testConstructorWithNoProducer(): void
+    {
+        $sut = new Product(
+            TestHelper::createNutritionValues(),
+            'Product name',
+            null
         );
 
         $this->assertInstanceOf(Product::class, $sut);

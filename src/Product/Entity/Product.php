@@ -12,7 +12,8 @@ final class Product
 {
     public function __construct(
         NutritionalValues $nutritionalValues,
-        string $name
+        string $name,
+        ?string $producer
     ) {
     }
 }
