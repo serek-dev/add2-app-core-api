@@ -9,7 +9,9 @@ namespace App\Product\Handler;
 use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Factory\ProductFactory;
 use App\Product\Repository\Product\StoreProductInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final class CreateProductHandler
 {
     public function __construct(private readonly ProductFactory $productFactory, private readonly StoreProductInterface $storeProduct)

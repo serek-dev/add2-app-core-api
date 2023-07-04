@@ -31,6 +31,7 @@ final class ProductFactoryTest extends TestCase
         $findProductByName = $this->createMock(FindProductByNameInterface::class);
         $findProductByName
             ->method('findByName')
+            ->with('name', 'product name')
             ->willReturn(TestHelper::createProductEntity());
 
         // And my factory

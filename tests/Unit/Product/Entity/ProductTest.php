@@ -16,6 +16,7 @@ final class ProductTest extends TestCase
     public function testConstructor(): void
     {
         $sut = new Product(
+            uniqid(),
             TestHelper::createNutritionValues(),
             'Product name',
             'Producer'
@@ -27,6 +28,7 @@ final class ProductTest extends TestCase
     public function testConstructorWithNoProducer(): void
     {
         $sut = new Product(
+            uniqid(),
             TestHelper::createNutritionValues(),
             'Product name',
             null

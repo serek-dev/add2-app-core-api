@@ -19,13 +19,14 @@ final class ProductFactory
 
     public function create(CreateProductDtoInterface $createProductDto): Product
     {
-        if ($this->findProductByName->findByName($createProductDto->getProducerName(), $createProductDto->getProducerName())) {
+        if ($this->findProductByName->findByName($createProductDto->getName(), $createProductDto->getProducerName())) {
             throw new DuplicateException(
                 "Product with name: {$createProductDto->getName()} and produced by: {$createProductDto->getProducerName()} already exist"
             );
         }
 
         return new Product(
+            uniqid('p-'),
             $createProductDto->getNutritionValues(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),

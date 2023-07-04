@@ -27,6 +27,7 @@ final class TestHelper
     public static function createProductEntity(): Product
     {
         return new Product(
+            uniqid(),
             self::createNutritionValues(),
             'Product name',
             'Producer',

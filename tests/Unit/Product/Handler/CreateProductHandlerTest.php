@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Product\Handler;
+namespace App\Tests\Unit\Product\Handler;
 
 use App\Product\Factory\ProductFactory;
 use App\Product\Handler\CreateProductHandler;
