@@ -6,7 +6,7 @@ use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Entity\Product;
 use App\Product\Exception\DuplicateException;
 use App\Product\Factory\ProductFactory;
-use App\Product\Repository\Product\FindProductByNameInterface;
+use App\Product\Persistence\Product\FindProductByNameInterface;
 use App\Product\Value\NutritionalValues;
 use App\Tests\Data\TestHelper;
 use PHPUnit\Framework\TestCase;

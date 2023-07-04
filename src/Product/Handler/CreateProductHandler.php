@@ -8,7 +8,7 @@ namespace App\Product\Handler;
 
 use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Factory\ProductFactory;
-use App\Product\Repository\Product\StoreProductInterface;
+use App\Product\Persistence\Product\StoreProductInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

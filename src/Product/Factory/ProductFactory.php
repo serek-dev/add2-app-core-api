@@ -9,7 +9,7 @@ namespace App\Product\Factory;
 use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Entity\Product;
 use App\Product\Exception\DuplicateException;
-use App\Product\Repository\Product\FindProductByNameInterface;
+use App\Product\Persistence\Product\FindProductByNameInterface;
 
 final class ProductFactory
 {

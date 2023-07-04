@@ -4,8 +4,8 @@ namespace App\Tests\Unit\Product\Handler;
 
 use App\Product\Factory\ProductFactory;
 use App\Product\Handler\CreateProductHandler;
-use App\Product\Repository\Product\FindProductByNameInterface;
-use App\Product\Repository\Product\StoreProductInterface;
+use App\Product\Persistence\Product\FindProductByNameInterface;
+use App\Product\Persistence\Product\StoreProductInterface;
 use App\Tests\Data\TestHelper;
 use PHPUnit\Framework\TestCase;
 

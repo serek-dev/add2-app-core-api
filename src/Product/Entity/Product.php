@@ -32,7 +32,9 @@ final class Product
         #[Column]
         private readonly string $id,
         private readonly NutritionalValues $nutritionalValues,
+        #[Column]
         private readonly string $name,
+        #[Column(nullable: true)]
         private readonly ?string $producerName
     ) {
         $this->proteins = $this->nutritionalValues->getProteins();
