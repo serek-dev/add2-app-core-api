@@ -20,6 +20,7 @@ services:
             - '../src/*/Command/'
             - '../src/*/Dto/'
             - '../src/*/Exception/'
+            - '../src/*/View/'
             - '../src/*/Value/'
             - '../src/*/Entity/'
             - '../src/*/Kernel.php'

@@ -2,9 +2,11 @@
 
 namespace App\Tests\Unit\Product\Factory;
 
+use App\Product\Command\CreateProductCommand;
 use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Entity\Product;
 use App\Product\Exception\DuplicateException;
+use App\Product\Exception\InvalidArgumentException;
 use App\Product\Factory\ProductFactory;
 use App\Product\Persistence\Product\FindProductByNameInterface;
 use App\Product\Value\NutritionalValues;
@@ -23,6 +25,30 @@ final class ProductFactoryTest extends TestCase
         $actual = $sut->create($this->getDto());
 
         $this->assertInstanceOf(Product::class, $actual);
+    }
+
+    public function testCreateWithInvalidKcalSum(): void
+    {
+        // Given I have wrong sum kcal value
+
+        $sut = new ProductFactory(
+            $this->createMock(FindProductByNameInterface::class)
+        );
+
+        // Then I should be an invalid argument exception
+        $this->expectException(InvalidArgumentException::class);
+
+        // When I create new entity
+        $sut->create(
+            new CreateProductCommand(
+                'Product',
+                20.0,
+                20.0,
+                30.0,
+                ((20 * 4) + (20 * 9) + (30 * 4)) * 2,
+                '',
+            )
+        );
     }
 
     public function testCreateOnNonUniqueName(): void

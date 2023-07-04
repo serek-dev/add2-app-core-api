@@ -20,7 +20,7 @@ final class TestHelper
             new Weight(20.0),
             new Weight(10.0),
             new Weight(30.0),
-            (20 * 4) + (20 * 9) + (30 * 4)
+            80 + 90 + 120
         );
     }
 
@@ -41,7 +41,7 @@ final class TestHelper
             20.0,
             10.0,
             30.0,
-            (20 * 4) + (20 * 9) + (30 * 4),
+            80 + 90 + 120,
             'Producer'
         );
     }

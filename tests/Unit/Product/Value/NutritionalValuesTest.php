@@ -19,7 +19,7 @@ final class NutritionalValuesTest extends TestCase
     public function testGetKcal(): void
     {
         $sut = TestHelper::createNutritionValues();
-        $this->assertSame(380.0, $sut->getKcal());
+        $this->assertSame(290.0, $sut->getKcal());
     }
 
     public function testGetters(): void
