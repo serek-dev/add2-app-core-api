@@ -11,9 +11,9 @@ use App\Product\Value\NutritionalValues;
 final class Product
 {
     public function __construct(
-        NutritionalValues $nutritionalValues,
-        string $name,
-        ?string $producerName
+        private readonly NutritionalValues $nutritionalValues,
+        private readonly string $name,
+        private readonly ?string $producerName
     ) {
     }
 }

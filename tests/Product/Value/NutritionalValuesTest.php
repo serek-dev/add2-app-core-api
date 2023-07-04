@@ -3,6 +3,7 @@
 namespace App\Tests\Product\Value;
 
 use App\Product\Value\NutritionalValues;
+use App\Product\Value\Weight;
 use App\Tests\Data\TestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -19,5 +20,13 @@ final class NutritionalValuesTest extends TestCase
     {
         $sut = TestHelper::createNutritionValues();
         $this->assertSame(380.0, $sut->getKcal());
+    }
+
+    public function testGetters(): void
+    {
+        $sut = new NutritionalValues(new Weight(1), new Weight(2), new Weight(3), 100);
+        $this->assertSame(1.0, $sut->getProteins());
+        $this->assertSame(2.0, $sut->getFats());
+        $this->assertSame(3.0, $sut->getCarbs());
     }
 }
