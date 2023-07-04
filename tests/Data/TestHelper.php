@@ -24,12 +24,12 @@ final class TestHelper
         );
     }
 
-    public static function createProductEntity(): Product
+    public static function createProductEntity(?string $id = null, ?string $name = null, ?NutritionalValues $values = null): Product
     {
         return new Product(
-            uniqid(),
-            self::createNutritionValues(),
-            'Product name',
+            $id ?? uniqid(),
+            $values ?? self::createNutritionValues(),
+            $name ?? 'Product name',
             'Producer',
         );
     }

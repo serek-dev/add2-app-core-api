@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Product\ViewQuery\Product;
+namespace App\Tests\Unit\Product\ViewQuery\Product;
 
 use App\Product\ViewQuery\Product\DbalProductRepository;
 use App\Product\ViewQuery\Product\FindProductsInterface;
