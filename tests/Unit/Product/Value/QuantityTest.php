@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Product\Value;
+namespace App\Tests\Unit\Product\Value;
 
 use App\Product\Value\Quantity;
 use App\Product\Value\Weight;

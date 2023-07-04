@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Product\Factory;
+namespace App\Tests\Unit\Product\Factory;
 
 use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Entity\Product;
@@ -57,7 +57,7 @@ final class ProductFactoryTest extends TestCase
                 return 'name';
             }
 
-            public function getProducerName(): string
+            public function getProducerName(): ?string
             {
                 return 'product name';
             }

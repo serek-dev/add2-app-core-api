@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace App\Tests\Data;
 
 
+use App\Product\Command\CreateProductCommand;
+use App\Product\Dto\CreateProductDtoInterface;
 use App\Product\Entity\Product;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
@@ -28,6 +30,18 @@ final class TestHelper
             self::createNutritionValues(),
             'Product name',
             'Producer',
+        );
+    }
+
+    public static function createCreateProductDto(): CreateProductDtoInterface
+    {
+        return new CreateProductCommand(
+            'name',
+            20.0,
+            10.0,
+            30.0,
+            (20 * 4) + (20 * 9) + (30 * 4),
+            'Producer'
         );
     }
 }
