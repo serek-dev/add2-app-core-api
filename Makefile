@@ -9,6 +9,7 @@ start: stop build up _finish ## Starts containers with build
 fast: stop up _finish ## Attempts to start existing containers
 
 up:
+	$(docker-compose) run --rm dependencies
 	$(docker-compose) up --force-recreate -d
 	$(docker-compose) exec app composer install
 	$(docker-compose) exec app sh ./tools/post_deploy.sh

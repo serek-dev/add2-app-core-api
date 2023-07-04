@@ -1,4 +1,4 @@
 #!/bin/sh
 
 php bin/console cache:clear
-#php bin/console doctrine:schema:update -f --complete
+php bin/console doctrine:schema:update -f --complete

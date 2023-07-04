@@ -21,5 +21,27 @@ services:
     expose:
       - 9000
 
+  db:
+    image: mysql:8.0.23
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "app-db-volume:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: Rand0m
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Rand0m
+    ports:
+      - 3306:3306
+
+  dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - db
+      - app
+    command: db:3306 app:9000
+
 volumes:
   app-volume:
+  app-db-volume:
