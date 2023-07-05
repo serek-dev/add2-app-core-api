@@ -10,6 +10,7 @@ use App\Product\Command\CreateProductCommand;
 use App\Product\Exception\DuplicateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/products', methods: 'POST')]
 final class CreateProductController extends AbstractController
 {
-    public function __invoke(Request $request, MessageBusInterface $bus)
+    public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse
     {
         try {
             $bus->dispatch(
