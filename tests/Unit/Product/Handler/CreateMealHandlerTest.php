@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Product\Handler;
+namespace App\Tests\Unit\Product\Handler;
 
 use App\Product\Builder\MealBuilder;
 use App\Product\Command\CreateMealCommand;
