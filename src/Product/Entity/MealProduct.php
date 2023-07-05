@@ -20,6 +20,8 @@ use Doctrine\ORM\Mapping\Table;
 final class MealProduct
 {
     #[Column]
+    private float $weight;
+    #[Column]
     private float $proteins;
     #[Column]
     private float $fats;
@@ -36,6 +38,7 @@ final class MealProduct
         #[GeneratedValue(strategy: "NONE")]
         #[Column]
         private readonly string $id,
+        Weight $weight,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
         private readonly string $name,
@@ -48,6 +51,7 @@ final class MealProduct
         $this->fats = $this->nutritionalValues->getFats();
         $this->carbs = $this->nutritionalValues->getCarbs();
         $this->kcal = $this->nutritionalValues->getKcal();
+        $this->weight = $weight->getRaw();
     }
 
     public function getNutritionValues(): NutritionalValues

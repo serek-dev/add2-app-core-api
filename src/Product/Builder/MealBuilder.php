@@ -36,6 +36,7 @@ final class MealBuilder
 
         $this->products[] = new MealProduct(
             id: uniqid('MP-'),
+            weight: $quantity,
             nutritionalValues: $new,
             name: $product->getName(),
             parentId: $product->getId(),
