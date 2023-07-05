@@ -56,7 +56,7 @@ final class CreateMealCliCommand extends Command
                 'weight' => $productWeight,
             ];
 
-            $question = new ConfirmationQuestion('Add another?', false);
+            $question = new ConfirmationQuestion('Add another (no)?: ', false);
             if (!$helper->ask($input, $output, $question)) {
                 break;
             }

@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\Table;
 #[Table('product_meal')]
 final class Meal
 {
-    #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'])]
+    #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]
     private mixed $products;
 
     /**

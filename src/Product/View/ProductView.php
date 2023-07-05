@@ -24,6 +24,8 @@ final class ProductView implements JsonSerializable
 
     private float $kcal;
 
+    private float $weight = 100.0;
+
     public function getName(): string
     {
         return $this->name;
@@ -100,6 +102,7 @@ final class ProductView implements JsonSerializable
             'fats' => $this->fats,
             'carbs' => $this->carbs,
             'kcal' => $this->kcal,
+            'weight' => $this->weight,
         ];
     }
 
@@ -112,5 +115,16 @@ final class ProductView implements JsonSerializable
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getWeight(): float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(float $weight): self
+    {
+        $this->weight = $weight;
+        return $this;
     }
 }

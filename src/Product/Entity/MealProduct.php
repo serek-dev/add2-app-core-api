@@ -68,4 +68,19 @@ final class MealProduct
     {
         $this->meal = $meal;
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getWeight(): Weight
+    {
+        return new Weight($this->weight);
+    }
 }

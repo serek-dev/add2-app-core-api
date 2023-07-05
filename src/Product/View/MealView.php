@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Product\View;
 
 
+use App\Product\Entity\MealProduct;
 use JsonSerializable;
 
 final class MealView implements JsonSerializable
@@ -21,6 +22,13 @@ final class MealView implements JsonSerializable
     private float $carbs;
 
     private float $kcal;
+
+    private float $weight;
+
+    /**
+     * @var MealProduct[]
+     */
+    private array $products = [];
 
     public function getName(): string
     {
@@ -86,6 +94,8 @@ final class MealView implements JsonSerializable
             'fats' => $this->fats,
             'carbs' => $this->carbs,
             'kcal' => $this->kcal,
+            'weight' => $this->weight,
+            'products' => array_map(fn(JsonSerializable $v) => $v->jsonSerialize(), $this->getProducts()),
         ];
     }
 
@@ -98,5 +108,47 @@ final class MealView implements JsonSerializable
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @param MealProduct[] $products
+     */
+    public function setProducts(array $products): self
+    {
+        $this->products = $products;
+        return $this;
+    }
+
+    /**
+     * @return ProductView[]
+     */
+    public function getProducts(): array
+    {
+        return array_map(function (MealProduct $p) {
+            $view = new ProductView();
+
+            $v = $p->getNutritionValues();
+
+            $view->setId($p->getId())
+                ->setName($p->getName())
+                ->setCarbs($v->getCarbs())
+                ->setProteins($v->getProteins())
+                ->setFats($v->getFats())
+                ->setWeight($p->getWeight()->getRaw())
+                ->setKcal($v->getKcal());
+
+            return $view;
+        }, $this->products);
+    }
+
+    public function getWeight(): float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(float $weight): self
+    {
+        $this->weight = $weight;
+        return $this;
     }
 }

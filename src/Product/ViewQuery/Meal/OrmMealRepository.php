@@ -21,7 +21,8 @@ final class OrmMealRepository implements FindMealsInterface
     {
         $qb = $this->em->getRepository(Meal::class)->createQueryBuilder('m');
 
-//        $qb->join(MealProduct::class, 'meal_product', Join::WITH);
+//        $qb->leftJoin('m.products', 'p');
+//        $qb->addSelect('p');
 
         if ($name) {
             $qb->where(
@@ -38,6 +39,7 @@ final class OrmMealRepository implements FindMealsInterface
             $carbs = 0.0;
             $fats = 0.0;
             $kcal = 0.0;
+            $weight = 0.0;
 
             foreach ($row->getProducts() as $p) {
                 $v = $p->getNutritionValues();
@@ -45,6 +47,7 @@ final class OrmMealRepository implements FindMealsInterface
                 $fats += $v->getFats();
                 $carbs += $v->getCarbs();
                 $kcal += $v->getKcal();
+                $weight += $p->getWeight()->getRaw();
             }
 
             $view->setId($row->getId())
@@ -52,6 +55,8 @@ final class OrmMealRepository implements FindMealsInterface
                 ->setCarbs($carbs)
                 ->setProteins($proteins)
                 ->setFats($fats)
+                ->setProducts($row->getProducts())
+                ->setWeight($weight)
                 ->setKcal($kcal);
 
             return $view;
