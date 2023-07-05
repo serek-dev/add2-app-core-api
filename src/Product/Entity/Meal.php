@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\Table;
 final class Meal
 {
     #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'])]
-    private ArrayCollection $products;
+    private mixed $products;
 
     /**
      * @param MealProduct[] $products
@@ -38,6 +38,7 @@ final class Meal
             if (!$p instanceof MealProduct) {
                 throw new InvalidArgumentException('Argument must be a: ' . MealProduct::class . ' instance');
             }
+            $p->setMeal($this);
         }
 
         $this->products = new ArrayCollection($products);

@@ -59,4 +59,9 @@ final class MealProduct
             $this->kcal,
         );
     }
+
+    public function setMeal(Meal $meal): void
+    {
+        $this->meal = $meal;
+    }
 }
