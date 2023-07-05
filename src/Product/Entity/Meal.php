@@ -7,16 +7,21 @@ namespace App\Product\Entity;
 
 
 use App\Product\Exception\InvalidArgumentException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('product_meal')]
 final class Meal
 {
+    #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'])]
+    private ArrayCollection $products;
+
     /**
      * @param MealProduct[] $products
      */
@@ -27,13 +32,15 @@ final class Meal
         private readonly string $id,
         #[Column]
         private readonly string $name,
-        private readonly array $products,
+        array $products,
     ) {
-        foreach ($this->products as $p) {
+        foreach ($products as $p) {
             if (!$p instanceof MealProduct) {
                 throw new InvalidArgumentException('Argument must be a: ' . MealProduct::class . ' instance');
             }
         }
+
+        $this->products = new ArrayCollection($products);
     }
 
     public function getName(): string
@@ -46,7 +53,7 @@ final class Meal
      */
     public function getProducts(): array
     {
-        return $this->products;
+        return $this->products->toArray();
     }
 
     public function getId(): string

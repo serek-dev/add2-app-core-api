@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
@@ -26,6 +27,9 @@ final class MealProduct
     private float $carbs;
     #[Column]
     private float $kcal;
+
+    #[ManyToOne(targetEntity: Meal::class, inversedBy: 'products')]
+    private Meal $meal;
 
     public function __construct(
         #[Id]
