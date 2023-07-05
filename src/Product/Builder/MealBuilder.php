@@ -18,7 +18,7 @@ final class MealBuilder
 
     public function build(string $name): Meal
     {
-        return new Meal($name, $this->products);
+        return new Meal(uniqid('M-'), $name, $this->products);
     }
 
     public function addProduct(Weight $quantity, Product $product): self

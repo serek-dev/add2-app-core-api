@@ -19,6 +19,8 @@ final class MealBuilderTest extends TestCase
 
         $this->assertInstanceOf(Meal::class, $actual);
         $this->assertSame('name', $actual->getName());
+
+        $this->assertStringStartsWith('M-', $actual->getId());
     }
 
     public function testBuildWithProducts(): MealBuilder
