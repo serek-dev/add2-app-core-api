@@ -1,5 +1,5 @@
-#controllers:
-#    resource:
-#        path: ../src/Controller/
-#        namespace: App\Controller
-#    type: attribute
+product:
+    resource:
+        path: ../src/Product/Controller/
+        namespace: App\Product\Controller
+    type: attribute

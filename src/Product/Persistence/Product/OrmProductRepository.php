@@ -21,7 +21,25 @@ final class OrmProductRepository implements FindProductByNameInterface, StorePro
 
     public function findByName(string $productName, ?string $producerName = null): ?Product
     {
-        return null; // todo:
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('p')
+            ->from(Product::class, 'p');
+
+        $qb->where('p.name = :name');
+        $qb->setParameter('name', $productName);
+
+
+        if (!empty($producerName)) {
+            $qb->andWhere('p.producerName = :producerName');
+            $qb->setParameter('producerName', $producerName);
+        } else {
+            $qb->andWhere('p.producerName is NULL');
+        }
+
+        $qb->setMaxResults(1);
+
+        return $qb->getQuery()->getResult()[0] ?? null;
     }
 
     public function store(Product $product): void
