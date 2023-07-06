@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Product\Entity;
 
 
-use App\Product\Event\ProductCreated;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
 use Doctrine\ORM\Mapping\Column;
@@ -17,7 +16,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('product_product')]
-final class Product implements AggregateRoot
+final class Product
 {
     #[Column]
     private float $proteins;
@@ -27,8 +26,6 @@ final class Product implements AggregateRoot
     private float $carbs;
     #[Column]
     private float $kcal;
-
-    private array $events = [];
 
     public function __construct(
         #[Id]
@@ -45,16 +42,6 @@ final class Product implements AggregateRoot
         $this->fats = $this->nutritionalValues->getFats();
         $this->carbs = $this->nutritionalValues->getCarbs();
         $this->kcal = $this->nutritionalValues->getKcal();
-
-        $this->events[] = new ProductCreated(
-            $id,
-            $this->name,
-            $this->proteins,
-            $this->fats,
-            $this->carbs,
-            $this->kcal,
-            $this->producerName,
-        );
     }
 
     public function getId(): string
@@ -80,11 +67,5 @@ final class Product implements AggregateRoot
             new Weight($this->carbs),
             $this->kcal,
         );
-    }
-
-    /** @inheritDoc */
-    public function pullEvents(): array
-    {
-        return $this->events;
     }
 }
