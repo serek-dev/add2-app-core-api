@@ -11,6 +11,7 @@ use App\Product\Entity\Product;
 use App\Product\Exception\DuplicateException;
 use App\Product\Exception\InvalidArgumentException;
 use App\Product\Persistence\Product\FindProductByNameInterface;
+use DivisionByZeroError;
 
 final class ProductFactory
 {
@@ -41,7 +42,11 @@ final class ProductFactory
         $calculatedKcal = $proteinsKcal + $fatKcal + $carbsKcal;
         $actualKcal = $createProductDto->getNutritionValues()->getKcal();
 
-        $diffPercentage = round(abs(($calculatedKcal - $actualKcal) / (($calculatedKcal + $actualKcal) / 2)) * 100);
+        try {
+            $diffPercentage = round(abs(($calculatedKcal - $actualKcal) / (($calculatedKcal + $actualKcal) / 2)) * 100);
+        } catch (DivisionByZeroError $e) {
+            $diffPercentage = 0;
+        }
 
         if ($diffPercentage > self::KCAL_MISTAKE_THRESHOLD_PERCENTAGE) {
             throw new InvalidArgumentException(
