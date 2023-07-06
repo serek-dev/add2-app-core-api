@@ -18,6 +18,15 @@ framework:
     php_errors:
         log: true
 
+    http_client:
+        scoped_clients:
+            product.api:
+                base_uri: 'http://web'
+        default_options:
+            headers:
+                Content-Type: application/json
+                Accept: application/json
+
 when@test:
     framework:
         test: true
