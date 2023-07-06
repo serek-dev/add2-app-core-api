@@ -10,7 +10,7 @@ use App\Product\Exception\InvalidArgumentException;
 use App\Product\Factory\ProductFactory;
 use App\Product\Persistence\Product\FindProductByNameInterface;
 use App\Product\Value\NutritionalValues;
-use App\Tests\Data\TestHelper;
+use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
 /** @covers \App\Product\Factory\ProductFactory */
@@ -58,7 +58,7 @@ final class ProductFactoryTest extends TestCase
         $findProductByName
             ->method('findByName')
             ->with('name', 'product name')
-            ->willReturn(TestHelper::createProductEntity());
+            ->willReturn(ProductTestHelper::createProductEntity());
 
         // And my factory
         $sut = new ProductFactory($findProductByName);
@@ -76,7 +76,7 @@ final class ProductFactoryTest extends TestCase
 
             public function getNutritionValues(): NutritionalValues
             {
-                return TestHelper::createNutritionValues();
+                return ProductTestHelper::createNutritionValues();
             }
 
             public function getName(): string

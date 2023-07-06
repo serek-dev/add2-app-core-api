@@ -7,7 +7,7 @@ namespace App\Tests\Unit\Product\Entity;
 
 
 use App\Product\Entity\Product;
-use App\Tests\Data\TestHelper;
+use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
 /** @covers \App\Product\Entity\Product */
@@ -17,7 +17,7 @@ final class ProductTest extends TestCase
     {
         $sut = new Product(
             uniqid(),
-            TestHelper::createNutritionValues(),
+            ProductTestHelper::createNutritionValues(),
             'Product name',
             'Producer'
         );
@@ -29,7 +29,7 @@ final class ProductTest extends TestCase
     {
         $sut = new Product(
             uniqid(),
-            TestHelper::createNutritionValues(),
+            ProductTestHelper::createNutritionValues(),
             'Product name',
             null
         );

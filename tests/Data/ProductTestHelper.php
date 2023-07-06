@@ -12,7 +12,7 @@ use App\Product\Entity\Product;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
 
-final class TestHelper
+final class ProductTestHelper
 {
     public static function createNutritionValues(): NutritionalValues
     {

@@ -6,7 +6,7 @@ use App\Product\Factory\ProductFactory;
 use App\Product\Handler\CreateProductHandler;
 use App\Product\Persistence\Product\FindProductByNameInterface;
 use App\Product\Persistence\Product\StoreProductInterface;
-use App\Tests\Data\TestHelper;
+use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
 final class CreateProductHandlerTest extends TestCase
@@ -24,7 +24,7 @@ final class CreateProductHandlerTest extends TestCase
             ->method('store');
 
         // And product DTO
-        $dto = TestHelper::createCreateProductDto();
+        $dto = ProductTestHelper::createCreateProductDto();
 
         // When I invoke my service
         $sut = new CreateProductHandler($productFactory, $storeProduct);

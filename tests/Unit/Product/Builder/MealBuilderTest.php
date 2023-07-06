@@ -6,7 +6,7 @@ use App\Product\Builder\MealBuilder;
 use App\Product\Entity\Meal;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
-use App\Tests\Data\TestHelper;
+use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
 final class MealBuilderTest extends TestCase
@@ -29,7 +29,7 @@ final class MealBuilderTest extends TestCase
         $sut = new MealBuilder();
 
         // And products I want to add in
-        $product1 = TestHelper::createProductEntity(
+        $product1 = ProductTestHelper::createProductEntity(
             id: '1',
             name: 'Product 1',
             values: new NutritionalValues(
@@ -68,7 +68,7 @@ final class MealBuilderTest extends TestCase
         // When I add another product in amount of 200 g
         $sut->addProduct(
             new Weight(200.0),
-            TestHelper::createProductEntity(
+            ProductTestHelper::createProductEntity(
                 id: '2',
                 name: 'Product 2',
                 values: new NutritionalValues(
