@@ -18,6 +18,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Product/Entity'
                 prefix: 'App\Product\Entity'
                 alias: App\Product
+            Diary:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Diary/Entity'
+                prefix: 'App\Diary\Entity'
+                alias: App\Diary
 when@test:
     doctrine:
         dbal:
