@@ -7,6 +7,7 @@ namespace App\Product\ViewQuery\Product;
 
 
 use App\Product\Entity\Product;
+use App\Product\Exception\NotFoundException;
 use App\Product\View\ProductView;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -50,5 +51,28 @@ final class DbalProductRepository implements FindProductsInterface
             $qb
                 ->getQuery()
                 ->getArrayResult());
+    }
+
+    /** @inheritDoc */
+    public function getOne(string $id): ProductView
+    {
+        $entity = $this->em->getRepository(Product::class)->find($id);
+
+        if (!$entity) {
+            throw new NotFoundException('Unable to find Product: ' . $id);
+        }
+
+        $view = new ProductView();
+        $v = $entity->getNutritionValues();
+
+        $view->setId($entity->getId())
+            ->setName($entity->getName())
+            ->setProducerName($entity->getProducerName())
+            ->setCarbs($v->getCarbs())
+            ->setProteins($v->getProteins())
+            ->setFats($v->getFats())
+            ->setKcal($v->getKcal());
+
+        return $view;
     }
 }
