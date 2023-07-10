@@ -3,3 +3,9 @@ product:
         path: ../src/Product/Controller/
         namespace: App\Product\Controller
     type: attribute
+
+nutrition_log:
+    resource:
+        path: ../src/NutritionLog/Controller/
+        namespace: App\NutritionLog\Controller
+    type: attribute
