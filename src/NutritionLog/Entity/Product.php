@@ -3,44 +3,28 @@
 declare(strict_types=1);
 
 
-namespace App\Product\Entity;
+namespace App\NutritionLog\Entity;
 
 
-use App\Product\Value\NutritionalValues;
-use App\Product\Value\Weight;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Table;
+use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Weight;
 
-#[Entity]
-#[Table('p_product')]
 final class Product
 {
-    #[Column]
     private float $proteins;
-    #[Column]
     private float $fats;
-    #[Column]
     private float $carbs;
-    #[Column]
     private float $kcal;
 
     public function __construct(
-        #[Id]
-        #[GeneratedValue(strategy: "NONE")]
-        #[Column]
         private readonly string $id,
         private readonly NutritionalValues $nutritionalValues,
-        #[Column]
         private readonly string $name,
-        #[Column(nullable: true)]
         private readonly ?string $producerName
     ) {
-        $this->proteins = $this->nutritionalValues->getProteins();
-        $this->fats = $this->nutritionalValues->getFats();
-        $this->carbs = $this->nutritionalValues->getCarbs();
+        $this->proteins = $this->nutritionalValues->getProteins()->getRaw();
+        $this->fats = $this->nutritionalValues->getFats()->getRaw();
+        $this->carbs = $this->nutritionalValues->getCarbs()->getRaw();
         $this->kcal = $this->nutritionalValues->getKcal();
     }
 
