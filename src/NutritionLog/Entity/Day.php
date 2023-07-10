@@ -30,12 +30,16 @@ final class Day
     #[Column]
     private readonly string $date;
 
+    #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['PERSIST'], fetch: "EAGER")]
+    private mixed $meals;
+
     public function __construct(
         DateTimeInterface $date,
     ) {
         $this->date = $date->format('Y-m-d');
 
         $this->products = new ArrayCollection();
+        $this->meals = new ArrayCollection();
     }
 
     public function addProduct(DayProduct $dayProduct): void
@@ -53,5 +57,17 @@ final class Day
     public function getProducts(): array
     {
         return $this->products->toArray();
+    }
+
+    public function addMeal(DayMeal $dayMeal): void
+    {
+        $this->meals->add($dayMeal);
+        $dayMeal->setDay($this);
+    }
+
+    /** @return DayMeal[] */
+    public function getMeals(): array
+    {
+        return $this->meals->toArray();
     }
 }

@@ -20,6 +20,7 @@ final class DayView implements JsonSerializable
     ];
 
     private array $products = [];
+    private array $meals = [];
 
     private string $date;
 
@@ -29,6 +30,7 @@ final class DayView implements JsonSerializable
             'date' => $this->date,
             'sum' => $this->stats,
             'products' => $this->products,
+            'meals' => $this->meals,
         ];
     }
 
@@ -63,5 +65,16 @@ final class DayView implements JsonSerializable
     public function getDate(): string
     {
         return $this->date;
+    }
+
+    public function getMeals(): array
+    {
+        return $this->meals;
+    }
+
+    public function setMeals(array $meals): DayView
+    {
+        $this->meals = $meals;
+        return $this;
     }
 }

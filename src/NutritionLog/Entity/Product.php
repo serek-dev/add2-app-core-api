@@ -20,6 +20,7 @@ final class Product
         private readonly string $id,
         private readonly NutritionalValues $nutritionalValues,
         private readonly string $name,
+        private readonly Weight $weight,
         private readonly ?string $producerName
     ) {
         $this->proteins = $this->nutritionalValues->getProteins()->getRaw();
@@ -51,5 +52,10 @@ final class Product
             new Weight($this->carbs),
             $this->kcal,
         );
+    }
+
+    public function getWeight(): Weight
+    {
+        return new Weight($this->weight->getRaw());
     }
 }

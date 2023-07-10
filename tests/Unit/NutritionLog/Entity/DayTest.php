@@ -3,6 +3,8 @@
 namespace App\Tests\Unit\NutritionLog\Entity;
 
 use App\NutritionLog\Entity\Day;
+use App\NutritionLog\Entity\DayMeal;
+use App\Tests\Data\NutritionLogTestHelper;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
@@ -13,5 +15,24 @@ final class DayTest extends TestCase
     {
         $sut = new Day(new DateTimeImmutable('2020-01-01'));
         $this->assertInstanceOf(Day::class, $sut);
+        $this->assertSame('2020-01-01', $sut->getDate());
+    }
+
+    public function testAddProduct(): void
+    {
+        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut->addProduct(
+            NutritionLogTestHelper::createDayProductEntity()
+        );
+
+        $this->assertCount(1, $sut->getProducts());
+    }
+
+    public function testAddMeal(): void
+    {
+        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut->addMeal(new DayMeal());
+
+        $this->assertCount(1, $sut->getMeals());
     }
 }

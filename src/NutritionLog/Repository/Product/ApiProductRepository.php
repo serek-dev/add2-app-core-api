@@ -25,15 +25,16 @@ final class ApiProductRepository implements GetOneProductInterface
         $body = $response->toArray()['item'];
 
         return new Product(
-            $body['id'],
-            new NutritionalValues(
+            id: $body['id'],
+            nutritionalValues: new NutritionalValues(
                 new Weight((float)$body['proteins']),
                 new Weight((float)$body['fats']),
                 new Weight((float)$body['carbs']),
                 (float)$body['kcal'],
             ),
-            $body['name'],
-            $body['producerName'],
+            name: $body['name'],
+            weight: $body['weight'],
+            producerName: $body['producerName'],
         );
     }
 }
