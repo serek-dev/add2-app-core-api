@@ -36,11 +36,11 @@ final class DayProduct
     private Day $day;
 
     #[Column]
-    private string $originalProductId;
+    private string $productId;
     #[Column]
-    private string $originalProductName;
+    private string $productName;
     #[Column(nullable: true)]
-    private ?string $originalProductProducerName;
+    private ?string $producerName;
     #[Column]
     private string $consumptionTime;
 
@@ -60,9 +60,9 @@ final class DayProduct
         $this->kcal = $this->nutritionalValues->getKcal();
         $this->weight = $weight->getRaw();
 
-        $this->originalProductId = $this->original->getOriginalProductId();
-        $this->originalProductName = $this->original->getOriginalProductName();
-        $this->originalProductProducerName = $this->original->getOriginalProducerName();
+        $this->productId = $this->original->getOriginalProductId();
+        $this->productName = $this->original->getOriginalProductName();
+        $this->producerName = $this->original->getOriginalProducerName();
 
         $this->consumptionTime = (string)$consumptionTime;
     }
@@ -71,4 +71,6 @@ final class DayProduct
     {
         $this->day = $day;
     }
+
+
 }

@@ -7,7 +7,6 @@ namespace App\Diary\Cli;
 
 
 use App\Diary\Command\AddDayProductCommand;
-use DateTimeImmutable;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,10 +24,10 @@ final class AddDayProduct extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = new AddDayProductCommand(
-            (new DateTimeImmutable())->format('Y-m-d'),
-            '10:45',
+            '2023-07-06',
+            '12:00',
             'p-64a466b4e03c1',
-            150
+            250
         );
 
         $this->bus->dispatch($command);

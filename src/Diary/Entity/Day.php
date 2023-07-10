@@ -48,4 +48,10 @@ final class Day
     {
         return $this->date;
     }
+
+    /** @return DayProduct[] */
+    public function getProducts(): array
+    {
+        return $this->products->toArray();
+    }
 }
