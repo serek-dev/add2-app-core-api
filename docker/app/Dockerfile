@@ -32,3 +32,10 @@ RUN composer install --no-ansi --no-dev --no-interaction --no-progress --optimiz
 # Development environment
 FROM base as dev
 RUN composer install --dev
+
+# Missing packages for alpine
+# https://stackoverflow.com/questions/19816275/no-acceptable-c-compiler-found-in-path-when-installing-python
+RUN apk add autoconf build-base
+RUN pecl install xdebug-3.1.0
+COPY ./docker/app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+RUN	docker-php-ext-enable xdebug
