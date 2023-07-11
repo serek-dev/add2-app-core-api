@@ -9,6 +9,7 @@ use App\Product\Value\Weight;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \App\Product\Builder\MealBuilder */
 final class MealBuilderTest extends TestCase
 {
     public function testBuild(): void

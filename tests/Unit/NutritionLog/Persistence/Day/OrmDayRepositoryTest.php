@@ -8,6 +8,7 @@ use App\NutritionLog\Persistence\Day\StoreDayInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \App\NutritionLog\Persistence\Day\OrmDayRepository */
 final class OrmDayRepositoryTest extends TestCase
 {
     public function testConstructor(): void

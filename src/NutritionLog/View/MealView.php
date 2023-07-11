@@ -8,11 +8,12 @@ namespace App\NutritionLog\View;
 
 use JsonSerializable;
 
-final class DayView implements JsonSerializable
+final class MealView implements JsonSerializable
 {
     public function __construct(
         public readonly string $id,
-        public readonly string $date,
+        public readonly string $consumptionTime,
+        public readonly string $productName,
         public readonly float $proteins,
         public readonly float $fats,
         public readonly float $carbs,
@@ -24,8 +25,9 @@ final class DayView implements JsonSerializable
     public static function fromArray(array $data)
     {
         return new self(
-            (string)$data['id'],
-            $data['date'],
+            $data['id'],
+            $data['consumption_time'],
+            $data['name'],
             (float)$data['proteins'],
             (float)$data['fats'],
             (float)$data['carbs'],
@@ -38,7 +40,8 @@ final class DayView implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'date' => $this->date,
+            'consumptionTime' => $this->consumptionTime,
+            'productName' => $this->productName,
             'proteins' => $this->proteins,
             'fats' => $this->fats,
             'carbs' => $this->carbs,

@@ -31,7 +31,13 @@ final class DayTest extends TestCase
     public function testAddMeal(): void
     {
         $sut = new Day(new DateTimeImmutable('2020-01-01'));
-        $sut->addMeal(new DayMeal());
+        $sut->addMeal(
+            new DayMeal(
+                'id',
+                'name',
+                []
+            )
+        );
 
         $this->assertCount(1, $sut->getMeals());
     }

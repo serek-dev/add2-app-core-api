@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\NutritionLog\Entity;
 
 use App\NutritionLog\Entity\Product;
+use App\NutritionLog\Value\Weight;
 use App\Tests\Data\NutritionLogTestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -15,6 +16,7 @@ final class ProductTest extends TestCase
             'id',
             NutritionLogTestHelper::createNutritionValues(),
             'name',
+            new Weight(100.0),
             null,
         );
         $this->assertInstanceOf(Product::class, $sut);

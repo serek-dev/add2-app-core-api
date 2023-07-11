@@ -33,7 +33,7 @@ final class ApiProductRepository implements GetOneProductInterface
                 (float)$body['kcal'],
             ),
             name: $body['name'],
-            weight: $body['weight'],
+            weight: new Weight((float)$body['weight']),
             producerName: $body['producerName'],
         );
     }

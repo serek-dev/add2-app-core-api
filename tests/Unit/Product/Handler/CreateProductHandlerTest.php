@@ -9,6 +9,7 @@ use App\Product\Persistence\Product\StoreProductInterface;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \App\Product\Handler\CreateProductHandler */
 final class CreateProductHandlerTest extends TestCase
 {
     public function testInvoke(): void

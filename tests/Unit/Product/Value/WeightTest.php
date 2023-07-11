@@ -6,6 +6,7 @@ use App\Product\Value\Weight;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \App\Product\Value\Weight */
 final class WeightTest extends TestCase
 {
     public function testConstructor(): void
