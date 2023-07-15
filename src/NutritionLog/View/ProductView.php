@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\View;
 
 
-final class MealProductView
+final class ProductView
 {
     public function __construct(
         public readonly string $id,

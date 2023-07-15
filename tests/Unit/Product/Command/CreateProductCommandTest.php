@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /** @covers \App\Product\Command\CreateProductCommand */
 final class CreateProductCommandTest extends TestCase
 {
-    public function testConstructor(): void
+    public function testConstructorAndGetters(): void
     {
         $sut = new CreateProductCommand(
             'name',
@@ -17,9 +17,17 @@ final class CreateProductCommandTest extends TestCase
             2,
             3,
             10,
-            null
+            'producer'
         );
 
         $this->assertInstanceOf(CreateProductDtoInterface::class, $sut);
+
+        $this->assertEquals(1.0, $sut->getNutritionValues()->getProteins());
+        $this->assertEquals(2.0, $sut->getNutritionValues()->getFats());
+        $this->assertEquals(3.0, $sut->getNutritionValues()->getCarbs());
+        $this->assertEquals(10.0, $sut->getNutritionValues()->getKcal());
+
+        $this->assertSame('name', $sut->getName());
+        $this->assertSame('producer', $sut->getProducerName());
     }
 }

@@ -7,12 +7,12 @@ namespace App\NutritionLog\ViewQuery\Day;
 
 
 use App\NutritionLog\View\DayView;
-use App\NutritionLog\View\MealProductView;
 use App\NutritionLog\View\MealView;
+use App\NutritionLog\View\ProductView;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
-final class DbalDayRepository implements FindDayInterface, FindMealsInterface
+final class DbalDayRepository implements FindDayInterface, FindMealsInterface, FindProductsInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {
@@ -23,15 +23,16 @@ final class DbalDayRepository implements FindDayInterface, FindMealsInterface
         $c = $this->em->getConnection();
 
         $sql = "
-select day.id,day.date,
-       (select sum(meal_product.proteins)) proteins,
-       (select sum(meal_product.fats))     fats,
-       (select sum(meal_product.carbs))    carbs,
-       (select sum(meal_product.kcal))     kcal,
-       (select sum(meal_product.weight))   weight
+select day.id, day.date,
+       IFNULL((select sum(meal_product.proteins)),0) + IFNULL((select sum(day_product.proteins)),0) proteins,
+       IFNULL((select sum(meal_product.fats)),0) + IFNULL((select sum(day_product.fats)),0)    fats,
+       IFNULL((select sum(meal_product.carbs)),0) + IFNULL((select sum(day_product.fats)),0)   carbs,
+       IFNULL((select sum(meal_product.kcal)),0) + IFNULL((select sum(day_product.fats)),0)    kcal,
+       IFNULL((select sum(meal_product.weight)),0) + IFNULL((select sum(day_product.weight)),0) weight
 from nl_day day
 left join nl_day_meal meal on day.id = meal.day_id
 left join nl_day_meal_product meal_product on meal.id = meal_product.meal_id
+left join nl_day_product day_product on day.id = day_product.day_id
 where date = '$date'
 group by day.id, day.date
 order by day.date
@@ -47,13 +48,16 @@ order by day.date
     {
         $c = $this->em->getConnection();
 
+        // todo: something is wrong because when there are meals and products - day
+        // summaries are invalid
+
         $sql = "
 select ml.consumption_time, ml.meal_id id, ndm.day_id, ndm.name, nd.date,
-       (select sum(ml.proteins)) proteins,
-       (select sum(ml.fats)) fats,
-       (select sum(ml.carbs)) carbs,
-       (select sum(ml.kcal)) kcal,
-       (select sum(ml.weight)) weight
+       IFNULL((select sum(ml.proteins)),0) proteins,
+       IFNULL((select sum(ml.fats)),0) fats,
+       IFNULL((select sum(ml.carbs)),0) carbs,
+       IFNULL((select sum(ml.kcal)),0) kcal,
+       IFNULL((select sum(ml.weight)),0) weight
 from nl_day_meal_product ml
          left join nl_day_meal ndm on ndm.id = ml.meal_id
          left join nl_day nd on ndm.day_id = nd.id
@@ -91,6 +95,33 @@ order by mp.consumption_time
 
         $stmt = $c->prepare($sql);
 
-        return array_map(fn(array $r): MealProductView => MealProductView::fromArray($r), $stmt->executeQuery()->fetchAllAssociative());
+        return array_map(fn(array $r): ProductView => ProductView::fromArray($r), $stmt->executeQuery()->fetchAllAssociative());
+    }
+
+    /** @inheritdoc */
+    public function findProducts(string $date): array
+    {
+        $c = $this->em->getConnection();
+
+        $sql = "
+select d.consumption_time,
+       d.id,
+       d.product_id,
+       d.product_name,
+       d.producer_name,
+       d.weight,
+       d.proteins,
+       d.fats,
+       d.carbs,
+       d.kcal
+from nl_day_product d
+         left join nl_day dd on dd.id = d.day_id
+WHERE `date` = '$date'
+order by consumption_time
+        ";
+
+        $stmt = $c->prepare($sql);
+
+        return array_map(fn(array $r): ProductView => ProductView::fromArray($r), $stmt->executeQuery()->fetchAllAssociative());
     }
 }
