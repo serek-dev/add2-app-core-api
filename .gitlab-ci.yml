@@ -11,7 +11,7 @@ variables:
 stages:
   - test
 
-tests_warmup:
+tests_phpunit:
   stage: test
   script:
     - docker-compose build tests_unit
