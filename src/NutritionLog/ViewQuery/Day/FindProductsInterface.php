@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\NutritionLog\ViewQuery\Day;
 
-use App\Product\View\ProductView;
+use App\NutritionLog\View\ProductView;
 
 interface FindProductsInterface
 {

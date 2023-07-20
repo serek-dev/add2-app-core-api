@@ -1,5 +1,5 @@
 # Lightweight and external dependencies free - phpunit stage
-FROM php:8.1.8 as phpunit
+FROM php:8.1.8 as static_analysis
 
 WORKDIR /app
 
@@ -11,6 +11,7 @@ COPY symfony.lock symfony.lock
 COPY src src
 COPY tests tests
 COPY phpunit.xml phpunit.xml
+COPY deptrac.yaml deptrac.yaml
 
 RUN apt-get update \
     && apt-get install -y libzip-dev zip \

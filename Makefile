@@ -41,9 +41,11 @@ params: ### Debug container parameters
 config_dump: ### Displays merged docker-compose configuration
 	$(docker-compose) config
 
-post_deploy: ### Runs post deploy script
+post_deploy: ### Runs post deploy script that normally would be run in CI process
 	$(docker-compose) exec app sh ./tools/post_deploy.sh
-
 
 tests_unit: ### Runs unit tests
 	$(docker-compose) exec app composer tests:unit
+
+tests_arch: ### Runs architecture tests (deptrac)
+	$(docker-compose) exec app composer tests:architecture

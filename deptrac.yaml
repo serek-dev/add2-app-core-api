@@ -1,0 +1,25 @@
+deptrac:
+  paths:
+    - ./src
+
+  layers:
+    - name: NutritionLog
+      collectors:
+        - type: directory
+          value: src/NutritionLog/*
+
+    - name: Product
+      collectors:
+        - type: directory
+          value: src/Product/*
+
+    - name: Shared
+      collectors:
+        - type: directory
+          value: src/Shared/*
+
+  ruleset:
+    NutritionLog:
+      - Shared
+    Product:
+      - Shared

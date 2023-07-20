@@ -16,3 +16,9 @@ tests_phpunit:
   script:
     - docker-compose build tests_unit
     - docker-compose run --rm tests_unit
+
+tests_architecture:
+  stage: test
+  script:
+    - docker-compose build tests_architecture
+    - docker-compose run --rm tests_architecture

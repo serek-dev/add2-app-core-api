@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\Entity;
 
 
-use App\Product\Exception\InvalidArgumentException;
+use App\NutritionLog\Exception\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
