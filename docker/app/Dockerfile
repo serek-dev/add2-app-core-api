@@ -8,9 +8,12 @@ COPY --from=composer:2.5.4 /usr/bin/composer /usr/local/bin/composer
 COPY composer.json composer.json
 COPY composer.lock composer.lock
 COPY symfony.lock symfony.lock
+
 COPY src src
+
 COPY tests tests
 COPY phpunit.xml phpunit.xml
+
 COPY deptrac.yaml deptrac.yaml
 
 RUN apt-get update \
@@ -47,9 +50,8 @@ COPY tools tools
 COPY resources resources
 COPY src src
 
-RUN mkdir -p var/ && chmod 777 -R var/
-
-RUN composer install --no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader
+RUN mkdir -p var/ && chmod 777 -R var/ \
+    && composer install --no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader
 
 # Development environment
 FROM base as dev
@@ -57,7 +59,8 @@ RUN composer install --dev
 
 # Missing packages for alpine
 # https://stackoverflow.com/questions/19816275/no-acceptable-c-compiler-found-in-path-when-installing-python
-RUN apk add autoconf build-base
-RUN pecl install xdebug-3.1.0
+RUN apk add autoconf build-base \
+    && pecl install xdebug-3.1.0 \
+
 COPY ./docker/app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN	docker-php-ext-enable xdebug
