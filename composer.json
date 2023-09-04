@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
@@ -66,7 +67,7 @@
         "db:truncate": [
             "./bin/console doctrine:database:drop --force",
             "./bin/console doctrine:database:create",
-            "./bin/console doctrine:schema:update -f --complete"
+            "./bin/console doctrine:migrations:migrate --no-interaction"
         ],
         "phpunit": "php ./vendor/phpunit/phpunit/phpunit",
         "tests:unit": "@phpunit tests/Unit",

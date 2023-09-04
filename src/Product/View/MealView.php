@@ -6,149 +6,73 @@ declare(strict_types=1);
 namespace App\Product\View;
 
 
-use App\Product\Entity\MealProduct;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
+use JetBrains\PhpStorm\Immutable;
 use JsonSerializable;
 
+#[Entity(readOnly: true)]
+#[Table('p_meal')]
+#[Immutable]
 final class MealView implements JsonSerializable
 {
-    private string $id;
+    #[Id]
+    #[Column]
+    public string $id;
 
-    private string $name;
+    #[Column]
+    public string $name;
 
-    private float $proteins;
-
-    private float $fats;
-
-    private float $carbs;
-
-    private float $kcal;
-
-    private float $weight;
-
-    /**
-     * @var MealProduct[]
-     */
-    private array $products = [];
-
-    public function getName(): string
+    private function __construct()
     {
-        return $this->name;
+        $this->products = new ArrayCollection();
     }
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getProteins(): float
-    {
-        return $this->proteins;
-    }
-
-    public function setProteins(float $proteins): self
-    {
-        $this->proteins = round($proteins, 1);
-        return $this;
-    }
-
-    public function getFats(): float
-    {
-        return $this->fats;
-    }
-
-    public function setFats(float $fats): self
-    {
-        $this->fats = round($fats, 1);
-        return $this;
-    }
-
-    public function getCarbs(): float
-    {
-        return $this->carbs;
-    }
-
-    public function setCarbs(float $carbs): self
-    {
-        $this->carbs = round($carbs, 1);
-        return $this;
-    }
-
-    public function getKcal(): float
-    {
-        return $this->kcal;
-    }
-
-    public function setKcal(float $kcal): self
-    {
-        $this->kcal = round($kcal, 2);
-        return $this;
-    }
+    /** @var ProductView[]&Collection */
+    #[OneToMany(mappedBy: 'meal', targetEntity: ProductView::class, fetch: 'EAGER')]
+    private Collection $products;
 
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'proteins' => $this->proteins,
-            'fats' => $this->fats,
-            'carbs' => $this->carbs,
-            'kcal' => $this->kcal,
-            'weight' => $this->weight,
-            'products' => array_map(fn(JsonSerializable $v) => $v->jsonSerialize(), $this->getProducts()),
+            'proteins' => $this->getProteins(),
+            'fats' => $this->getFats(),
+            'carbs' => $this->getCarbs(),
+            'kcal' => $this->getKcal(),
+            'weight' => $this->getWeight(),
+            'products' => $this->products->toArray(),
         ];
     }
 
-    public function setId(string $id): self
+    public function getProteins(): float
     {
-        $this->id = $id;
-        return $this;
+        return round(array_sum(array_map(fn(ProductView $p) => $p->getProteins(), $this->products->toArray())), 2);
     }
 
-    public function getId(): string
+    public function getFats(): float
     {
-        return $this->id;
+        return round(array_sum(array_map(fn(ProductView $p) => $p->getFats(), $this->products->toArray())), 2);
     }
 
-    /**
-     * @param MealProduct[] $products
-     */
-    public function setProducts(array $products): self
+    public function getCarbs(): float
     {
-        $this->products = $products;
-        return $this;
+        return round(array_sum(array_map(fn(ProductView $p) => $p->getCarbs(), $this->products->toArray())), 2);
     }
 
-    /**
-     * @return ProductView[]
-     */
-    public function getProducts(): array
+    public function getKcal(): float
     {
-        return array_map(function (MealProduct $p) {
-            $view = new ProductView();
-
-            $v = $p->getNutritionValues();
-
-            $view->setId($p->getId())
-                ->setName($p->getName())
-                ->setCarbs($v->getCarbs())
-                ->setProteins($v->getProteins())
-                ->setFats($v->getFats())
-                ->setWeight($p->getWeight()->getRaw())
-                ->setKcal($v->getKcal());
-
-            return $view;
-        }, $this->products);
+        return round(array_sum(array_map(fn(ProductView $p) => $p->getKcal(), $this->products->toArray())), 2);
     }
 
     public function getWeight(): float
     {
-        return $this->weight;
-    }
-
-    public function setWeight(float $weight): self
-    {
-        $this->weight = $weight;
-        return $this;
+        return round(array_sum(array_map(fn(ProductView $p) => $p->getWeight(), $this->products->toArray())), 2);
     }
 }

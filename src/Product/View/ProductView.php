@@ -6,25 +6,46 @@ declare(strict_types=1);
 namespace App\Product\View;
 
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use JsonSerializable;
 
+#[Entity(readOnly: true)]
+#[Table('p_meal_product')]
 final class ProductView implements JsonSerializable
 {
+    #[Id]
+    #[GeneratedValue(strategy: "NONE")]
+    #[Column]
     private string $id;
 
+    #[Column]
     private string $name;
 
+    #[Column(nullable: true)]
     private ?string $producerName = null;
 
+    #[Column]
     private float $proteins;
 
+    #[Column]
     private float $fats;
 
+    #[Column]
     private float $carbs;
 
+    #[Column]
     private float $kcal;
 
+    #[Column]
     private float $weight = 100.0;
+
+    #[ManyToOne(MealView::class, fetch: 'EAGER', inversedBy: 'products')]
+    private MealView $meal;
 
     public function getName(): string
     {
@@ -50,7 +71,7 @@ final class ProductView implements JsonSerializable
 
     public function getProteins(): float
     {
-        return $this->proteins;
+        return round($this->proteins, 2);
     }
 
     public function setProteins(float $proteins): self
@@ -61,7 +82,7 @@ final class ProductView implements JsonSerializable
 
     public function getFats(): float
     {
-        return $this->fats;
+        return round($this->fats, 2);
     }
 
     public function setFats(float $fats): self
@@ -72,7 +93,7 @@ final class ProductView implements JsonSerializable
 
     public function getCarbs(): float
     {
-        return $this->carbs;
+        return round($this->carbs, 2);
     }
 
     public function setCarbs(float $carbs): self
@@ -83,7 +104,7 @@ final class ProductView implements JsonSerializable
 
     public function getKcal(): float
     {
-        return $this->kcal;
+        return round($this->kcal, 2);
     }
 
     public function setKcal(float $kcal): self
@@ -98,11 +119,11 @@ final class ProductView implements JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'producerName' => $this->producerName,
-            'proteins' => $this->proteins,
-            'fats' => $this->fats,
-            'carbs' => $this->carbs,
-            'kcal' => $this->kcal,
-            'weight' => $this->weight,
+            'proteins' => $this->getProteins(),
+            'fats' => $this->getFats(),
+            'carbs' => $this->getCarbs(),
+            'kcal' => $this->getKcal(),
+            'weight' => $this->getWeight(),
         ];
     }
 
@@ -119,7 +140,7 @@ final class ProductView implements JsonSerializable
 
     public function getWeight(): float
     {
-        return $this->weight;
+        return round($this->weight, 2);
     }
 
     public function setWeight(float $weight): self
