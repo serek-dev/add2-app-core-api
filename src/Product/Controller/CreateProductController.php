@@ -37,7 +37,7 @@ final class CreateProductController extends AbstractController
             );
         } catch (HandlerFailedException $e) {
             if ($e->getPrevious() instanceof DuplicateException) {
-                return $this->json(['message' => $e->getPrevious()->getMessage()], Response::HTTP_BAD_REQUEST);
+                return $this->json(['message' => $e->getPrevious()->getMessage()], Response::HTTP_CONFLICT);
             }
 
             throw new BadRequestException($e->getMessage());

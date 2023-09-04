@@ -40,7 +40,7 @@ order by day.date
 
         $stmt = $c->prepare($sql);
 
-        return array_map(fn(array $r): DayView => DayView::fromArray($r), $stmt->executeQuery()->fetchAllAssociative())[0] ?? throw new Exception('Dunno what');
+        return array_map(fn(array $r): DayView => DayView::fromArray($r), $stmt->executeQuery()->fetchAllAssociative())[0] ?? throw new Exception('Dunno what'); // todo: wtf?
     }
 
     /** @inheritdoc */

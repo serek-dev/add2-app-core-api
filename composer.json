@@ -63,7 +63,9 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "tests:unit": "php ./vendor/phpunit/phpunit/phpunit tests",
+        "phpunit": "php ./vendor/phpunit/phpunit/phpunit",
+        "tests:unit": "@phpunit tests/Unit",
+        "tests:application": "@phpunit tests/Application",
         "tests:architecture": "./vendor/bin/deptrac"
     },
     "conflict": {

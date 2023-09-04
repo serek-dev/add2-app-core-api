@@ -47,5 +47,8 @@ post_deploy: ### Runs post deploy script that normally would be run in CI proces
 tests_unit: ### Runs unit tests
 	$(docker-compose) exec app composer tests:unit
 
+tests_application: ### Runs application tests
+	$(docker-compose) exec app composer tests:application
+
 tests_arch: ### Runs architecture tests (deptrac)
 	$(docker-compose) exec app composer tests:architecture
