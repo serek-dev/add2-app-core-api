@@ -51,6 +51,7 @@ final class CreateMealControllerTest extends CatalogTestCase
             ->withEgg();
 
         $response = $this->iCallPostApi('/api/meals', [
+            'id' => self::PANCAKE,
             'name' => 'Pancake',
             'products' => self::PRODUCTS,
         ]);

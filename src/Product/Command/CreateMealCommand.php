@@ -16,7 +16,7 @@ final class CreateMealCommand implements CreateMealDtoInterface
     public function __construct(
         private readonly string $name,
         private readonly array $products,
-
+        private readonly ?string $id = null,
     ) {
     }
 
@@ -29,5 +29,10 @@ final class CreateMealCommand implements CreateMealDtoInterface
     public function getProducts(): array
     {
         return $this->products;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }

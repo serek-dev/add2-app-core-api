@@ -37,6 +37,10 @@ final class CreateMealHandler
             );
         }
 
+        if ($createMealDto->getId()) {
+            $this->mealBuilder->withId($createMealDto->getId());
+        }
+
         $meal = $this->mealBuilder->build($createMealDto->getName());
 
         $this->storeMeal->store($meal);

@@ -29,6 +29,7 @@ final class CreateMealController extends AbstractController
                 new CreateMealCommand(
                     name: $request->getPayload()->get('name'),
                     products: $request->getPayload()->all('products'),
+                    id: $request->getPayload()->get('id') ?? null,
                 )
             );
         } catch (HandlerFailedException $e) {

@@ -66,4 +66,10 @@ abstract class ApplicationTestCase extends KernelTestCase
         $this->assertArrayHasKey('metadata', $body);
         $this->assertArrayHasKey('count', $body['metadata']);
     }
+
+    protected function assertItemFormat(ResponseInterface $response): void
+    {
+        $body = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('item', $body);
+    }
 }

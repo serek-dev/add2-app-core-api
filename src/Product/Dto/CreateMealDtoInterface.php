@@ -13,4 +13,6 @@ interface CreateMealDtoInterface
      * @return array<array{id: string, weight: float}>
      */
     public function getProducts(): array;
+
+    public function getId(): ?string;
 }
