@@ -7,11 +7,14 @@ namespace App\Product\Controller;
 
 
 use App\Product\Command\CreateMealCommand;
+use App\Product\Exception\DuplicateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,12 +24,21 @@ final class CreateMealController extends AbstractController
 {
     public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse
     {
-        $bus->dispatch(
-            new CreateMealCommand(
-                name: $request->getPayload()->get('name'),
-                products: $request->getPayload()->all('products'),
-            )
-        );
+        try {
+            $bus->dispatch(
+                new CreateMealCommand(
+                    name: $request->getPayload()->get('name'),
+                    products: $request->getPayload()->all('products'),
+                )
+            );
+        } catch (HandlerFailedException $e) {
+            if ($e->getPrevious() instanceof DuplicateException) {
+                return $this->json(['message' => $e->getPrevious()->getMessage()], Response::HTTP_CONFLICT);
+            }
+
+            throw new BadRequestException($e->getMessage());
+        }
+
 
         return $this->json(null, Response::HTTP_CREATED);
     }

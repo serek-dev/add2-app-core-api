@@ -10,8 +10,9 @@
     </coverage>
 
     <php>
-        <server name="APP_ENV" value="test"/>
+        <server name="APP_ENV" value="test" force="true"/>
         <server name="KERNEL_CLASS" value="\App\Kernel"/>
+        <server name="DATABASE_URL" value="mysql://user:Rand0m@db:3306/app?serverVersion=8.0.23"/>
     </php>
 
     <testsuites>

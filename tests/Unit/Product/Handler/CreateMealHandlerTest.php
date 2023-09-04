@@ -5,6 +5,7 @@ namespace App\Tests\Unit\Product\Handler;
 use App\Product\Builder\MealBuilder;
 use App\Product\Command\CreateMealCommand;
 use App\Product\Handler\CreateMealHandler;
+use App\Product\Persistence\Meal\FindMealByNameInterface;
 use App\Product\Persistence\Meal\StoreMealInterface;
 use App\Product\Persistence\Product\FindProductByIdInterface;
 use App\Tests\Data\ProductTestHelper;
@@ -37,7 +38,9 @@ final class CreateMealHandlerTest extends TestCase
 
         // When I attempt to create it
         $sut = new CreateMealHandler(
-            new MealBuilder(),
+            new MealBuilder(
+                $this->createMock(FindMealByNameInterface::class),
+            ),
             $findProductById,
             $storeMeal,
         );

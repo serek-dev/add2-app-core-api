@@ -9,6 +9,8 @@ namespace App\Product\Builder;
 use App\Product\Entity\Meal;
 use App\Product\Entity\MealProduct;
 use App\Product\Entity\Product;
+use App\Product\Exception\DuplicateException;
+use App\Product\Persistence\Meal\FindMealByNameInterface;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
 
@@ -16,8 +18,17 @@ final class MealBuilder
 {
     private array $products = [];
 
-    public function build(string $name): Meal
+    public function __construct(private readonly FindMealByNameInterface $findMealByName)
     {
+    }
+
+    public function build(string $name, ?string $producerName = null): Meal
+    {
+        if ($this->findMealByName->findByName($name)) {
+            throw new DuplicateException(
+                "Meal with name: {$name} and produced by: {$producerName} already exist"
+            );
+        }
         return new Meal(uniqid('M-'), $name, $this->products);
     }
 

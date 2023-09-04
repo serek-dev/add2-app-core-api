@@ -4,6 +4,8 @@ namespace App\Tests\Unit\Product\Builder;
 
 use App\Product\Builder\MealBuilder;
 use App\Product\Entity\Meal;
+use App\Product\Exception\DuplicateException;
+use App\Product\Persistence\Meal\FindMealByNameInterface;
 use App\Product\Value\NutritionalValues;
 use App\Product\Value\Weight;
 use App\Tests\Data\ProductTestHelper;
@@ -14,7 +16,7 @@ final class MealBuilderTest extends TestCase
 {
     public function testBuild(): void
     {
-        $sut = new MealBuilder();
+        $sut = new MealBuilder($this->createMock(FindMealByNameInterface::class));
 
         $actual = $sut->build('name');
 
@@ -24,10 +26,23 @@ final class MealBuilderTest extends TestCase
         $this->assertStringStartsWith('M-', $actual->getId());
     }
 
+    public function testBuildThrowsDuplicate(): void
+    {
+        $mealByName = $this->createMock(FindMealByNameInterface::class);
+        $meal = new Meal('id', 'name', []);
+        $mealByName->method('findByName')->willReturn($meal);
+
+        $sut = new MealBuilder($mealByName);
+
+        $this->expectException(DuplicateException::class);
+
+        $sut->build('name');
+    }
+
     public function testBuildWithProducts(): MealBuilder
     {
         // Given I have my builder
-        $sut = new MealBuilder();
+        $sut = new MealBuilder($this->createMock(FindMealByNameInterface::class));
 
         // And products I want to add in
         $product1 = ProductTestHelper::createProductEntity(

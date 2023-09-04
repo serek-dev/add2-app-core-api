@@ -6,13 +6,12 @@ declare(strict_types=1);
 namespace App\Tests\Application\Catalog;
 
 
-use App\Tests\Application\ApplicationTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Product\Controller\CreateProductController */
-final class CreateProductControllerTest extends ApplicationTestCase
+final class CreateProductControllerTest extends CatalogTestCase
 {
-    public function testCreateSuccessfully(): void
+    public function testICanCreateACatalogProduct(): void
     {
         /*
          * I am authenticated
@@ -33,7 +32,7 @@ final class CreateProductControllerTest extends ApplicationTestCase
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
 
-    public function testFailsOnDuplication(): void
+    public function testICanNotCreateACatalogProductWhenNameIsAlreadyUsed(): void
     {
         /*
          * I am authenticated

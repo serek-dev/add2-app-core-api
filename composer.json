@@ -72,7 +72,7 @@
         "tests:unit": "@phpunit tests/Unit",
         "tests:application": [
             "@db:truncate",
-            "@phpunit tests/Application"
+            "@phpunit --testdox --colors tests/Application"
         ],
         "tests:architecture": "./vendor/bin/deptrac"
     },
