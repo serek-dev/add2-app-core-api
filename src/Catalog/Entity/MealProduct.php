@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
-#[Table('p_meal_product')]
+#[Table('catalog_meal_product')]
 final class MealProduct
 {
     #[Column]

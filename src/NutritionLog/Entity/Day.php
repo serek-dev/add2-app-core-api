@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
-#[Table('nl_day')]
+#[Table('nutrition_log_day')]
 final class Day
 {
     #[Id]

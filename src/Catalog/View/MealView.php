@@ -17,7 +17,7 @@ use JetBrains\PhpStorm\Immutable;
 use JsonSerializable;
 
 #[Entity(readOnly: true)]
-#[Table('p_meal')]
+#[Table('catalog_meal')]
 #[Immutable]
 final class MealView implements JsonSerializable
 {

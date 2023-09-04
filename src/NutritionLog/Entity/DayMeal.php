@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
-#[Table('nl_day_meal')]
+#[Table('nutrition_log_day_meal')]
 final class DayMeal
 {
     #[OneToMany(mappedBy: 'meal', targetEntity: DayMealProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
-#[Table('p_product')]
+#[Table('catalog_product')]
 final class Product
 {
     #[Column]

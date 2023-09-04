@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 use JsonSerializable;
 
 #[Entity(readOnly: true)]
-#[Table('p_meal_product')]
+#[Table('catalog_meal_product')]
 final class MealProductView implements JsonSerializable
 {
     #[Id]
