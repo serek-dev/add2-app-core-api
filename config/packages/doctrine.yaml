@@ -15,24 +15,25 @@ doctrine:
         mappings:
             Product:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Product/Entity'
-                prefix: 'App\Product\Entity'
-                alias: App\Product
+                dir: '%kernel.project_dir%/src/Catalog/Entity'
+                prefix: 'App\Catalog\Entity'
+                alias: App\Catalog
             MealView:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Product/View'
-                prefix: 'App\Product\View\MealView'
-                alias: App\Product\MealView
+                dir: '%kernel.project_dir%/src/Catalog/View'
+                prefix: 'App\Catalog\View\MealView'
+                alias: App\Catalog\MealView
             MealProductView:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Product/View'
-                prefix: 'App\Product\View\MealProductView'
-                alias: App\Product\MealProductView
+                dir: '%kernel.project_dir%/src/Catalog/View'
+                prefix: 'App\Catalog\View\MealProductView'
+                alias: App\Catalog\MealProductView
             ProductView:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Product/View'
-                prefix: 'App\Product\View\ProductView'
-                alias: App\Product\ProductView
+                dir: '%kernel.project_dir%/src/Catalog/View'
+                prefix: 'App\Catalog\View\ProductView'
+                alias: App\Catalog\ProductView
+
             NutritionLog:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/NutritionLog/Entity'

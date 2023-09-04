@@ -8,7 +8,7 @@ namespace App\Tests\Application\Catalog;
 
 use Symfony\Component\HttpFoundation\Response;
 
-/** @covers \App\Product\Controller\CreateMealController */
+/** @covers \App\Catalog\Controller\CreateMealController */
 final class CreateMealControllerTest extends CatalogTestCase
 {
     const PRODUCTS = [

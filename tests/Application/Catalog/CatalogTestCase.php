@@ -6,12 +6,12 @@ declare(strict_types=1);
 namespace App\Tests\Application\Catalog;
 
 
-use App\Product\Builder\MealBuilder;
-use App\Product\Entity\Meal;
-use App\Product\Entity\Product;
-use App\Product\Persistence\Product\FindProductByIdInterface;
-use App\Product\Value\NutritionalValues;
-use App\Product\Value\Weight;
+use App\Catalog\Builder\MealBuilder;
+use App\Catalog\Entity\Meal;
+use App\Catalog\Entity\Product;
+use App\Catalog\Persistence\Product\FindProductByIdInterface;
+use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Weight;
 use App\Tests\Application\ApplicationTestCase;
 use Doctrine\Persistence\ObjectRepository;
 

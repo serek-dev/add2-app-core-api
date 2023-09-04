@@ -8,7 +8,7 @@ namespace App\Tests\Application\Catalog;
 
 use Symfony\Component\HttpFoundation\Response;
 
-/** @covers \App\Product\Controller\FindProductsController */
+/** @covers \App\Catalog\Controller\FindProductsController */
 final class FindProductsControllerTest extends CatalogTestCase
 {
     public function testICanFetchAListOfProducts(): void

@@ -8,7 +8,7 @@ namespace App\Tests\Application\Catalog;
 
 use Symfony\Component\HttpFoundation\Response;
 
-/** @covers \App\Product\Controller\FindMealsController */
+/** @covers \App\Catalog\Controller\FindMealsController */
 final class FindMealsControllerTest extends CatalogTestCase
 {
     public function testICanFetchAListOfMeals(): void
