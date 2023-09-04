@@ -7,7 +7,7 @@ namespace App\Product\Cli;
 
 
 use App\Product\Command\CreateMealCommand;
-use App\Product\View\ProductView;
+use App\Product\View\MealProductView;
 use App\Product\ViewQuery\Product\FindProductsInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -42,7 +42,7 @@ final class CreateMealCliCommand extends Command
             $table = new Table($output);
             $table
                 ->setHeaders(['#', 'Name', 'Producer', 'P', 'F', 'W', 'Kcal'])
-                ->setRows(array_map(fn(ProductView $v) => $v->jsonSerialize(), $results));
+                ->setRows(array_map(fn(MealProductView $v) => $v->jsonSerialize(), $results));
             $table->render();
 
             $question = new Question('Add product: ', '');

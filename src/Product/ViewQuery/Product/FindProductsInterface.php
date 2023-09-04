@@ -6,17 +6,17 @@ declare(strict_types=1);
 namespace App\Product\ViewQuery\Product;
 
 use App\Product\Exception\NotFoundException;
-use App\Product\View\ProductView;
+use App\Product\View\MealProductView;
 
 interface FindProductsInterface
 {
     /**
-     * @return ProductView[]
+     * @return MealProductView[]
      */
     public function findAll(?string $name = null): array;
 
     /**
      * @throws NotFoundException
      */
-    public function getOne(string $id): ProductView;
+    public function getOne(string $id): MealProductView;
 }

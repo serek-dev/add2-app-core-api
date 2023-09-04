@@ -8,7 +8,7 @@ namespace App\Product\ViewQuery\Product;
 
 use App\Product\Entity\Product;
 use App\Product\Exception\NotFoundException;
-use App\Product\View\ProductView;
+use App\Product\View\MealProductView;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class DbalProductRepository implements FindProductsInterface
@@ -36,7 +36,7 @@ final class DbalProductRepository implements FindProductsInterface
         $qb->addOrderBy('p.producerName', 'asc');
 
         return array_map(function (array $row) {
-            $view = new ProductView();
+            $view = new MealProductView();
 
             $view->setId($row['id'])
                 ->setName($row['name'])
@@ -54,7 +54,7 @@ final class DbalProductRepository implements FindProductsInterface
     }
 
     /** @inheritDoc */
-    public function getOne(string $id): ProductView
+    public function getOne(string $id): MealProductView
     {
         $entity = $this->em->getRepository(Product::class)->find($id);
 
@@ -62,7 +62,7 @@ final class DbalProductRepository implements FindProductsInterface
             throw new NotFoundException('Unable to find Product: ' . $id);
         }
 
-        $view = new ProductView();
+        $view = new MealProductView();
         $v = $entity->getNutritionValues();
 
         $view->setId($entity->getId())

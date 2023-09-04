@@ -16,7 +16,7 @@ use JsonSerializable;
 
 #[Entity(readOnly: true)]
 #[Table('p_meal_product')]
-final class ProductView implements JsonSerializable
+final class MealProductView implements JsonSerializable
 {
     #[Id]
     #[GeneratedValue(strategy: "NONE")]

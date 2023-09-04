@@ -23,11 +23,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Product/View'
                 prefix: 'App\Product\View\MealView'
                 alias: App\Product\MealView
-            ProductView:
+            MealProductView:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Product/View'
-                prefix: 'App\Product\View\ProductView'
-                alias: App\Product\ProductView
+                prefix: 'App\Product\View\MealProductView'
+                alias: App\Product\MealProductView
             NutritionLog:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/NutritionLog/Entity'
