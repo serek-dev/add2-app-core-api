@@ -63,9 +63,17 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "db:truncate": [
+            "./bin/console doctrine:database:drop --force",
+            "./bin/console doctrine:database:create",
+            "./bin/console doctrine:schema:update -f --complete"
+        ],
         "phpunit": "php ./vendor/phpunit/phpunit/phpunit",
         "tests:unit": "@phpunit tests/Unit",
-        "tests:application": "@phpunit tests/Application",
+        "tests:application": [
+            "@db:truncate",
+            "@phpunit tests/Application"
+        ],
         "tests:architecture": "./vendor/bin/deptrac"
     },
     "conflict": {
