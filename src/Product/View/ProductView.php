@@ -66,7 +66,7 @@ final class ProductView implements JsonSerializable
 
     public function setFats(float $fats): self
     {
-        $this->fats = $fats;
+        $this->fats = round($fats, 1);
         return $this;
     }
 
@@ -77,7 +77,7 @@ final class ProductView implements JsonSerializable
 
     public function setCarbs(float $carbs): self
     {
-        $this->carbs = $carbs;
+        $this->carbs = round($carbs, 1);
         return $this;
     }
 
@@ -88,7 +88,7 @@ final class ProductView implements JsonSerializable
 
     public function setKcal(float $kcal): self
     {
-        $this->kcal = $kcal;
+        $this->kcal = round($kcal, 2);
         return $this;
     }
 
@@ -124,7 +124,7 @@ final class ProductView implements JsonSerializable
 
     public function setWeight(float $weight): self
     {
-        $this->weight = $weight;
+        $this->weight = round($weight, 1);
         return $this;
     }
 }

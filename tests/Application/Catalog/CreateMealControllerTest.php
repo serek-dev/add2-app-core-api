@@ -44,11 +44,11 @@ final class CreateMealControllerTest extends CatalogTestCase
          */
         $this->iAmAuthenticated();
 
-        $this->withMilkCatalogProduct()
-            ->withWheyProteinProduct()
-            ->withOliveProduct()
+        $this->withMilk()
+            ->withWheyProtein()
+            ->withOlive()
             ->withOatBran()
-            ->withEggProduct();
+            ->withEgg();
 
         $response = $this->iCallPostApi('/api/meals', [
             'name' => 'Pancake',

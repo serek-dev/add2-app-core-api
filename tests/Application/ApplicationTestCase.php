@@ -53,4 +53,17 @@ abstract class ApplicationTestCase extends KernelTestCase
             'json' => $payload,
         ]);
     }
+
+    protected function iCallGetApi(string $endpoint): ResponseInterface
+    {
+        return $this->client->request('GET', $endpoint);
+    }
+
+    protected function assertCollectionFormat(ResponseInterface $response): void
+    {
+        $body = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('collection', $body);
+        $this->assertArrayHasKey('metadata', $body);
+        $this->assertArrayHasKey('count', $body['metadata']);
+    }
 }

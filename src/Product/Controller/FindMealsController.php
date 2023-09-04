@@ -27,6 +27,6 @@ final class FindMealsController extends AbstractController
             'metadata' => [
                 'count' => count($results),
             ]
-        ], Response::HTTP_CREATED);
+        ], Response::HTTP_OK);
     }
 }

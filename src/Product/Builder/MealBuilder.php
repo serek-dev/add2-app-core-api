@@ -16,6 +16,7 @@ use App\Product\Value\Weight;
 
 final class MealBuilder
 {
+    private ?string $id = null;
     private array $products = [];
 
     public function __construct(private readonly FindMealByNameInterface $findMealByName)
@@ -29,7 +30,7 @@ final class MealBuilder
                 "Meal with name: {$name} and produced by: {$producerName} already exist"
             );
         }
-        return new Meal(uniqid('M-'), $name, $this->products);
+        return new Meal($this->id ?? uniqid('M-'), $name, $this->products);
     }
 
     public function addProduct(Weight $quantity, Product $product): self
@@ -54,6 +55,12 @@ final class MealBuilder
             producerName: $product->getProducerName(),
         );
 
+        return $this;
+    }
+
+    public function withId(string $id): self
+    {
+        $this->id = $id;
         return $this;
     }
 }
