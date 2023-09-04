@@ -30,7 +30,7 @@ final class FindProductsControllerTest extends CatalogTestCase
             $this->assertArrayHasKey('fats', $product);
             $this->assertArrayHasKey('carbs', $product);
             $this->assertArrayHasKey('kcal', $product);
-            $this->assertArrayHasKey('weight', $product);
+            $this->assertArrayNotHasKey('weight', $product);
         }
 
         $this->assertSame(6, $body['metadata']['count']);

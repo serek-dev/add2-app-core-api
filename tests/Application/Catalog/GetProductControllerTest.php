@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /** @covers \App\Product\Controller\GetProductController */
 final class GetProductControllerTest extends CatalogTestCase
 {
-    public function testICanGetOneMeal(): void
+    public function testICanGetOneProduct(): void
     {
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
@@ -27,7 +27,6 @@ final class GetProductControllerTest extends CatalogTestCase
         $this->assertSame(9.7, $product['fats'], 'fats');
         $this->assertSame(0.6, $product['carbs'], 'carbs');
         $this->assertSame(140, $product['kcal'], 'kcal');
-        $this->assertSame(100, $product['weight'], 'weight');
     }
 
     public function testICanSeeNotFound(): void
