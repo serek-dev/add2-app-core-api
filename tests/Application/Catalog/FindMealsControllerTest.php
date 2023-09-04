@@ -21,15 +21,12 @@ final class FindMealsControllerTest extends CatalogTestCase
          * And nutrition values should be a sum of products
          */
         $this->iAmAuthenticated();
-
         $this->withPancakeMeal();
 
         $response = $this->iCallGetApi('/api/meals');
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-
         $this->assertCollectionFormat($response);
-
         $body = json_decode($response->getContent(), true);
 
         foreach ($body['collection'] as $meal) {
@@ -55,5 +52,34 @@ final class FindMealsControllerTest extends CatalogTestCase
             $this->assertSame(12.62, $meal['carbs'], 'carbs');
             $this->assertSame(341.35, $meal['kcal'], 'kcal');
         }
+    }
+
+    public function testICanSearchByNameAndNothingFound(): void
+    {
+        /*
+         * I am authenticated
+         * And at least one meal exist
+         * When I try to fetch a list with a name "bleble"
+         * Then it should be rendered as expected
+         * And there should not be any results
+         */
+        $this->iAmAuthenticated();
+        $this->withPancakeMeal();
+
+        $response = $this->iCallGetApi('/api/meals', ['name' => 'bleble']);
+
+        $this->assertCollectionFormat($response);
+        $body = json_decode($response->getContent(), true);
+        $this->assertSame(0, $body['metadata']['count']);
+    }
+
+    public function testICanSearchByNameAndFoundMatchingPancake(): void
+    {
+        $this->iAmAuthenticated();
+        $this->withPancakeMeal();
+        $response = $this->iCallGetApi('/api/meals', ['name' => 'pan']);
+        $this->assertCollectionFormat($response);
+        $body = json_decode($response->getContent(), true);
+        $this->assertSame(1, $body['metadata']['count']);
     }
 }

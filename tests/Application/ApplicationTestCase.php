@@ -54,9 +54,9 @@ abstract class ApplicationTestCase extends KernelTestCase
         ]);
     }
 
-    protected function iCallGetApi(string $endpoint): ResponseInterface
+    protected function iCallGetApi(string $endpoint, array $queryParams = []): ResponseInterface
     {
-        return $this->client->request('GET', $endpoint);
+        return $this->client->request('GET', $endpoint . '?' . http_build_query($queryParams));
     }
 
     protected function assertCollectionFormat(ResponseInterface $response): void
