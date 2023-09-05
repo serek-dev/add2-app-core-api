@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -31,6 +32,7 @@ abstract class ApplicationTestCase extends KernelTestCase
 
     protected HttpClientInterface $client;
     protected EntityManagerInterface $em;
+    protected MessageBusInterface $bus;
 
     protected array $headers = [
         'Content-Type' => 'application/json',
@@ -47,6 +49,8 @@ abstract class ApplicationTestCase extends KernelTestCase
         $container = static::getContainer();
 
         $this->em = $container->get(EntityManagerInterface::class);
+
+        $this->bus = $container->get(MessageBusInterface::class);
 
         $this->client = HttpClient::createForBaseUri(baseUri: 'http://web', defaultOptions: [
             'headers' => $this->headers,

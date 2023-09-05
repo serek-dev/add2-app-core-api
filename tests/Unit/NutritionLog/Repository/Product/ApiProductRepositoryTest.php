@@ -51,7 +51,7 @@ final class ApiProductRepositoryTest extends TestCase
         // Then it should be used with expected payload
         $client->expects($this->once())
             ->method('request')
-            ->with('GET', '/api/products/p-64a466b4e03c1')
+            ->with('GET', '/api/catalog/products/p-64a466b4e03c1')
             ->willReturn($response);
 
         $sut = new ApiProductRepository($client);

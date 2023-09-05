@@ -18,26 +18,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Catalog/Entity'
                 prefix: 'App\Catalog\Entity'
                 alias: App\Catalog
-            MealView:
+            ProductViews:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Catalog/View'
-                prefix: 'App\Catalog\View\MealView'
-                alias: App\Catalog\MealView
-            MealProductView:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Catalog/View'
-                prefix: 'App\Catalog\View\MealProductView'
-                alias: App\Catalog\MealProductView
-            ProductView:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Catalog/View'
-                prefix: 'App\Catalog\View\ProductView'
-                alias: App\Catalog\ProductView
+                prefix: 'App\Catalog\View'
+                alias: App\Catalog
 
             NutritionLog:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/NutritionLog/Entity'
                 prefix: 'App\NutritionLog\Entity'
+                alias: App\NutritionLog
+            NutritionLogViews:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/NutritionLog/View'
+                prefix: 'App\NutritionLog\View'
                 alias: App\NutritionLog
 
 when@prod:

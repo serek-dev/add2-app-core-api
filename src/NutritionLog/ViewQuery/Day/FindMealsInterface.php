@@ -5,14 +5,14 @@ declare(strict_types=1);
 
 namespace App\NutritionLog\ViewQuery\Day;
 
-use App\NutritionLog\View\MealView;
-use App\NutritionLog\View\ProductView;
+use App\NutritionLog\View\DayMealView;
+use App\NutritionLog\View\DayProductView;
 
 interface FindMealsInterface
 {
-    /** @return MealView[] */
+    /** @return DayMealView[] */
     public function findMeals(string $date): array;
 
-    /** @return ProductView[] */
+    /** @return DayProductView[] */
     public function findMealProducts(string $mealId): array;
 }
