@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\Controller;
 
 
-use App\NutritionLog\Presenter\FindDayApiPresenter;
+use App\NutritionLog\ViewQuery\Day\FindDayInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/nutrition-log/{date}', methods: 'GET')]
 final class FindDayController extends AbstractController
 {
-    public function __invoke(Request $request, FindDayApiPresenter $presenter): JsonResponse
+    public function __invoke(Request $request, FindDayInterface $presenter): JsonResponse
     {
-        return $this->json($presenter->render($request->get('date')));
+        return $this->json([
+            'item' => $presenter->findDay($request->get('date')),
+        ]);
     }
 }
