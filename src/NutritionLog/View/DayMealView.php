@@ -32,8 +32,8 @@ final class DayMealView implements JsonSerializable
         #[GeneratedValue]
         #[Column]
         public readonly string $id,
-//        #[Column]
-//        public readonly string $consumptionTime, todo
+        #[Column]
+        public readonly string $consumptionTime,
         #[Column]
         private readonly string $name,
     ) {
@@ -44,7 +44,7 @@ final class DayMealView implements JsonSerializable
     {
         return [
             'id' => $this->id,
-//            'consumptionTime' => $this->consumptionTime,
+            'consumptionTime' => $this->consumptionTime,
             'name' => $this->name,
             'proteins' => $this->getProteins(),
             'fats' => $this->getFats(),

@@ -7,6 +7,7 @@ namespace App\NutritionLog\Entity;
 
 
 use App\NutritionLog\Exception\InvalidArgumentException;
+use App\NutritionLog\Value\ConsumptionTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -26,6 +27,9 @@ final class DayMeal
     #[ManyToOne(targetEntity: Day::class, inversedBy: 'meals')]
     private Day $day;
 
+    #[Column]
+    private string $consumptionTime;
+
     /**
      * @param DayMealProduct[] $products
      */
@@ -36,6 +40,7 @@ final class DayMeal
         private readonly string $id,
         #[Column]
         private readonly string $name,
+        ConsumptionTime $consumptionTime,
         array $products,
     ) {
         foreach ($products as $p) {
@@ -46,6 +51,8 @@ final class DayMeal
         }
 
         $this->products = new ArrayCollection($products);
+
+        $this->consumptionTime = (string)$consumptionTime;
     }
 
     public function getName(): string

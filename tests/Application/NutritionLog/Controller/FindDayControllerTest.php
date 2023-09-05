@@ -43,6 +43,7 @@ final class FindDayControllerTest extends NutritionLogTestCase
 
         $this->assertSame($day, $data['date']);
 
+        // Item nutrition values should be a sum of all products and meals
         $sumProteins = 0.0;
         $sumFats = 0.0;
         $sumCarbs = 0.0;
@@ -53,6 +54,9 @@ final class FindDayControllerTest extends NutritionLogTestCase
             $sumFats += $product['fats'];
             $sumCarbs += $product['carbs'];
             $sumKcal += $product['kcal'];
+
+            // Each product and meal should have consumption date
+            $this->assertArrayHasKey('consumptionTime', $product);
         }
 
         foreach ($data['meals'] as $meal) {
@@ -60,6 +64,13 @@ final class FindDayControllerTest extends NutritionLogTestCase
             $sumFats += $meal['fats'];
             $sumCarbs += $meal['carbs'];
             $sumKcal += $meal['kcal'];
+
+            // Each product and meal should have consumption date
+            $this->assertArrayHasKey('consumptionTime', $meal);
+
+            foreach ($meal['products'] as $mealProduct) {
+                $this->assertArrayNotHasKey('consumptionTime', $mealProduct);
+            }
         }
 
         $this->assertSame($data['proteins'], round($sumProteins, 2), 'proteins');

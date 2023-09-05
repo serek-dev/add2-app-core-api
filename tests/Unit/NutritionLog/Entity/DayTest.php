@@ -4,6 +4,7 @@ namespace App\Tests\Unit\NutritionLog\Entity;
 
 use App\NutritionLog\Entity\Day;
 use App\NutritionLog\Entity\DayMeal;
+use App\NutritionLog\Value\ConsumptionTime;
 use App\Tests\Data\NutritionLogTestHelper;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -35,6 +36,7 @@ final class DayTest extends TestCase
             new DayMeal(
                 'id',
                 'name',
+                new ConsumptionTime('10:45'),
                 []
             )
         );

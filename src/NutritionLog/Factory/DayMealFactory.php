@@ -23,12 +23,12 @@ final class DayMealFactory
         return new DayMeal(
             uniqid('NL-DM-'),
             $realMeal->getName(),
+            $consumptionTime,
             array_map(function (Product $p) use ($consumptionTime): DayMealProduct {
                 return new DayMealProduct(
                     uniqid('NL-DMP-'),
                     $p->getWeight(),
                     $p->getNutritionValues(),
-                    $consumptionTime,
                     new ProductDetail(
                         $p->getId(),
                         $p->getName(),

@@ -44,14 +44,11 @@ final class DayMealProductView implements JsonSerializable
     private string $productName;
     #[Column(nullable: true)]
     private ?string $producerName;
-    #[Column]
-    private string $consumptionTime;
 
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
-            'consumptionTime' => $this->consumptionTime,
             'productId' => $this->productId,
             'productName' => $this->productName,
             'proteins' => $this->getProteins(),
