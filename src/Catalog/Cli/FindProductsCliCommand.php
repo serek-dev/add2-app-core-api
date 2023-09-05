@@ -7,7 +7,7 @@ namespace App\Catalog\Cli;
 
 
 use App\Catalog\View\MealProductView;
-use App\Catalog\ViewQuery\Product\FindProductsInterface;
+use App\Catalog\ViewQuery\Product\FindProductViewsInterface;
 use App\Product\Query\FindProductsCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('app:product:find', 'Find products by requested name')]
 final class FindProductsCliCommand extends Command
 {
-    public function __construct(private readonly FindProductsInterface $query)
+    public function __construct(private readonly FindProductViewsInterface $query)
     {
         parent::__construct();
         $this->addArgument(name: 'name', default: null);

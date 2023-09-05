@@ -8,7 +8,7 @@ namespace App\Catalog\Cli;
 
 use App\Catalog\Command\CreateMealCommand;
 use App\Catalog\View\MealProductView;
-use App\Catalog\ViewQuery\Product\FindProductsInterface;
+use App\Catalog\ViewQuery\Product\FindProductViewsInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsCommand('app:meal:create', 'Creates in an interactive mode a meal')]
 final class CreateMealCliCommand extends Command
 {
-    public function __construct(private readonly FindProductsInterface $query, private readonly MessageBusInterface $bus)
+    public function __construct(private readonly FindProductViewsInterface $query, private readonly MessageBusInterface $bus)
     {
         parent::__construct();
         $this->addArgument(name: 'name', default: null);

@@ -7,7 +7,7 @@ namespace App\NutritionLog\ViewQuery\Day;
 
 use App\NutritionLog\View\DayView;
 
-interface FindDayInterface
+interface FindDayViewInterface
 {
     public function findDay(string $date): DayView;
 }

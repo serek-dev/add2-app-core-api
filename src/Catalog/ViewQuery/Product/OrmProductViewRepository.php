@@ -10,7 +10,7 @@ use App\Catalog\Exception\NotFoundException;
 use App\Catalog\View\ProductView;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmProductRepository implements FindProductsInterface
+final class OrmProductViewRepository implements FindProductViewsInterface
 {
 
     public function __construct(private readonly EntityManagerInterface $em)

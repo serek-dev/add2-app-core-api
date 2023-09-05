@@ -7,7 +7,7 @@ namespace App\Catalog\Controller;
 
 
 use App\Catalog\Exception\NotFoundException;
-use App\Catalog\ViewQuery\Meal\GetOneMealInterface;
+use App\Catalog\ViewQuery\Meal\GetOneMealViewInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/catalog/meals/{id}', methods: 'GET')]
 final class GetMealController extends AbstractController
 {
-    public function __invoke(Request $request, GetOneMealInterface $query): JsonResponse
+    public function __invoke(Request $request, GetOneMealViewInterface $query): JsonResponse
     {
         try {
             return $this->json(

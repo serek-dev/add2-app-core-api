@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\Catalog\Cli;
 
 
-use App\Catalog\ViewQuery\Meal\FindMealsInterface;
+use App\Catalog\ViewQuery\Meal\FindMealViewsInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('app:meal:find', 'Find meals by requested name')]
 final class FindMealsCliCommand extends Command
 {
-    public function __construct(private readonly FindMealsInterface $query)
+    public function __construct(private readonly FindMealViewsInterface $query)
     {
         parent::__construct();
         $this->addArgument(name: 'name', default: null);

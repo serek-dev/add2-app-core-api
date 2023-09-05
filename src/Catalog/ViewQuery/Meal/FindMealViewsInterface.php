@@ -7,7 +7,7 @@ namespace App\Catalog\ViewQuery\Meal;
 
 use App\Catalog\View\MealView;
 
-interface FindMealsInterface
+interface FindMealViewsInterface
 {
     /**
      * @return MealView[]

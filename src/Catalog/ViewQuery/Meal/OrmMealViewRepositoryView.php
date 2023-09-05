@@ -11,7 +11,7 @@ use App\Catalog\View\MealView;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 
-final class OrmMealRepository implements FindMealsInterface, GetOneMealInterface
+final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneMealViewInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {

@@ -8,7 +8,7 @@ namespace App\Catalog\ViewQuery\Product;
 use App\Catalog\Exception\NotFoundException;
 use App\Catalog\View\ProductView;
 
-interface FindProductsInterface
+interface FindProductViewsInterface
 {
     /**
      * @return ProductView[]
