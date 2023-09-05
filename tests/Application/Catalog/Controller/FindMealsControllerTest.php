@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Application\Catalog;
+namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Catalog\Controller\FindMealsController */
@@ -23,7 +24,7 @@ final class FindMealsControllerTest extends CatalogTestCase
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
 
-        $response = $this->iCallGetApi('/api/meals');
+        $response = $this->iCallGetApi('/api/catalog/meals');
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertCollectionFormat($response);
@@ -66,7 +67,7 @@ final class FindMealsControllerTest extends CatalogTestCase
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
 
-        $response = $this->iCallGetApi('/api/meals', ['name' => 'bleble']);
+        $response = $this->iCallGetApi('/api/catalog/meals', ['name' => 'bleble']);
 
         $this->assertCollectionFormat($response);
         $body = json_decode($response->getContent(), true);
@@ -77,7 +78,7 @@ final class FindMealsControllerTest extends CatalogTestCase
     {
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
-        $response = $this->iCallGetApi('/api/meals', ['name' => 'pan']);
+        $response = $this->iCallGetApi('/api/catalog/meals', ['name' => 'pan']);
         $this->assertCollectionFormat($response);
         $body = json_decode($response->getContent(), true);
         $this->assertSame(1, $body['metadata']['count']);

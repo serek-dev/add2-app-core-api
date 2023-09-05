@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/meals', methods: 'GET')]
+#[Route('/api/catalog/meals', methods: 'GET')]
 final class FindMealsController extends AbstractController
 {
     public function __invoke(Request $request, FindMealsInterface $query): JsonResponse

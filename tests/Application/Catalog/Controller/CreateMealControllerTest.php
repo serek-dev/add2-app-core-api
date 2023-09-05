@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Application\Catalog;
+namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Catalog\Controller\CreateMealController */
@@ -50,7 +51,7 @@ final class CreateMealControllerTest extends CatalogTestCase
             ->withOatBran()
             ->withEgg();
 
-        $response = $this->iCallPostApi('/api/meals', [
+        $response = $this->iCallPostApi('/api/catalog/meals', [
             'id' => self::PANCAKE,
             'name' => 'Pancake',
             'products' => self::PRODUCTS,
@@ -69,7 +70,7 @@ final class CreateMealControllerTest extends CatalogTestCase
          */
         $this->iAmAuthenticated();
 
-        $response = $this->iCallPostApi('/api/meals', [
+        $response = $this->iCallPostApi('/api/catalog/meals', [
             'name' => 'Pancake',
             'products' => self::PRODUCTS,
         ]);

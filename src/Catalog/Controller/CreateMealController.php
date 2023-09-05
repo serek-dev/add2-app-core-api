@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/meals', methods: 'POST')]
+#[Route('/api/catalog/meals', methods: 'POST')]
 final class CreateMealController extends AbstractController
 {
     public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse

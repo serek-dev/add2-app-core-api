@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Application\Catalog;
+namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Catalog\Controller\GetProductController */
@@ -16,7 +17,7 @@ final class GetProductControllerTest extends CatalogTestCase
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
 
-        $response = $this->iCallGetApi('/api/products/' . self::EGG);
+        $response = $this->iCallGetApi('/api/catalog/products/' . self::EGG);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertItemFormat($response);
@@ -33,7 +34,7 @@ final class GetProductControllerTest extends CatalogTestCase
     {
         $this->iAmAuthenticated();
 
-        $response = $this->iCallGetApi('/api/products/non-existing');
+        $response = $this->iCallGetApi('/api/catalog/products/non-existing');
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }

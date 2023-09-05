@@ -20,7 +20,7 @@ final class ApiProductRepository implements GetOneProductInterface
     /** @inheritDoc */
     public function getOne(string $productId): Product
     {
-        $response = $this->productApi->request('GET', '/api/products/' . $productId);
+        $response = $this->productApi->request('GET', '/api/catalog/products/' . $productId);
 
         $body = $response->toArray()['item'];
 

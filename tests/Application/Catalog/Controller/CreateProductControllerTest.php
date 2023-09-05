@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Application\Catalog;
+namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Catalog\Controller\CreateProductController */
@@ -20,7 +21,7 @@ final class CreateProductControllerTest extends CatalogTestCase
          */
         $this->iAmAuthenticated();
 
-        $response = $this->iCallPostApi('/api/products', [
+        $response = $this->iCallPostApi('/api/catalog/products', [
             'name' => 'fake product',
             'proteins' => 12.0,
             'fats' => 7.2,
@@ -41,7 +42,7 @@ final class CreateProductControllerTest extends CatalogTestCase
          */
         $this->iAmAuthenticated();
 
-        $response = $this->iCallPostApi('/api/products', [
+        $response = $this->iCallPostApi('/api/catalog/products', [
             'name' => 'fake product',
             'proteins' => 12.0,
             'fats' => 7.2,

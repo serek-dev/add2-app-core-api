@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Application\Catalog;
+namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @covers \App\Catalog\Controller\GetMealController */
@@ -16,7 +17,7 @@ final class GetMealControllerTest extends CatalogTestCase
         $this->iAmAuthenticated();
         $this->withPancakeMeal();
 
-        $response = $this->iCallGetApi('/api/meals/' . self::PANCAKE);
+        $response = $this->iCallGetApi('/api/catalog/meals/' . self::PANCAKE);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertItemFormat($response);
@@ -50,7 +51,7 @@ final class GetMealControllerTest extends CatalogTestCase
     {
         $this->iAmAuthenticated();
 
-        $response = $this->iCallGetApi('/api/meals/non-existing');
+        $response = $this->iCallGetApi('/api/catalog/meals/non-existing');
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }

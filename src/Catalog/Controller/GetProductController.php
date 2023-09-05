@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/products/{id}', methods: 'GET')]
+#[Route('/api/catalog/products/{id}', methods: 'GET')]
 final class GetProductController extends AbstractController
 {
     public function __invoke(Request $request, FindProductsInterface $query): JsonResponse
