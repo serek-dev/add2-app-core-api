@@ -51,14 +51,14 @@ final class DayProductView implements JsonSerializable, LogAbleInterface
     {
         return [
             'id' => $this->id,
+            'name' => $this->productName,
             'consumptionTime' => $this->consumptionTime,
-            'productId' => $this->productId,
-            'productName' => $this->productName,
             'proteins' => $this->getProteins(),
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
             'weight' => $this->getWeight(),
+            'productId' => $this->productId,
         ];
     }
 

@@ -22,6 +22,7 @@ use JsonSerializable;
 final class DayView implements JsonSerializable, LogAbleInterface
 {
     #[OneToMany(mappedBy: 'day', targetEntity: DayProductView::class, fetch: "EAGER")]
+    #[OrderBy(["consumptionTime" => 'ASC'])]
     private Collection $products;
 
     #[OneToMany(mappedBy: 'day', targetEntity: DayMealView::class, fetch: "EAGER")]
