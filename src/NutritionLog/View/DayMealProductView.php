@@ -18,7 +18,7 @@ use JsonSerializable;
 #[Entity(readOnly: true)]
 #[Table('nutrition_log_day_meal_product')]
 #[Immutable]
-final class DayMealProductView implements JsonSerializable
+final class DayMealProductView implements JsonSerializable, LogAbleInterface
 {
     #[Id]
     #[GeneratedValue(strategy: "NONE")]
@@ -50,7 +50,7 @@ final class DayMealProductView implements JsonSerializable
         return [
             'id' => $this->id,
             'productId' => $this->productId,
-            'productName' => $this->productName,
+            'name' => $this->productName,
             'proteins' => $this->getProteins(),
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),

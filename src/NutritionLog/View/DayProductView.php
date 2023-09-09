@@ -16,7 +16,7 @@ use JsonSerializable;
 
 #[Entity(readOnly: true)]
 #[Table("nutrition_log_day_product")]
-final class DayProductView implements JsonSerializable
+final class DayProductView implements JsonSerializable, LogAbleInterface
 {
     #[ManyToOne(targetEntity: DayView::class, inversedBy: 'products')]
     private DayView $day;

@@ -49,27 +49,21 @@ final class FindDayControllerTest extends NutritionLogTestCase
         $sumCarbs = 0.0;
         $sumKcal = 0.0;
 
-        foreach ($data['products'] as $product) {
-            $sumProteins += $product['proteins'];
-            $sumFats += $product['fats'];
-            $sumCarbs += $product['carbs'];
-            $sumKcal += $product['kcal'];
+        foreach ($data['products'] as $consumptionTime => $products) {
+            foreach ($products as $product) {
+                $sumProteins += $product['proteins'];
+                $sumFats += $product['fats'];
+                $sumCarbs += $product['carbs'];
+                $sumKcal += $product['kcal'];
 
-            // Each product and meal should have consumption date
-            $this->assertArrayHasKey('consumptionTime', $product);
-        }
+                // Each product and meal should have consumption date
+                $this->assertArrayHasKey('consumptionTime', $product);
 
-        foreach ($data['meals'] as $meal) {
-            $sumProteins += $meal['proteins'];
-            $sumFats += $meal['fats'];
-            $sumCarbs += $meal['carbs'];
-            $sumKcal += $meal['kcal'];
-
-            // Each product and meal should have consumption date
-            $this->assertArrayHasKey('consumptionTime', $meal);
-
-            foreach ($meal['products'] as $mealProduct) {
-                $this->assertArrayNotHasKey('consumptionTime', $mealProduct);
+                if (isset($product['products'])) {
+                    foreach ($product['products'] as $meal) {
+                        $this->assertArrayNotHasKey('consumptionTime', $meal);
+                    }
+                }
             }
         }
 

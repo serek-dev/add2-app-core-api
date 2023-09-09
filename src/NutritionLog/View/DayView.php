@@ -13,12 +13,13 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use JsonSerializable;
 
 #[Entity(readOnly: true)]
 #[Table("nutrition_log_day")]
-final class DayView implements JsonSerializable
+final class DayView implements JsonSerializable, LogAbleInterface
 {
     #[OneToMany(mappedBy: 'day', targetEntity: DayProductView::class, fetch: "EAGER")]
     private Collection $products;
@@ -91,5 +92,17 @@ final class DayView implements JsonSerializable
         $product = round(array_sum(array_map(fn(DayProductView $p) => $p->getWeight(), $this->products->toArray())), 2);
         $meal = round(array_sum(array_map(fn(DayMealView $p) => $p->getWeight(), $this->meals->toArray())), 2);
         return round($product + $meal, 2);
+    }
+
+    /** @return DayProductView[] */
+    public function getProducts(): array
+    {
+        return $this->products->toArray();
+    }
+
+    /** @return DayMealView[] */
+    public function getMeals(): array
+    {
+        return $this->meals->toArray();
     }
 }
