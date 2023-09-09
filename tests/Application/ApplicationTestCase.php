@@ -75,6 +75,11 @@ abstract class ApplicationTestCase extends KernelTestCase
         return $this->client->request('GET', $endpoint . '?' . http_build_query($queryParams));
     }
 
+    protected function iCallDeleteApi(string $endpoint, array $queryParams = []): ResponseInterface
+    {
+        return $this->client->request('DELETE', $endpoint . '?' . http_build_query($queryParams));
+    }
+
     protected function assertCollectionFormat(ResponseInterface $response): void
     {
         $body = json_decode($response->getContent(), true);

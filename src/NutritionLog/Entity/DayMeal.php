@@ -8,6 +8,7 @@ namespace App\NutritionLog\Entity;
 
 use App\NutritionLog\Exception\InvalidArgumentException;
 use App\NutritionLog\Value\ConsumptionTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -21,7 +22,7 @@ use Doctrine\ORM\Mapping\Table;
 #[Table('nutrition_log_day_meal')]
 final class DayMeal
 {
-    #[OneToMany(mappedBy: 'meal', targetEntity: DayMealProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]
+    #[OneToMany(mappedBy: 'meal', targetEntity: DayMealProduct::class, cascade: ['PERSIST', 'remove'], fetch: "EAGER")]
     private mixed $products;
 
     #[ManyToOne(targetEntity: Day::class, inversedBy: 'meals')]
@@ -76,5 +77,10 @@ final class DayMeal
     public function setDay(Day $value): void
     {
         $this->day = $value;
+    }
+
+    public function getConsumptionTime(): ConsumptionTime
+    {
+        return new ConsumptionTime(new DateTimeImmutable($this->consumptionTime));
     }
 }

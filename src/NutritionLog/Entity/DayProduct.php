@@ -10,6 +10,7 @@ use App\NutritionLog\Value\ConsumptionTime;
 use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -72,5 +73,8 @@ final class DayProduct
         $this->day = $day;
     }
 
-
+    public function getConsumptionTime(): ConsumptionTime
+    {
+        return new ConsumptionTime(new DateTimeImmutable($this->consumptionTime));
+    }
 }
