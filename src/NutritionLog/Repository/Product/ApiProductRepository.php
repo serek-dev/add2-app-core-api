@@ -11,7 +11,7 @@ use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\Weight;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiProductRepository implements GetOneProductInterface
+final class ApiProductRepository implements GetOneProductInterface, FindAllProductsInterface
 {
     public function __construct(private readonly HttpClientInterface $productApi)
     {
@@ -36,5 +36,28 @@ final class ApiProductRepository implements GetOneProductInterface
             weight: new Weight(100.0),
             producerName: $body['producerName'],
         );
+    }
+
+    /** @inheritdoc */
+    public function findAll(): array
+    {
+        $response = $this->productApi->request('GET', '/api/catalog/products');
+
+        $body = $response->toArray()['collection'];
+
+        return array_map(function (array $resp) {
+            return new Product(
+                id: $resp['id'],
+                nutritionalValues: new NutritionalValues(
+                    new Weight((float)$resp['proteins']),
+                    new Weight((float)$resp['fats']),
+                    new Weight((float)$resp['carbs']),
+                    (float)$resp['kcal'],
+                ),
+                name: $resp['name'],
+                weight: new Weight(100.0),
+                producerName: $resp['producerName'],
+            );
+        }, $body);
     }
 }

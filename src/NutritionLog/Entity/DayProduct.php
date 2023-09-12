@@ -77,4 +77,24 @@ final class DayProduct
     {
         return new ConsumptionTime(new DateTimeImmutable($this->consumptionTime));
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getWeight(): Weight
+    {
+        return new Weight($this->weight);
+    }
+
+    public function getNutritionValues(): NutritionalValues
+    {
+        return new NutritionalValues(
+            new Weight($this->proteins),
+            new Weight($this->fats),
+            new Weight($this->carbs),
+            $this->kcal
+        );
+    }
 }
