@@ -78,7 +78,7 @@
         ],
         "tests:architecture": "./vendor/bin/deptrac",
         "build": [
-            "zip app.zip -r bin config resources src vendor composer.json tools composer.lock symfony.lock public/index.php .env"
+            "zip app.zip -r bin config resources migrations src vendor composer.json tools composer.lock symfony.lock public/index.php .env"
         ]
     },
     "conflict": {
