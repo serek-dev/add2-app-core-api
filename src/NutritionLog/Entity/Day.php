@@ -19,7 +19,7 @@ use Generator;
 
 #[Entity]
 #[Table('nutrition_log_day')]
-final class Day
+class Day
 {
     #[Id]
     #[GeneratedValue]

@@ -17,7 +17,7 @@ use JsonSerializable;
 #[Entity(readOnly: true)]
 #[Table('catalog_product')]
 #[Immutable]
-final class ProductView implements JsonSerializable
+class ProductView implements JsonSerializable
 {
     #[Id]
     #[GeneratedValue(strategy: "NONE")]

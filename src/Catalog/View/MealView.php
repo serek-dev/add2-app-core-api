@@ -19,7 +19,7 @@ use JsonSerializable;
 #[Entity(readOnly: true)]
 #[Table('catalog_meal')]
 #[Immutable]
-final class MealView implements JsonSerializable
+class MealView implements JsonSerializable
 {
     #[Id]
     #[Column]

@@ -18,7 +18,7 @@ use JsonSerializable;
 #[Entity(readOnly: true)]
 #[Table('nutrition_log_day_meal_product')]
 #[Immutable]
-final class DayMealProductView implements JsonSerializable, LogAbleInterface
+class DayMealProductView implements JsonSerializable, LogAbleInterface
 {
     #[Id]
     #[GeneratedValue(strategy: "NONE")]

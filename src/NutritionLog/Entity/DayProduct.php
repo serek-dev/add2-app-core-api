@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('nutrition_log_day_product')]
-final class DayProduct
+class DayProduct
 {
     #[Column]
     private float $weight;

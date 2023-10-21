@@ -19,7 +19,7 @@ use JsonSerializable;
 
 #[Entity(readOnly: true)]
 #[Table("nutrition_log_day")]
-final class DayView implements JsonSerializable, LogAbleInterface
+class DayView implements JsonSerializable, LogAbleInterface
 {
     #[OneToMany(mappedBy: 'day', targetEntity: DayProductView::class, fetch: "EAGER")]
     #[OrderBy(["consumptionTime" => 'ASC'])]

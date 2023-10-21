@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('catalog_product')]
-final class Product
+class Product
 {
     #[Column]
     private float $proteins;

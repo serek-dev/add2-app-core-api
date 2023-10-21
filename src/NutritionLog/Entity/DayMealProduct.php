@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('nutrition_log_day_meal_product')]
-final class DayMealProduct
+class DayMealProduct
 {
     #[Column]
     private float $weight;

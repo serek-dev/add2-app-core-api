@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table('catalog_meal')]
-final class Meal
+class Meal
 {
     #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]
     private mixed $products;
