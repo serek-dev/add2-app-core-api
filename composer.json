@@ -8,7 +8,9 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
+      "nelmio/cors-bundle": "^2.3",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
@@ -63,8 +65,21 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "tests:unit": "php ./vendor/phpunit/phpunit/phpunit tests",
-        "tests:architecture": "./vendor/bin/deptrac"
+        "db:truncate": [
+            "./bin/console doctrine:database:drop --force",
+            "./bin/console doctrine:database:create",
+            "./bin/console doctrine:migrations:migrate --no-interaction"
+        ],
+        "phpunit": "php ./vendor/phpunit/phpunit/phpunit",
+        "tests:unit": "@phpunit tests/Unit",
+        "tests:application": [
+            "@db:truncate",
+            "@phpunit --testdox --colors tests/Application"
+        ],
+        "tests:architecture": "./vendor/bin/deptrac",
+        "build": [
+            "zip app.zip -r bin config resources src vendor composer.json tools composer.lock symfony.lock public/index.php .env"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"

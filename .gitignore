@@ -129,3 +129,5 @@ fabric.properties
 ###> qossmic/deptrac-shim ###
 /.deptrac.cache
 ###< qossmic/deptrac-shim ###
+
+app.zip

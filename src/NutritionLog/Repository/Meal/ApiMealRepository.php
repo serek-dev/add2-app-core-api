@@ -21,7 +21,7 @@ final class ApiMealRepository implements GetOneMealInterface
     /** @inheritDoc */
     public function getOne(string $mealId): Meal
     {
-        $response = $this->productApi->request('GET', '/api/meals/' . $mealId);
+        $response = $this->productApi->request('GET', '/api/catalog/meals/' . $mealId);
 
         $body = $response->toArray()['item'];
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\Entity;
 
 
+use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
@@ -14,23 +15,24 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Generator;
 
 #[Entity]
-#[Table('nl_day')]
-final class Day
+#[Table('nutrition_log_day')]
+class Day
 {
     #[Id]
     #[GeneratedValue]
     #[Column]
     private readonly ?int $id;
 
-    #[OneToMany(mappedBy: 'day', targetEntity: DayProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]
+    #[OneToMany(mappedBy: 'day', targetEntity: DayProduct::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $products;
 
     #[Column]
     private readonly string $date;
 
-    #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['PERSIST'], fetch: "EAGER")]
+    #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $meals;
 
     public function __construct(
@@ -69,5 +71,50 @@ final class Day
     public function getMeals(): array
     {
         return $this->meals->toArray();
+    }
+
+    public function hasProductsAt(ConsumptionTime $time): bool
+    {
+        /** @var DayProduct $p */
+        foreach ($this->products as $p) {
+            if ($p->getConsumptionTime()->equals($time)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasMealsAt(ConsumptionTime $time): bool
+    {
+        /** @var DayMeal $p */
+        foreach ($this->meals as $p) {
+            if ($p->getConsumptionTime()->equals($time)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return Generator<DayProduct|DayMeal>
+     */
+    public function removeProductsAndMeals(ConsumptionTime $time): Generator
+    {
+        /** @var DayProduct $p */
+        foreach ($this->products as $p) {
+            if ($p->getConsumptionTime()->equals($time)) {
+                $this->products->removeElement($p);
+                yield $p;
+            }
+        }
+        /** @var DayMeal $m */
+        foreach ($this->meals as $m) {
+            if ($m->getConsumptionTime()->equals($time)) {
+                $this->meals->removeElement($m);
+                yield $m;
+            }
+        }
     }
 }

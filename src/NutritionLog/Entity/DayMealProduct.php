@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\NutritionLog\Entity;
 
 
-use App\NutritionLog\Value\ConsumptionTime;
 use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
@@ -18,8 +17,8 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
-#[Table('nl_day_meal_product')]
-final class DayMealProduct
+#[Table('nutrition_log_day_meal_product')]
+class DayMealProduct
 {
     #[Column]
     private float $weight;
@@ -41,8 +40,6 @@ final class DayMealProduct
     private string $productName;
     #[Column(nullable: true)]
     private ?string $producerName;
-    #[Column]
-    private string $consumptionTime;
 
     public function __construct(
         #[Id]
@@ -51,7 +48,6 @@ final class DayMealProduct
         private readonly string $id,
         Weight $weight,
         private NutritionalValues $nutritionalValues,
-        ConsumptionTime $consumptionTime,
         private ProductDetail $original,
     ) {
         $this->proteins = $this->nutritionalValues->getProteins()->getRaw();
@@ -63,8 +59,6 @@ final class DayMealProduct
         $this->productId = $this->original->getOriginalProductId();
         $this->productName = $this->original->getOriginalProductName();
         $this->producerName = $this->original->getOriginalProducerName();
-
-        $this->consumptionTime = (string)$consumptionTime;
     }
 
     public function setMeal(DayMeal $value): void

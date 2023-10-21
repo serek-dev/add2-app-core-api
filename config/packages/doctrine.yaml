@@ -15,19 +15,25 @@ doctrine:
         mappings:
             Product:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Product/Entity'
-                prefix: 'App\Product\Entity'
-                alias: App\Product
+                dir: '%kernel.project_dir%/src/Catalog/Entity'
+                prefix: 'App\Catalog\Entity'
+                alias: App\Catalog
+            ProductViews:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/View'
+                prefix: 'App\Catalog\View'
+                alias: App\Catalog
+
             NutritionLog:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/NutritionLog/Entity'
                 prefix: 'App\NutritionLog\Entity'
                 alias: App\NutritionLog
-when@test:
-    doctrine:
-        dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            NutritionLogViews:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/NutritionLog/View'
+                prefix: 'App\NutritionLog\View'
+                alias: App\NutritionLog
 
 when@prod:
     doctrine:

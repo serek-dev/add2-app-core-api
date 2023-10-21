@@ -6,11 +6,11 @@ declare(strict_types=1);
 namespace App\Tests\Data;
 
 
-use App\Product\Command\CreateProductCommand;
-use App\Product\Dto\CreateProductDtoInterface;
-use App\Product\Entity\Product;
-use App\Product\Value\NutritionalValues;
-use App\Product\Value\Weight;
+use App\Catalog\Command\CreateProductCommand;
+use App\Catalog\Dto\CreateProductDtoInterface;
+use App\Catalog\Entity\Product;
+use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Weight;
 
 final class ProductTestHelper
 {

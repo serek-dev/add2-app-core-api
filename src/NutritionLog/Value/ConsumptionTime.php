@@ -32,4 +32,9 @@ final class ConsumptionTime implements Stringable
     {
         return $this->value;
     }
+
+    public function equals(ConsumptionTime $compare): bool
+    {
+        return $compare->value === $this->value;
+    }
 }

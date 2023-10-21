@@ -7,10 +7,11 @@ namespace App\NutritionLog\Persistence\Day;
 
 
 use App\NutritionLog\Entity\Day;
+use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmDayRepository implements FindDayByDateInterface, StoreDayInterface
+final class OrmDayRepository implements FindDayByDateInterface, StoreDayInterface, RemoveInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {
@@ -26,6 +27,15 @@ final class OrmDayRepository implements FindDayByDateInterface, StoreDayInterfac
     public function store(Day $day): void
     {
         $this->em->persist($day);
+        $this->em->flush();
+    }
+
+    public function removeProductsAndMeals(Day $day, ConsumptionTime $time): void
+    {
+        // todo: wtf, this default removal does not work
+        foreach ($day->removeProductsAndMeals($time) as $item) {
+            $this->em->remove($item);
+        }
         $this->em->flush();
     }
 }
