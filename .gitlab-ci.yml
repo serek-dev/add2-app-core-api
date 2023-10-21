@@ -10,6 +10,8 @@ variables:
 
 stages:
   - test
+  - build
+  - deploy
 
 tests_phpunit:
   stage: test
@@ -22,3 +24,33 @@ tests_architecture:
   script:
     - docker-compose build tests_architecture
     - docker-compose run --rm tests_architecture
+
+build:
+  stage: build
+  script:
+    - docker-compose -f docker-compose.gitlab.yml run build_app
+    - docker cp $(docker-compose -f docker-compose.gitlab.yml ps -q -a build_app):/app/app.zip .
+    - docker rm $(docker-compose -f docker-compose.gitlab.yml ps -q -a build_app)
+  artifacts:
+    paths:
+      - app.zip
+  only:
+    - master # Only run on the master branch
+
+deploy:
+  stage: deploy
+  script:
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$MYDEVIL_SSH" > ~/.ssh/mydevil_rsa
+    - chmod 600 ~/.ssh/mydevil_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/mydevil_rsa
+    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - ssh -o StrictHostKeyChecking=no $MYDEVIL_HOST "ls -l -a ~/domains/add.2ap.pl && exit"
+    - scp -i ~/.ssh/mydevil_rsa app.zip $MYDEVIL_HOST:~/domains/add.2ap.pl/app.zip
+    - ssh $MYDEVIL_HOST "cd ./domains/add.2ap.pl && ./deploy.sh && exit"
+  only:
+    - master # Only run on the master branch
+  when: manual # Allows manual triggering

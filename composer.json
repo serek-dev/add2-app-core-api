@@ -76,7 +76,10 @@
             "@db:truncate",
             "@phpunit --testdox --colors tests/Application"
         ],
-        "tests:architecture": "./vendor/bin/deptrac"
+        "tests:architecture": "./vendor/bin/deptrac",
+        "build": [
+            "zip app.zip -r bin config resources src vendor composer.json tools composer.lock symfony.lock public/index.php .env"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"

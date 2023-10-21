@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+
+  build_app:
+    build:
+      context: .
+      dockerfile: ./docker/build/Dockerfile
