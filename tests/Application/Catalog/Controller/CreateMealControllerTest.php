@@ -58,6 +58,9 @@ final class CreateMealControllerTest extends CatalogTestCase
         ]);
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        $response = $response->toArray();
+        $this->assertArrayHasKey('item', $response);
+        $this->assertArrayHasKey('id', $response['item']);
     }
 
     public function testICanNotCreateACatalogMealWhenNameIsAlreadyUsed(): void

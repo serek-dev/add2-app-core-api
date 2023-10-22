@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use function uniqid;
 
 #[AsController]
 #[Route('/api/catalog/meals', methods: 'POST')]
@@ -24,12 +25,14 @@ final class CreateMealController extends AbstractController
 {
     public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse
     {
+        $id = $request->getPayload()->get('id') ?? uniqid('M-');
+
         try {
             $bus->dispatch(
                 new CreateMealCommand(
                     name: $request->getPayload()->get('name'),
                     products: $request->getPayload()->all('products'),
-                    id: $request->getPayload()->get('id') ?? null,
+                    id: $id,
                 )
             );
         } catch (HandlerFailedException $e) {
@@ -41,6 +44,8 @@ final class CreateMealController extends AbstractController
         }
 
 
-        return $this->json(null, Response::HTTP_CREATED);
+        return $this->json([
+            'item' => ['id' => $id],
+        ], Response::HTTP_CREATED);
     }
 }
