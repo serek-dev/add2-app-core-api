@@ -52,3 +52,5 @@ tests_application: ### Runs application tests
 
 tests_arch: ### Runs architecture tests (deptrac)
 	$(docker-compose) exec app composer tests:architecture
+
+tests: tests_arch tests_unit tests_application

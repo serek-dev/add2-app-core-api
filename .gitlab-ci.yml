@@ -52,5 +52,4 @@ deploy:
     - scp -i ~/.ssh/mydevil_rsa app.zip $MYDEVIL_HOST:~/domains/add.2ap.pl/app.zip
     - ssh $MYDEVIL_HOST "cd ./domains/add.2ap.pl && ./deploy.sh && exit"
   only:
-    - master # Only run on the master branch
-  when: manual # Allows manual triggering
+    - master
