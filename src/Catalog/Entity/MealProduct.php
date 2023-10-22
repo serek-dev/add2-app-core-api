@@ -64,9 +64,10 @@ class MealProduct
         );
     }
 
-    public function setMeal(Meal $meal): void
+    public function setMeal(Meal $meal): self
     {
         $this->meal = $meal;
+        return $this;
     }
 
     public function getId(): string
@@ -82,5 +83,10 @@ class MealProduct
     public function getWeight(): Weight
     {
         return new Weight($this->weight);
+    }
+
+    public function getProducerName(): ?string
+    {
+        return $this->producerName;
     }
 }

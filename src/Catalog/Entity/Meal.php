@@ -61,4 +61,9 @@ class Meal
     {
         return $this->id;
     }
+
+    public function addProduct(MealProduct $mealProduct): void
+    {
+        $this->products->add($mealProduct->setMeal($this));
+    }
 }

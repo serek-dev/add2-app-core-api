@@ -9,7 +9,7 @@ namespace App\Catalog\Persistence\Meal;
 use App\Catalog\Entity\Meal;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmMealRepository implements StoreMealInterface, FindMealByNameInterface
+final class OrmMealRepository implements StoreMealInterface, FindMealByNameInterface, FindMealByIdInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {
@@ -34,5 +34,10 @@ final class OrmMealRepository implements StoreMealInterface, FindMealByNameInter
         $qb->setMaxResults(1);
 
         return $qb->getQuery()->getResult()[0] ?? null;
+    }
+
+    public function findById(string $id): ?Meal
+    {
+        return $this->em->getRepository(Meal::class)->find($id);
     }
 }
