@@ -20,8 +20,8 @@ framework:
 
     http_client:
         scoped_clients:
-            product.api:
-                base_uri: 'http://web'
+            catalog.api:
+                base_uri: '%env(CATALOG_API_URL)%'
         default_options:
             headers:
                 Content-Type: application/json

@@ -14,14 +14,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ApiMealRepository implements GetOneMealInterface
 {
-    public function __construct(private readonly HttpClientInterface $productApi)
+    public function __construct(private readonly HttpClientInterface $catalogApi)
     {
     }
 
     /** @inheritDoc */
     public function getOne(string $mealId): Meal
     {
-        $response = $this->productApi->request('GET', '/api/catalog/meals/' . $mealId);
+        $response = $this->catalogApi->request('GET', '/api/catalog/meals/' . $mealId);
 
         $body = $response->toArray()['item'];
 
