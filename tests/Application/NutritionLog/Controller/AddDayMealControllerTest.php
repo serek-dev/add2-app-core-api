@@ -19,7 +19,6 @@ final class AddDayMealControllerTest extends NutritionLogTestCase
         $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/meals', [
             'consumptionTime' => '10:15',
             'mealId' => self::PANCAKE,
-            'productWeight' => 50.0,
         ]);
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
@@ -32,7 +31,6 @@ final class AddDayMealControllerTest extends NutritionLogTestCase
         $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/meals', [
             'consumptionTime' => '10:15',
             'mealId' => self::PANCAKE,
-            'productWeight' => 50.0,
         ]);
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
