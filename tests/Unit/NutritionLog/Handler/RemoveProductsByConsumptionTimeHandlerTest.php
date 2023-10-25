@@ -13,7 +13,7 @@ use App\NutritionLog\Entity\DayProduct;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Handler\RemoveProductsByConsumptionTimeHandler;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
-use App\NutritionLog\Persistence\Day\OrmDayRepository;
+use App\NutritionLog\Persistence\Day\OrmDayPersistenceRepository;
 use App\NutritionLog\Persistence\Day\RemoveInterface;
 use App\NutritionLog\Value\ConsumptionTime;
 use App\Tests\Data\DayProductTestHelper;
@@ -78,7 +78,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
         // When I attempt to remove it by consumption time
         $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->once())->method('flush');
-        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new OrmDayRepository($em));
+        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new OrmDayPersistenceRepository($em));
 
         $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:45');
 

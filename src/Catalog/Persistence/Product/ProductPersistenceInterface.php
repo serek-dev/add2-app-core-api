@@ -7,7 +7,7 @@ namespace App\Catalog\Persistence\Product;
 
 use App\Catalog\Entity\Product;
 
-interface StoreProductInterface
+interface ProductPersistenceInterface
 {
     public function store(Product $product): void;
 }

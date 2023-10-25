@@ -11,7 +11,7 @@ use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmDayRepository implements FindDayByDateInterface, StoreDayInterface, RemoveInterface
+final class OrmDayPersistenceRepository implements FindDayByDateInterface, DayPersistenceInterface, RemoveInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {

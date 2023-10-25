@@ -10,8 +10,8 @@ use App\NutritionLog\Dto\AddDayProductDtoInterface;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Factory\DayFactory;
 use App\NutritionLog\Factory\DayProductFactory;
+use App\NutritionLog\Persistence\Day\DayPersistenceInterface;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
-use App\NutritionLog\Persistence\Day\StoreDayInterface;
 use App\NutritionLog\Repository\Product\GetOneProductInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -20,11 +20,11 @@ final class AddDayProductHandler
 {
     // todo: missing test
     public function __construct(
-        private readonly FindDayByDateInterface $findDayByDate,
-        private readonly StoreDayInterface $storeDay,
-        private readonly DayFactory $dayFactory,
-        private readonly DayProductFactory $dayProductFactory,
-        private readonly GetOneProductInterface $getOneProduct,
+        private readonly FindDayByDateInterface  $findDayByDate,
+        private readonly DayPersistenceInterface $storeDay,
+        private readonly DayFactory              $dayFactory,
+        private readonly DayProductFactory       $dayProductFactory,
+        private readonly GetOneProductInterface  $getOneProduct,
     ) {
     }
 

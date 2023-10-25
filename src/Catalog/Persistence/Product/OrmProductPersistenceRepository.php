@@ -10,7 +10,7 @@ use App\Catalog\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
-final class OrmProductRepository implements FindProductByNameInterface, StoreProductInterface, FindProductByIdInterface
+final class OrmProductPersistenceRepository implements FindProductByNameInterface, ProductPersistenceInterface, FindProductByIdInterface
 {
     private ObjectRepository $repository;
 

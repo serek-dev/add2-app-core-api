@@ -7,7 +7,7 @@ namespace App\NutritionLog\Persistence\Day;
 
 use App\NutritionLog\Entity\Day;
 
-interface StoreDayInterface
+interface DayPersistenceInterface
 {
     public function store(Day $day): void;
 }

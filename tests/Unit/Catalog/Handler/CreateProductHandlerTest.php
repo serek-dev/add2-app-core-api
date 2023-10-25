@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Catalog\Handler;
 use App\Catalog\Factory\ProductFactory;
 use App\Catalog\Handler\CreateProductHandler;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
-use App\Catalog\Persistence\Product\StoreProductInterface;
+use App\Catalog\Persistence\Product\ProductPersistenceInterface;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ final class CreateProductHandlerTest extends TestCase
         );
 
         // Then it should be stored in a store
-        $storeProduct = $this->createMock(StoreProductInterface::class);
+        $storeProduct = $this->createMock(ProductPersistenceInterface::class);
         $storeProduct->expects($this->once())
             ->method('store');
 
