@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Generator;
 
 #[Entity]
 #[Table('catalog_meal')]
@@ -65,5 +66,15 @@ class Meal
     public function addProduct(MealProduct $mealProduct): void
     {
         $this->products->add($mealProduct->setMeal($this));
+    }
+
+    /** @internal */
+    public function removeProducts(): Generator
+    {
+        // todo: handle it in a better way
+        foreach ($this->products as $p) {
+            $this->products->removeElement($p);
+            yield $p;
+        }
     }
 }

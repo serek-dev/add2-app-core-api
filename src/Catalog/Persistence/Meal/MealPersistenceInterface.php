@@ -7,7 +7,9 @@ namespace App\Catalog\Persistence\Meal;
 
 use App\Catalog\Entity\Meal;
 
-interface StoreMealInterface
+interface MealPersistenceInterface
 {
     public function store(Meal $meal): void;
+
+    public function remove(Meal $meal): void;
 }

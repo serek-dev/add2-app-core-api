@@ -12,7 +12,7 @@ use App\Catalog\Exception\NotFoundException;
 use App\Catalog\Factory\MealProductFactory;
 use App\Catalog\Handler\AddMealProductHandler;
 use App\Catalog\Persistence\Meal\FindMealByIdInterface;
-use App\Catalog\Persistence\Meal\StoreMealInterface;
+use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Value\NutritionalValues;
 use App\Catalog\Value\Weight;
@@ -32,7 +32,7 @@ final class AddMealProductHandlerTest extends TestCase
             $this->createMock(FindMealByIdInterface::class),
             $findProductById,
             new MealProductFactory(),
-            $this->createMock(StoreMealInterface::class)
+            $this->createMock(MealPersistenceInterface::class)
         );
 
         // Create a mock AddMealProductDto
@@ -61,7 +61,7 @@ final class AddMealProductHandlerTest extends TestCase
             $findMealById,
             $findProductById,
             new MealProductFactory(),
-            $this->createMock(StoreMealInterface::class)
+            $this->createMock(MealPersistenceInterface::class)
         );
 
         // Create a mock AddMealProductDto
@@ -92,7 +92,7 @@ final class AddMealProductHandlerTest extends TestCase
         $mealProductFactory = new MealProductFactory();
 
         // Create a mock StoreMealInterface
-        $storeMeal = $this->createMock(StoreMealInterface::class);
+        $storeMeal = $this->createMock(MealPersistenceInterface::class);
         $storeMeal->expects($this->once())->method('store');
 
         // Create the handler with the mocked dependencies

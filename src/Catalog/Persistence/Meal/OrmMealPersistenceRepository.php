@@ -9,7 +9,7 @@ namespace App\Catalog\Persistence\Meal;
 use App\Catalog\Entity\Meal;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmMealRepository implements StoreMealInterface, FindMealByNameInterface, FindMealByIdInterface
+final class OrmMealPersistenceRepository implements MealPersistenceInterface, FindMealByNameInterface, FindMealByIdInterface
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {
@@ -39,5 +39,14 @@ final class OrmMealRepository implements StoreMealInterface, FindMealByNameInter
     public function findById(string $id): ?Meal
     {
         return $this->em->getRepository(Meal::class)->find($id);
+    }
+
+    public function remove(Meal $meal): void
+    {
+        foreach ($meal->removeProducts() as $p) {
+            $this->em->remove($p);
+        }
+        $this->em->remove($meal);
+        $this->em->flush();
     }
 }

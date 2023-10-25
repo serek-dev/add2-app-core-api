@@ -6,7 +6,7 @@ use App\Catalog\Dto\AddMealProductDto;
 use App\Catalog\Exception\NotFoundException;
 use App\Catalog\Factory\MealProductFactory;
 use App\Catalog\Persistence\Meal\FindMealByIdInterface;
-use App\Catalog\Persistence\Meal\StoreMealInterface;
+use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -17,7 +17,7 @@ final class AddMealProductHandler
         private readonly FindMealByIdInterface    $findMealById,
         private readonly FindProductByIdInterface $findProductById,
         private readonly MealProductFactory       $mealProductFactory,
-        private readonly StoreMealInterface       $storeMeal,
+        private readonly MealPersistenceInterface $storeMeal,
     )
     {
     }

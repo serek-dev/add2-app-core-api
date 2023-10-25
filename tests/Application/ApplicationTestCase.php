@@ -19,6 +19,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function json_decode;
 
 abstract class ApplicationTestCase extends KernelTestCase
 {
@@ -275,5 +276,11 @@ abstract class ApplicationTestCase extends KernelTestCase
         $this->em->flush();
 
         return $this;
+    }
+
+    protected function assertNotFoundFormat(ResponseInterface $response)
+    {
+        $body = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('message', $body);
     }
 }

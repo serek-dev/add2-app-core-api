@@ -6,7 +6,7 @@ use App\Catalog\Builder\MealBuilder;
 use App\Catalog\Command\CreateMealCommand;
 use App\Catalog\Handler\CreateMealHandler;
 use App\Catalog\Persistence\Meal\FindMealByNameInterface;
-use App\Catalog\Persistence\Meal\StoreMealInterface;
+use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,7 @@ final class CreateMealHandlerTest extends TestCase
             ->willReturn($product = ProductTestHelper::createProductEntity());
 
         // Then newly created entity should be perissted
-        $storeMeal = $this->createMock(StoreMealInterface::class);
+        $storeMeal = $this->createMock(MealPersistenceInterface::class);
         $storeMeal->expects($this->once())
             ->method('store');
 

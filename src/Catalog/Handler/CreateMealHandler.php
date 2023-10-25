@@ -9,7 +9,7 @@ namespace App\Catalog\Handler;
 use App\Catalog\Builder\MealBuilder;
 use App\Catalog\Dto\CreateMealDtoInterface;
 use App\Catalog\Exception\NotFoundException;
-use App\Catalog\Persistence\Meal\StoreMealInterface;
+use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Value\Weight;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -18,9 +18,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class CreateMealHandler
 {
     public function __construct(
-        private readonly MealBuilder $mealBuilder,
+        private readonly MealBuilder              $mealBuilder,
         private readonly FindProductByIdInterface $findProductById,
-        private readonly StoreMealInterface $storeMeal,
+        private readonly MealPersistenceInterface $storeMeal,
     ) {
     }
 
