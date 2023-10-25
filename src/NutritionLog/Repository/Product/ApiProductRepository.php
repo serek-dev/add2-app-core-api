@@ -20,7 +20,7 @@ final class ApiProductRepository implements GetOneProductInterface, FindAllProdu
     /** @inheritDoc */
     public function getOne(string $productId): Product
     {
-        $response = $this->catalogApi->request('GET', 'api/catalog/products/' . $productId);
+        $response = $this->catalogApi->request('GET', '/api/catalog/products/' . $productId);
 
         $body = $response->toArray()['item'];
 
@@ -41,7 +41,7 @@ final class ApiProductRepository implements GetOneProductInterface, FindAllProdu
     /** @inheritdoc */
     public function findAll(): array
     {
-        $response = $this->catalogApi->request('GET', 'api/catalog/products');
+        $response = $this->catalogApi->request('GET', '/api/catalog/products');
 
         $body = $response->toArray()['collection'];
 
