@@ -54,3 +54,11 @@ tests_arch: ### Runs architecture tests (deptrac)
 	$(docker-compose) exec app composer tests:architecture
 
 tests: tests_arch tests_unit tests_application
+
+migrations_diff: ### Generates new migration
+	$(docker-compose) exec app php bin/console doctrine:migrations:diff --em default
+
+migrate: ### Run migrations
+	$(docker-compose) exec app php bin/console doctrine:migrations:migrate --no-interaction
+
+mig: migrations_diff migrate ### Generates new migration and run it immediately

@@ -13,14 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 final class OrmProductViewRepository implements FindProductViewsInterface
 {
 
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $viewsEntityManager)
     {
     }
 
     /** @inheritDoc */
     public function findAll(?string $name = null): array
     {
-        $qb = $this->em->createQueryBuilder();
+        $qb = $this->viewsEntityManager->createQueryBuilder();
 
         $qb->select('p')
             ->from(ProductView::class, 'p');
@@ -40,7 +40,7 @@ final class OrmProductViewRepository implements FindProductViewsInterface
     /** @inheritDoc */
     public function getOne(string $id): ProductView
     {
-        $entity = $this->em->getRepository(ProductView::class)->find($id);
+        $entity = $this->viewsEntityManager->getRepository(ProductView::class)->find($id);
 
         if (!$entity) {
             throw new NotFoundException('Unable to find Product: ' . $id);

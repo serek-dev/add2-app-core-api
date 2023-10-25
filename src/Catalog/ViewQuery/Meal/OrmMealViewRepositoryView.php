@@ -13,14 +13,14 @@ use Doctrine\ORM\NoResultException;
 
 final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneMealViewInterface
 {
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $viewsEntityManager)
     {
     }
 
     /** @inheritDoc */
     public function findAll(?string $name = null): array
     {
-        $qb = $this->em->getRepository(MealView::class)->createQueryBuilder('m');
+        $qb = $this->viewsEntityManager->getRepository(MealView::class)->createQueryBuilder('m');
 
         if ($name) {
             $qb->where(
@@ -37,7 +37,7 @@ final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneM
 
     public function getOne(string $id): MealView
     {
-        $qb = $this->em->getRepository(MealView::class)->createQueryBuilder('m');
+        $qb = $this->viewsEntityManager->getRepository(MealView::class)->createQueryBuilder('m');
 
         try {
             $qb->where('m.id = :id')

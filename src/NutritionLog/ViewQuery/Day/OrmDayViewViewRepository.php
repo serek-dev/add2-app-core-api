@@ -11,13 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class OrmDayViewViewRepository implements FindDayViewInterface
 {
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $viewsEntityManager)
     {
     }
 
     public function findDay(string $date): DayView
     {
-        $repo = $this->em->getRepository(DayView::class);
+        $repo = $this->viewsEntityManager->getRepository(DayView::class);
         return $repo->findOneBy(['date' => $date]) ?? DayView::createEmpty($date);
     }
 }

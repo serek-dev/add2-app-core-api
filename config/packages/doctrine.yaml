@@ -8,32 +8,40 @@ doctrine:
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
-        validate_xml_mapping: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
-        mappings:
-            Product:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Catalog/Entity'
-                prefix: 'App\Catalog\Entity'
-                alias: App\Catalog
-            ProductViews:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Catalog/View'
-                prefix: 'App\Catalog\View'
-                alias: App\Catalog
-
-            NutritionLog:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/NutritionLog/Entity'
-                prefix: 'App\NutritionLog\Entity'
-                alias: App\NutritionLog
-            NutritionLogViews:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/NutritionLog/View'
-                prefix: 'App\NutritionLog\View'
-                alias: App\NutritionLog
+        entity_managers:
+            default:
+                connection: default
+                report_fields_where_declared: true
+                validate_xml_mapping: true
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                auto_mapping: true
+                mappings:
+                    Product:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Catalog/Entity'
+                        prefix: 'App\Catalog\Entity'
+                        alias: App\Catalog
+                    NutritionLog:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/NutritionLog/Entity'
+                        prefix: 'App\NutritionLog\Entity'
+                        alias: App\NutritionLog
+            views:
+                connection: default
+                report_fields_where_declared: true
+                validate_xml_mapping: true
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    ProductViews:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Catalog/View'
+                        prefix: 'App\Catalog\View'
+                        alias: App\Catalog
+                    NutritionLogViews:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/NutritionLog/View'
+                        prefix: 'App\NutritionLog\View'
+                        alias: App\NutritionLog
 
 when@prod:
     doctrine:
