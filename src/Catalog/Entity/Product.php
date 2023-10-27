@@ -34,9 +34,9 @@ class Product
         private readonly string $id,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
-        private readonly string $name,
+        private string  $name,
         #[Column(nullable: true)]
-        private readonly ?string $producerName
+        private ?string $producerName
     ) {
         $this->proteins = $this->nutritionalValues->getProteins();
         $this->fats = $this->nutritionalValues->getFats();
@@ -67,5 +67,23 @@ class Product
             new Weight($this->carbs),
             $this->kcal,
         );
+    }
+
+    public function setNutritionalValues(NutritionalValues $newValue): void
+    {
+        $this->proteins = $newValue->getProteins();
+        $this->fats = $newValue->getFats();
+        $this->carbs = $newValue->getCarbs();
+        $this->kcal = $newValue->getKcal();
+    }
+
+    public function setName(string $newName): void
+    {
+        $this->name = $newName;
+    }
+
+    public function setProducerName(?string $newProducerName): void
+    {
+        $this->producerName = $newProducerName;
     }
 }

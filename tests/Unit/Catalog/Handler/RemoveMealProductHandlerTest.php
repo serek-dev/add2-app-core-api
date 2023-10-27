@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Catalog\Handler;
+namespace App\Tests\Unit\Catalog\Handler;
+
 
 use App\Catalog\Command\RemoveMealProductCommand;
 use App\Catalog\Entity\Meal;

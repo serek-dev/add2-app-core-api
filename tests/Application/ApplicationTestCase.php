@@ -71,6 +71,13 @@ abstract class ApplicationTestCase extends KernelTestCase
         ]);
     }
 
+    protected function iCallPutApi(string $endpoint, array $payload): ResponseInterface
+    {
+        return $this->client->request('PUT', $endpoint, [
+            'json' => $payload,
+        ]);
+    }
+
     protected function iCallGetApi(string $endpoint, array $queryParams = []): ResponseInterface
     {
         return $this->client->request('GET', $endpoint . '?' . http_build_query($queryParams));

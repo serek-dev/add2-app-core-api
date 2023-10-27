@@ -12,6 +12,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class ProductFixtures extends Fixture
 {
     public const PRODUCT_1 = 'P-1';
+    public const PRODUCT_2 = 'P-2';
 
     public function __construct(private readonly MessageBusInterface $bus)
     {
@@ -31,6 +32,22 @@ final class ProductFixtures extends Fixture
             producerName: null,
             id: self::PRODUCT_1
         );
+
+        $this->bus->dispatch($command);
+
+        // UpdateProductControllerTest
+
+        [$p, $f, $c, $k] = $this->getNutritionValues(1, 1, 1);
+        $command = new CreateProductCommand(
+            name: 'Product 2',
+            proteins: $p,
+            fats: $f,
+            carbs: $c,
+            kcal: $k,
+            producerName: null,
+            id: self::PRODUCT_2
+        );
+
         $this->bus->dispatch($command);
     }
 
