@@ -10,6 +10,7 @@ use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Factory\ProductFactory;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
+use App\Catalog\Specification\Product\NutritionMistakeThresholdSpecification;
 use App\Catalog\Specification\Product\UniqueIdSpecification;
 use App\Catalog\Specification\Product\UniqueNameSpecification;
 use App\Catalog\Value\NutritionalValues;
@@ -62,6 +63,9 @@ final class ProductFactoryTest extends TestCase
         $sut = new ProductFactory(
             $this->createMock(FindProductByNameInterface::class),
             $this->createMock(FindProductByIdInterface::class),
+            [
+                new NutritionMistakeThresholdSpecification(),
+            ]
         );
 
         // Then I should be an invalid argument exception

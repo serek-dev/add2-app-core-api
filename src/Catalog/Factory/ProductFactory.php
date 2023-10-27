@@ -8,11 +8,9 @@ namespace App\Catalog\Factory;
 
 use App\Catalog\Dto\CreateProductDtoInterface;
 use App\Catalog\Entity\Product;
-use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use App\Catalog\Specification\ProductSpecificationInterface;
-use DivisionByZeroError;
 use RuntimeException;
 use Throwable;
 use function uniqid;
@@ -61,25 +59,6 @@ final class ProductFactory
 
         foreach ($this->specifications as $spec) {
             $spec->isSatisfiedBy($product);
-        }
-
-        $proteinsKcal = (self::PROTEIN_KCAL_PER_G * $createProductDto->getNutritionValues()->getProteins());
-        $fatKcal = (self::FAT_KCAL_PER_G * $createProductDto->getNutritionValues()->getFats());
-        $carbsKcal = (self::CARBS_KCAL_PER_G * $createProductDto->getNutritionValues()->getCarbs());
-
-        $calculatedKcal = $proteinsKcal + $fatKcal + $carbsKcal;
-        $actualKcal = $createProductDto->getNutritionValues()->getKcal();
-
-        try {
-            $diffPercentage = round(abs(($calculatedKcal - $actualKcal) / (($calculatedKcal + $actualKcal) / 2)) * 100);
-        } catch (DivisionByZeroError $e) {
-            $diffPercentage = 0;
-        }
-
-        if ($diffPercentage > self::KCAL_MISTAKE_THRESHOLD_PERCENTAGE) {
-            throw new InvalidArgumentException(
-                'Invalid kcal value. Difference should not be more than: ' . self::KCAL_MISTAKE_THRESHOLD_PERCENTAGE . '%, it is: ' . $diffPercentage . '% now'
-            );
         }
 
         return $product;
