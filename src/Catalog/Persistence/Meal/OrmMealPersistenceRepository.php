@@ -49,4 +49,13 @@ final class OrmMealPersistenceRepository implements MealPersistenceInterface, Fi
         $this->em->remove($meal);
         $this->em->flush();
     }
+
+    public function removeProduct(Meal $meal, string $productId)
+    {
+        foreach ($meal->removeProducts($productId) as $p) {
+            $this->em->remove($p);
+        }
+        $this->em->remove($meal);
+        $this->em->flush();
+    }
 }

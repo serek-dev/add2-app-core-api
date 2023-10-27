@@ -31,7 +31,7 @@ class MealProduct
     private float $kcal;
 
     #[ManyToOne(targetEntity: Meal::class, inversedBy: 'products')]
-    private Meal $meal;
+    private ?Meal $meal;
 
     public function __construct(
         #[Id]
@@ -64,7 +64,7 @@ class MealProduct
         );
     }
 
-    public function setMeal(Meal $meal): self
+    public function setMeal(?Meal $meal): self
     {
         $this->meal = $meal;
         return $this;

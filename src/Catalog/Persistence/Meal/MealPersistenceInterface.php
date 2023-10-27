@@ -12,4 +12,6 @@ interface MealPersistenceInterface
     public function store(Meal $meal): void;
 
     public function remove(Meal $meal): void;
+
+    public function removeProduct(Meal $meal, string $productId);
 }

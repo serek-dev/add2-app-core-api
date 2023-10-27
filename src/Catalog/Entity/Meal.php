@@ -69,12 +69,21 @@ class Meal
     }
 
     /** @internal */
-    public function removeProducts(): Generator
+    public function removeProducts(string ...$ids): Generator
     {
-        // todo: handle it in a better way
-        foreach ($this->products as $p) {
+        /** @var MealProduct[] $filtered */
+        $filtered = $this->products->filter(
+            fn(MealProduct $p) => empty($ids) || in_array($p->getId(), $ids)
+        );
+        foreach ($filtered as $p) {
             $this->products->removeElement($p);
+            $p->setMeal(null);
             yield $p;
         }
+    }
+
+    public function hasProduct(string $id): bool
+    {
+        return $this->products->filter(fn(MealProduct $p) => $p->getId() === $id)->count() > 0;
     }
 }
