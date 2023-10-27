@@ -8,8 +8,6 @@ namespace App\Catalog\Factory;
 
 use App\Catalog\Dto\CreateProductDtoInterface;
 use App\Catalog\Entity\Product;
-use App\Catalog\Persistence\Product\FindProductByIdInterface;
-use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use App\Catalog\Specification\ProductSpecificationInterface;
 use RuntimeException;
 use Throwable;
@@ -29,8 +27,6 @@ final class ProductFactory
      * @param ProductSpecificationInterface[] $specifications
      */
     public function __construct(
-        private readonly FindProductByNameInterface $findProductByName,
-        private readonly FindProductByIdInterface   $findProductById,
         private readonly iterable $specifications = [],
     )
     {

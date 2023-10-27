@@ -22,10 +22,7 @@ final class ProductFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class),
-            $this->createMock(FindProductByIdInterface::class),
-        );
+        $sut = new ProductFactory();
 
         $actual = $sut->create($this->getDto());
 
@@ -34,10 +31,7 @@ final class ProductFactoryTest extends TestCase
 
     public function testIdGenerationOnNull(): void
     {
-        $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class),
-            $this->createMock(FindProductByIdInterface::class),
-        );
+        $sut = new ProductFactory();
 
         $actual = $sut->create($this->getDto());
 
@@ -46,10 +40,7 @@ final class ProductFactoryTest extends TestCase
 
     public function testIdGenerationOnPassedValue(): void
     {
-        $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class),
-            $this->createMock(FindProductByIdInterface::class),
-        );
+        $sut = new ProductFactory();
 
         $actual = $sut->create($this->getDto('P-123'));
 
@@ -61,8 +52,6 @@ final class ProductFactoryTest extends TestCase
         // Given I have wrong sum kcal value
 
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class),
-            $this->createMock(FindProductByIdInterface::class),
             [
                 new NutritionMistakeThresholdSpecification(),
             ]
@@ -95,8 +84,6 @@ final class ProductFactoryTest extends TestCase
 
         // And my factory
         $sut = new ProductFactory(
-            $findProductByName,
-            $this->createMock(FindProductByIdInterface::class),
             [
                 new UniqueNameSpecification($findProductByName),
             ]
@@ -119,8 +106,6 @@ final class ProductFactoryTest extends TestCase
 
         // And my factory
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class),
-            $findProductById,
             [
                 new UniqueIdSpecification($findProductById),
             ]
