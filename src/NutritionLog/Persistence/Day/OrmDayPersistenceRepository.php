@@ -38,4 +38,11 @@ final class OrmDayPersistenceRepository implements FindDayByDateInterface, DayPe
         }
         $this->em->flush();
     }
+
+    public function removeMealProduct(Day $day, string $mealProductId): void
+    {
+        $mealProduct = $day->removeMealProduct($mealProductId);
+        $this->em->remove($mealProduct);
+        $this->em->flush();
+    }
 }

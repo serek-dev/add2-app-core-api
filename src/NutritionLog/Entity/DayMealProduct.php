@@ -65,4 +65,9 @@ class DayMealProduct
     {
         $this->meal = $value;
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }

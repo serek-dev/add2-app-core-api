@@ -17,7 +17,7 @@ final class AddMealProductControllerTest extends CatalogTestCase
     {
         $this->iAmAuthenticated();
 
-        $response = $this->iCallPostApi(sprintf('/api/catalog/meals/%s/products', MealFixtures::MEAL), [
+        $response = $this->iCallPostApi(sprintf('/api/catalog/meals/%s/products', MealFixtures::MEAL_1), [
             'productId' => ProductFixtures::PRODUCT_1,
             'weight' => 50,
         ]);

@@ -12,7 +12,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class MealFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const MEAL = 'M-1';
+    public const MEAL_1 = 'M-1';
+
+    public const MEAL_1_MEAL_PRODUCT_1 = 'M-1-P-1';
+
 
     public function __construct(private readonly MessageBusInterface $bus)
     {
@@ -21,13 +24,16 @@ final class MealFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         // RemoveProductControllerTest
+        // RemoveDayMealProductControllerTest
 
         $command = new CreateMealCommand(
             name: 'Meal 1',
             products: [
-                ['id' => ProductFixtures::PRODUCT_1, 'weight' => 100],
+                [
+                    'id' => ProductFixtures::PRODUCT_1, 'weight' => 100,
+                ],
             ],
-            id: self::MEAL,
+            id: self::MEAL_1,
         );
         $this->bus->dispatch($command);
     }

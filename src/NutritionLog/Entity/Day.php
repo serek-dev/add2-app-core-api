@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\Entity;
 
 
+use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -116,5 +117,20 @@ class Day
                 yield $m;
             }
         }
+    }
+
+    /** @internal */
+    public function removeMealProduct(string $mealProductId): DayMealProduct
+    {
+        foreach ($this->getMeals() as $dayMeal) {
+            foreach ($dayMeal->getProducts() as $dayMealProduct) {
+                if ($dayMealProduct->getId() === $mealProductId) {
+//                    $dayMeal->removeProduct($dayMealProduct);
+                    return $dayMealProduct;
+                }
+            }
+        }
+
+        throw new NotFoundException("Meal product with id $mealProductId not found");
     }
 }
