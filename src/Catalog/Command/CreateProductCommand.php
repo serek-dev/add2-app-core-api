@@ -19,6 +19,7 @@ final class CreateProductCommand implements CreateProductDtoInterface
         private readonly float $carbs,
         private readonly float $kcal,
         private readonly ?string $producerName,
+        private readonly ?string $id = null,
     ) {
     }
 
@@ -40,5 +41,10 @@ final class CreateProductCommand implements CreateProductDtoInterface
     public function getProducerName(): ?string
     {
         return $this->producerName;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }

@@ -13,5 +13,7 @@ interface CreateProductDtoInterface
 
     public function getName(): string;
 
+    public function getId(): ?string;
+
     public function getProducerName(): ?string;
 }

@@ -88,6 +88,11 @@ final class ProductFactoryTest extends TestCase
             {
                 return 'product name';
             }
+
+            public function getId(): ?string
+            {
+                return null;
+            }
         };
     }
 }

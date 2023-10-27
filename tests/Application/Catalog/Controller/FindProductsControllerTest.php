@@ -34,7 +34,7 @@ final class FindProductsControllerTest extends CatalogTestCase
             $this->assertArrayNotHasKey('weight', $product);
         }
 
-        $this->assertSame(6, $body['metadata']['count']);
+        $this->assertSame(7, $body['metadata']['count']);
     }
 
     public function testICanSearchByNameAndNothingFound(): void

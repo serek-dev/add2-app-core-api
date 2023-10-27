@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Tests\Application\Catalog\Controller;
 
 
+use App\Shared\DataFixtures\ProductFixtures;
 use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-final class RemoveMealProductControllerTest extends CatalogTestCase
+final class RemoveProductControllerTest extends CatalogTestCase
 {
     public function testICanSeeNotFound(): void
     {
         $this->iAmAuthenticated();
 
-        $response = $this->iCallDeleteApi('/api/catalog/meals/non-existing/products/non-existing');
+        $response = $this->iCallDeleteApi('/api/catalog/products/non-existing');
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
@@ -23,9 +24,7 @@ final class RemoveMealProductControllerTest extends CatalogTestCase
     {
         $this->iAmAuthenticated();
 
-        $this->withPancakeMeal();
-
-        $response = $this->iCallDeleteApi('/api/catalog/meals/' . self::PANCAKE);
+        $response = $this->iCallDeleteApi('/api/catalog/products/' . ProductFixtures::PRODUCT_1);
 
         $this->assertEquals(Response::HTTP_ACCEPTED, $response->getStatusCode());
     }

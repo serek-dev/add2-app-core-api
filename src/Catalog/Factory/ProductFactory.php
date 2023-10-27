@@ -12,6 +12,7 @@ use App\Catalog\Exception\DuplicateException;
 use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use DivisionByZeroError;
+use function uniqid;
 
 final class ProductFactory
 {
@@ -55,7 +56,7 @@ final class ProductFactory
         }
 
         return new Product(
-            uniqid('p-'),
+            $createProductDto->getId() ?? uniqid('p-'),
             $createProductDto->getNutritionValues(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),

@@ -75,13 +75,14 @@
         "phpunit": "php ./vendor/phpunit/phpunit/phpunit",
         "tests:unit": "@phpunit tests/Unit",
         "tests:application": [
-            "@db:truncate",
+            "@db:seed:tests",
             "@phpunit --testdox --colors tests/Application"
         ],
         "tests:architecture": "./vendor/bin/deptrac",
         "build": [
             "zip app.zip -r bin config resources migrations src vendor composer.json tools composer.lock symfony.lock public/index.php .env"
-        ]
+        ],
+        "db:seed:tests": "php bin/console doctrine:fixtures:load --no-interaction --no-debug"
     },
     "conflict": {
         "symfony/symfony": "*"
