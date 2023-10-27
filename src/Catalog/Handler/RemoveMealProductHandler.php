@@ -20,10 +20,10 @@ final class RemoveMealProductHandler
 
     public function __invoke(RemoveMealProductDtoInterface $dto): void
     {
-        $meal = $this->findMealById->findById($dto->getProductId());
+        $meal = $this->findMealById->findById($dto->getMealId());
 
         if (!$meal) {
-            throw new NotFoundException('Meal: ' . $dto->getProductId() . ' does not exist');
+            throw new NotFoundException('Meal: ' . $dto->getMealId() . ' does not exist');
         }
 
         if (!$meal->hasProduct($dto->getProductId())) {
