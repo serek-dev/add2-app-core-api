@@ -56,7 +56,7 @@ final class ProductFactory
         }
 
         return new Product(
-            $createProductDto->getId() ?? uniqid('p-'),
+            $createProductDto->getId() ?? uniqid('P-'),
             $createProductDto->getNutritionValues(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),

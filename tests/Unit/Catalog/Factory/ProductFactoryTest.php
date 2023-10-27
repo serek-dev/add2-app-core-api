@@ -27,6 +27,28 @@ final class ProductFactoryTest extends TestCase
         $this->assertInstanceOf(Product::class, $actual);
     }
 
+    public function testIdGenerationOnNull(): void
+    {
+        $sut = new ProductFactory(
+            $this->createMock(FindProductByNameInterface::class)
+        );
+
+        $actual = $sut->create($this->getDto());
+
+        $this->assertStringContainsString('P-', $actual->getId());
+    }
+
+    public function testIdGenerationOnPassedValue(): void
+    {
+        $sut = new ProductFactory(
+            $this->createMock(FindProductByNameInterface::class)
+        );
+
+        $actual = $sut->create($this->getDto('P-123'));
+
+        $this->assertStringContainsString('P-123', $actual->getId());
+    }
+
     public function testCreateWithInvalidKcalSum(): void
     {
         // Given I have wrong sum kcal value
@@ -70,9 +92,13 @@ final class ProductFactoryTest extends TestCase
         $sut->create($this->getDto());
     }
 
-    private function getDto(): CreateProductDtoInterface
+    private function getDto(?string $id = null): CreateProductDtoInterface
     {
-        return new class() implements CreateProductDtoInterface {
+        return new class($id) implements CreateProductDtoInterface {
+
+            public function __construct(private readonly ?string $id = null)
+            {
+            }
 
             public function getNutritionValues(): NutritionalValues
             {
@@ -91,7 +117,7 @@ final class ProductFactoryTest extends TestCase
 
             public function getId(): ?string
             {
-                return null;
+                return $this->id;
             }
         };
     }
