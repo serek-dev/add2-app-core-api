@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Catalog\Specification\Product;
+namespace App\Tests\Unit\Catalog\Specification\Product;
 
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Specification\Product\UniqueIdSpecification;

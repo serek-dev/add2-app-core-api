@@ -8,7 +8,6 @@ namespace App\Catalog\Factory;
 
 use App\Catalog\Dto\CreateProductDtoInterface;
 use App\Catalog\Entity\Product;
-use App\Catalog\Exception\DuplicateException;
 use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
@@ -59,12 +58,6 @@ final class ProductFactory
             $createProductDto->getName(),
             $createProductDto->getProducerName(),
         );
-
-        if ($this->findProductByName->findByName($createProductDto->getName(), $createProductDto->getProducerName())) {
-            throw new DuplicateException(
-                "Product with name: {$createProductDto->getName()} and produced by: {$createProductDto->getProducerName()} already exist"
-            );
-        }
 
         foreach ($this->specifications as $spec) {
             $spec->isSatisfiedBy($product);

@@ -11,6 +11,7 @@ use App\Catalog\Factory\ProductFactory;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use App\Catalog\Specification\Product\UniqueIdSpecification;
+use App\Catalog\Specification\Product\UniqueNameSpecification;
 use App\Catalog\Value\NutritionalValues;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
@@ -89,7 +90,13 @@ final class ProductFactoryTest extends TestCase
             ->willReturn(ProductTestHelper::createProductEntity());
 
         // And my factory
-        $sut = new ProductFactory($findProductByName, $this->createMock(FindProductByIdInterface::class));
+        $sut = new ProductFactory(
+            $findProductByName,
+            $this->createMock(FindProductByIdInterface::class),
+            [
+                new UniqueNameSpecification($findProductByName),
+            ]
+        );
 
         // Then I should see a duplicate exception
         $this->expectException(DuplicateException::class);
