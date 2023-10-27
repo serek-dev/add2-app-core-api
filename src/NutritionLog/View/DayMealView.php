@@ -36,6 +36,8 @@ class DayMealView implements JsonSerializable, LogAbleInterface
         public readonly string $consumptionTime,
         #[Column]
         private readonly string $name,
+        #[Column]
+        private readonly bool $modified = false,
     ) {
         $this->products = new ArrayCollection();
     }
@@ -51,6 +53,7 @@ class DayMealView implements JsonSerializable, LogAbleInterface
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
             'weight' => $this->getWeight(),
+            'modified' => $this->isModified(),
             'products' => $this->products->toArray(),
         ];
     }
@@ -78,5 +81,10 @@ class DayMealView implements JsonSerializable, LogAbleInterface
     public function getWeight(): float
     {
         return round(array_sum(array_map(fn(DayMealProductView $p) => $p->getWeight(), $this->products->toArray())), 2);
+    }
+
+    public function isModified(): bool
+    {
+        return $this->modified;
     }
 }

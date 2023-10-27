@@ -125,7 +125,7 @@ class Day
         foreach ($this->getMeals() as $dayMeal) {
             foreach ($dayMeal->getProducts() as $dayMealProduct) {
                 if ($dayMealProduct->getId() === $mealProductId) {
-//                    $dayMeal->removeProduct($dayMealProduct);
+                    $dayMeal->removeProduct($dayMealProduct);
                     return $dayMealProduct;
                 }
             }

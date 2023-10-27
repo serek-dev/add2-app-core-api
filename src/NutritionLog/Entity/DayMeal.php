@@ -31,6 +31,9 @@ class DayMeal
     #[Column]
     private string $consumptionTime;
 
+    #[Column(options: ['default' => false])]
+    private bool $modified = false;
+
     /**
      * @param DayMealProduct[] $products
      */
@@ -82,5 +85,12 @@ class DayMeal
     public function getConsumptionTime(): ConsumptionTime
     {
         return new ConsumptionTime(new DateTimeImmutable($this->consumptionTime));
+    }
+
+    /** @internal */
+    public function removeProduct(DayMealProduct $dayMealProduct): void
+    {
+        $this->products->removeElement($dayMealProduct);
+        $this->modified = true;
     }
 }
