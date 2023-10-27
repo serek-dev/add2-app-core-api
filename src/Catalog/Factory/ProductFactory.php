@@ -12,7 +12,10 @@ use App\Catalog\Exception\DuplicateException;
 use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
+use App\Catalog\Specification\ProductSpecificationInterface;
 use DivisionByZeroError;
+use RuntimeException;
+use Throwable;
 use function uniqid;
 
 final class ProductFactory
@@ -25,27 +28,46 @@ final class ProductFactory
     // adds some calories from fibre for example, and we do not support it
     private const KCAL_MISTAKE_THRESHOLD_PERCENTAGE = 10;
 
+    /**
+     * @param ProductSpecificationInterface[] $specifications
+     */
     public function __construct(
         private readonly FindProductByNameInterface $findProductByName,
         private readonly FindProductByIdInterface   $findProductById,
+        private readonly iterable $specifications = [],
     )
     {
+        foreach ($this->specifications as $s) {
+            if (!$s instanceof ProductSpecificationInterface) {
+                throw new RuntimeException(
+                    'Specification should implement ProductSpecificationInterface'
+                );
+            }
+        }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function create(CreateProductDtoInterface $createProductDto): Product
     {
+        $id = $createProductDto->getId() ?? uniqid('P-');
+
+        $product = new Product(
+            $id,
+            $createProductDto->getNutritionValues(),
+            $createProductDto->getName(),
+            $createProductDto->getProducerName(),
+        );
+
         if ($this->findProductByName->findByName($createProductDto->getName(), $createProductDto->getProducerName())) {
             throw new DuplicateException(
                 "Product with name: {$createProductDto->getName()} and produced by: {$createProductDto->getProducerName()} already exist"
             );
         }
 
-        $id = $createProductDto->getId() ?? uniqid('P-');
-
-        if ($this->findProductById->findById($id)) {
-            throw new DuplicateException(
-                "Product with id: {$id} already exist"
-            );
+        foreach ($this->specifications as $spec) {
+            $spec->isSatisfiedBy($product);
         }
 
         $proteinsKcal = (self::PROTEIN_KCAL_PER_G * $createProductDto->getNutritionValues()->getProteins());
@@ -67,11 +89,6 @@ final class ProductFactory
             );
         }
 
-        return new Product(
-            $id,
-            $createProductDto->getNutritionValues(),
-            $createProductDto->getName(),
-            $createProductDto->getProducerName(),
-        );
+        return $product;
     }
 }
