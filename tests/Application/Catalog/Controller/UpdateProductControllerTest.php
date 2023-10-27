@@ -29,16 +29,16 @@ final class UpdateProductControllerTest extends CatalogTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testICanCreateACatalogProduct(): void
+    public function testICanUpdateCatalogProduct(): void
     {
         $this->iAmAuthenticated();
 
         $response = $this->iCallPutApi('/api/catalog/products/' . ProductFixtures::PRODUCT_2, [
             'name' => 'fake product',
-            'proteins' => 12.0,
-            'fats' => 7.2,
-            'carbs' => 62.0,
-            'kcal' => 375,
+            'proteins' => 1.0,
+            'fats' => 1.0,
+            'carbs' => 1.0,
+            'kcal' => 17.0,
             'producerName' => 'producer',
         ]);
 

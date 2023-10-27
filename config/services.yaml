@@ -13,7 +13,9 @@ services:
 
     _instanceof:
         App\Catalog\Specification\ProductSpecificationInterface:
-            tags: [ 'app.catalog.product_specification' ]
+            tags: [ 'app.catalog.product_specification.create' ]
+        App\Catalog\Specification\Product\NutritionMistakeThresholdSpecification:
+            tags: [ 'app.catalog.product_specification.update' ]
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -35,4 +37,9 @@ services:
     App\Catalog\Factory\ProductFactory:
         class: App\Catalog\Factory\ProductFactory
         arguments:
-            $specifications: !tagged app.catalog.product_specification
+            $specifications: !tagged app.catalog.product_specification.create
+
+    App\Catalog\Handler\UpdateProductHandler:
+        class: App\Catalog\Handler\UpdateProductHandler
+        arguments:
+            $specifications: !tagged app.catalog.product_specification.update
