@@ -8,6 +8,7 @@ use App\Catalog\Entity\Product;
 use App\Catalog\Exception\DuplicateException;
 use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Factory\ProductFactory;
+use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use App\Catalog\Value\NutritionalValues;
 use App\Tests\Data\ProductTestHelper;
@@ -19,7 +20,8 @@ final class ProductFactoryTest extends TestCase
     public function testCreate(): void
     {
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class)
+            $this->createMock(FindProductByNameInterface::class),
+            $this->createMock(FindProductByIdInterface::class),
         );
 
         $actual = $sut->create($this->getDto());
@@ -30,7 +32,8 @@ final class ProductFactoryTest extends TestCase
     public function testIdGenerationOnNull(): void
     {
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class)
+            $this->createMock(FindProductByNameInterface::class),
+            $this->createMock(FindProductByIdInterface::class),
         );
 
         $actual = $sut->create($this->getDto());
@@ -41,7 +44,8 @@ final class ProductFactoryTest extends TestCase
     public function testIdGenerationOnPassedValue(): void
     {
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class)
+            $this->createMock(FindProductByNameInterface::class),
+            $this->createMock(FindProductByIdInterface::class),
         );
 
         $actual = $sut->create($this->getDto('P-123'));
@@ -54,7 +58,8 @@ final class ProductFactoryTest extends TestCase
         // Given I have wrong sum kcal value
 
         $sut = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class)
+            $this->createMock(FindProductByNameInterface::class),
+            $this->createMock(FindProductByIdInterface::class),
         );
 
         // Then I should be an invalid argument exception
@@ -83,13 +88,32 @@ final class ProductFactoryTest extends TestCase
             ->willReturn(ProductTestHelper::createProductEntity());
 
         // And my factory
-        $sut = new ProductFactory($findProductByName);
+        $sut = new ProductFactory($findProductByName, $this->createMock(FindProductByIdInterface::class));
 
         // Then I should see a duplicate exception
         $this->expectException(DuplicateException::class);
 
         // When I create a new entity
         $sut->create($this->getDto());
+    }
+
+    public function testCreateOnNonUniqueId(): void
+    {
+        // Given I have an existing product
+        $findProductById = $this->createMock(FindProductByIdInterface::class);
+        $findProductById
+            ->method('findById')
+            ->willReturn(ProductTestHelper::createProductEntity('P-123'));
+
+        // And my factory
+        $sut = new ProductFactory($this->createMock(FindProductByNameInterface::class), $findProductById);
+
+        // Then I should see a duplicate exception
+        $this->expectException(DuplicateException::class);
+        $this->expectExceptionMessage('Product with id: P-123 already exist');
+
+        // When I create a new entity
+        $sut->create($this->getDto('P-123'));
     }
 
     private function getDto(?string $id = null): CreateProductDtoInterface

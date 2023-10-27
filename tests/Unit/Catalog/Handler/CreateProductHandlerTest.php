@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Catalog\Handler;
 
 use App\Catalog\Factory\ProductFactory;
 use App\Catalog\Handler\CreateProductHandler;
+use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use App\Catalog\Persistence\Product\ProductPersistenceInterface;
 use App\Tests\Data\ProductTestHelper;
@@ -16,7 +17,8 @@ final class CreateProductHandlerTest extends TestCase
     {
         // Given I have product factory
         $productFactory = new ProductFactory(
-            $this->createMock(FindProductByNameInterface::class)
+            $this->createMock(FindProductByNameInterface::class),
+            $this->createMock(FindProductByIdInterface::class),
         );
 
         // Then it should be stored in a store

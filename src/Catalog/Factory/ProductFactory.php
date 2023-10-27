@@ -10,6 +10,7 @@ use App\Catalog\Dto\CreateProductDtoInterface;
 use App\Catalog\Entity\Product;
 use App\Catalog\Exception\DuplicateException;
 use App\Catalog\Exception\InvalidArgumentException;
+use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use App\Catalog\Persistence\Product\FindProductByNameInterface;
 use DivisionByZeroError;
 use function uniqid;
@@ -24,7 +25,10 @@ final class ProductFactory
     // adds some calories from fibre for example, and we do not support it
     private const KCAL_MISTAKE_THRESHOLD_PERCENTAGE = 10;
 
-    public function __construct(private readonly FindProductByNameInterface $findProductByName)
+    public function __construct(
+        private readonly FindProductByNameInterface $findProductByName,
+        private readonly FindProductByIdInterface   $findProductById,
+    )
     {
     }
 
@@ -33,6 +37,14 @@ final class ProductFactory
         if ($this->findProductByName->findByName($createProductDto->getName(), $createProductDto->getProducerName())) {
             throw new DuplicateException(
                 "Product with name: {$createProductDto->getName()} and produced by: {$createProductDto->getProducerName()} already exist"
+            );
+        }
+
+        $id = $createProductDto->getId() ?? uniqid('P-');
+
+        if ($this->findProductById->findById($id)) {
+            throw new DuplicateException(
+                "Product with id: {$id} already exist"
             );
         }
 
@@ -56,7 +68,7 @@ final class ProductFactory
         }
 
         return new Product(
-            $createProductDto->getId() ?? uniqid('P-'),
+            $id,
             $createProductDto->getNutritionValues(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),
