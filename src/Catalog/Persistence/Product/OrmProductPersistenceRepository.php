@@ -52,4 +52,10 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
     {
         return $this->repository->find($id);
     }
+
+    public function remove(Product $product): void
+    {
+        $this->em->remove($product);
+        $this->em->flush();
+    }
 }
