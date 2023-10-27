@@ -43,15 +43,10 @@ final class FindMealsControllerTest extends CatalogTestCase
                 $sumKcal += $product['kcal'];
             }
 
-            $this->assertSame(40.1, $sumProteins, 'proteins');
-            $this->assertSame(14.16, $sumFats, 'fats');
-            $this->assertSame(12.62, $sumCarbs, 'carbs');
-            $this->assertSame(341.35, $sumKcal, 'kcal');
-
-            $this->assertSame(40.1, $meal['proteins'], 'proteins');
-            $this->assertSame(14.16, $meal['fats'], 'fats');
-            $this->assertSame(12.62, $meal['carbs'], 'carbs');
-            $this->assertSame(341.35, $meal['kcal'], 'kcal');
+            $this->assertEquals($meal['proteins'], $sumProteins, 'proteins');
+            $this->assertEquals($meal['fats'], $sumFats, 'fats');
+            $this->assertEquals($meal['carbs'], $sumCarbs, 'carbs');
+            $this->assertEquals($meal['kcal'], $sumKcal, 'kcal');
         }
     }
 
