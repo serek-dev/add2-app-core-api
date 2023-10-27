@@ -20,7 +20,7 @@ use Generator;
 #[Table('catalog_meal')]
 class Meal
 {
-    #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST'], fetch: "EAGER")]
+    #[OneToMany(mappedBy: 'meal', targetEntity: MealProduct::class, cascade: ['PERSIST', 'REMOVE'], fetch: "EAGER")]
     private mixed $products;
 
     /**
