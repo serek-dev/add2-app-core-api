@@ -19,7 +19,7 @@ final class NutritionMistakeThresholdSpecification implements ProductSpecificati
 
     // we allow some mistake threshold, as some nutrition's tables
     // adds some calories from fibre for example, and we do not support it
-    private const KCAL_MISTAKE_THRESHOLD_PERCENTAGE = 10;
+    private const KCAL_MISTAKE_THRESHOLD_PERCENTAGE = 20;
 
     public function isSatisfiedBy(Product $product): bool
     {
