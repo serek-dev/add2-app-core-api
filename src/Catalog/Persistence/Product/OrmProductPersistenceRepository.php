@@ -42,9 +42,11 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
         return $qb->getQuery()->getResult()[0] ?? null;
     }
 
-    public function store(Product $product): void
+    public function store(Product ...$product): void
     {
-        $this->em->persist($product);
+        foreach ($product as $p) {
+            $this->em->persist($p);
+        }
         $this->em->flush();
     }
 

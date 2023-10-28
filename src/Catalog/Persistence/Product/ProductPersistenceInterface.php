@@ -9,7 +9,7 @@ use App\Catalog\Entity\Product;
 
 interface ProductPersistenceInterface
 {
-    public function store(Product $product): void;
+    public function store(Product ...$product): void;
 
     public function remove(Product $product): void;
 }
