@@ -110,6 +110,8 @@ class DayMealProduct
         $this->kcal = $product->getNutritionValues()->getKcal() * $divider;
 
         $this->productId = $product->getId();
+
+        $this->meal->markAsModified();
     }
 
     public function getKcal(): float

@@ -93,4 +93,9 @@ class DayMeal
         $this->products->removeElement($dayMealProduct);
         $this->modified = true;
     }
+
+    public function markAsModified(): void
+    {
+        $this->modified = true;
+    }
 }
