@@ -18,6 +18,8 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Generator;
+use function array_values;
+use function round;
 
 #[Entity]
 #[Table('catalog_meal')]
@@ -58,7 +60,7 @@ class Meal
      */
     public function getProducts(): array
     {
-        return $this->products->toArray();
+        return array_values($this->products->toArray());
     }
 
     public function getId(): string
@@ -100,5 +102,40 @@ class Meal
         $product = $product->count() > 0 ? $product->first() : throw new NotFoundException('Product: ' . $productId . ' does not exist');
 
         $product->changeWeight($newWeight);
+    }
+
+    public function replaceProduct(string $productId, Product $product): void
+    {
+        $replacedProduct = $this->products->filter(fn(MealProduct $p) => $p->getId() === $productId);
+
+        /** @var MealProduct|Collection $replacedProduct */
+        $replacedProduct = $replacedProduct->count() > 0 ? $replacedProduct->first() : throw new NotFoundException('Product: ' . $productId . ' does not exist');
+
+        $desiredKcal = $replacedProduct->getKcal();
+
+        $caloriesPer100g = $product->getNutritionValues()->getKcal();
+
+        $amountNeeded = round(($desiredKcal) / ($caloriesPer100g) * 100, 2);
+
+//        $this->products->add(
+//            new MealProduct(
+//                $newId = uniqid('MP-'),
+//                new Weight(100),
+//                new NutritionalValues(
+//                    new Weight($product->getNutritionValues()->getProteins()),
+//                    new Weight($product->getNutritionValues()->getProteins()),
+//                    new Weight($product->getNutritionValues()->getProteins()),
+//                    $product->getNutritionValues()->getKcal(),
+//                ),
+//                $product->getName(),
+//                $product->getId(),
+//                $product->getProducerName(),
+//            )
+//        );
+
+        $replacedProduct->replaceByProduct($product);
+        $replacedProduct->changeWeight(new Weight($amountNeeded));
+
+        $this->changeProductWeight($productId, new Weight($amountNeeded));
     }
 }

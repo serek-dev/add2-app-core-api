@@ -41,11 +41,11 @@ class MealProduct
         Weight $weight,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
-        private readonly string $name,
+        private string  $name,
         #[Column]
-        private readonly string $parentId,
+        private string  $parentId,
         #[Column(nullable: true)]
-        private readonly ?string $producerName
+        private ?string $producerName
     ) {
         $this->proteins = $this->nutritionalValues->getProteins();
         $this->fats = $this->nutritionalValues->getFats();
@@ -115,4 +115,30 @@ class MealProduct
 
         $this->weight = $weight->getRaw();
     }
+
+    public function getKcal(): float
+    {
+        return $this->kcal;
+    }
+
+    /** @internal */
+    public function replaceByProduct(Product $product): void
+    {
+        $divider = $this->weight / 100;
+
+        $this->name = $product->getName();
+        $this->producerName = $product->getProducerName();
+        $this->parentId = $product->getId();
+
+        $this->proteins = $product->getNutritionValues()->getProteins() * $divider;
+        $this->fats = $product->getNutritionValues()->getFats() * $divider;
+        $this->carbs = $product->getNutritionValues()->getCarbs() * $divider;
+        $this->kcal = $product->getNutritionValues()->getKcal() * $divider;
+    }
+
+    public function getParentId(): string
+    {
+        return $this->parentId;
+    }
+
 }

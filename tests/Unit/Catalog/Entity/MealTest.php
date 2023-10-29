@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Catalog\Entity;
 
 use App\Catalog\Entity\Meal;
 use App\Catalog\Entity\MealProduct;
+use App\Catalog\Entity\Product;
 use App\Catalog\Exception\InvalidArgumentException;
 use App\Catalog\Exception\NotFoundException;
 use App\Catalog\Value\NutritionalValues;
@@ -102,5 +103,41 @@ final class MealTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
         $sut->changeProductWeight('MP-1234', new Weight(200.0));
+    }
+
+    public function testReplaceProduct(): void
+    {
+        $sut = new Meal('id', 'name', [
+            new MealProduct(
+                'MP-123',
+                $w = new Weight(100.0),
+                new NutritionalValues($w, $w, $w, 100),
+                'name',
+                'parentId',
+                null,
+            ),
+        ]);
+
+        $newProduct = new Product(
+            id: 'P-1',
+            nutritionalValues: new NutritionalValues(
+                new Weight(100),
+                new Weight(100),
+                new Weight(100),
+                200,
+            ),
+            name: 'name',
+            producerName: 'producer',
+        );
+
+        $sut->replaceProduct('MP-123', $newProduct);
+
+        $newWeight = new Weight(50);
+
+        $this->assertEquals($newWeight, $sut->getProducts()[0]->getWeight());
+        $nutritionValues = $sut->getProducts()[0]->getNutritionValues();
+        $this->assertEquals($newWeight->getRaw(), $nutritionValues->getProteins());
+        $this->assertEquals($newWeight->getRaw(), $nutritionValues->getFats());
+        $this->assertEquals($newWeight->getRaw(), $nutritionValues->getCarbs());
     }
 }
