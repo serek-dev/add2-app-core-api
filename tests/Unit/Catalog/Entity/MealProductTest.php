@@ -17,7 +17,7 @@ final class MealProductTest extends TestCase
     {
         $mealProduct = new MealProduct(
             id: 'id',
-            weight: new Weight(100.0),
+            weight: new Weight(50.0),
             nutritionalValues: new NutritionalValues(
                 new Weight(10.0),
                 new Weight(10.0),
@@ -44,7 +44,16 @@ final class MealProductTest extends TestCase
                     new Weight(20.0),
                     340.0,
                 ),
-                'weight' => new Weight(200.0),
+                'weight' => new Weight(100.0),
+            ],
+            [
+                'expected' => new NutritionalValues(
+                    new Weight(10.0),
+                    new Weight(10.0),
+                    new Weight(10.0),
+                    170.0,
+                ),
+                'weight' => new Weight(50.0),
             ],
             [
                 'expected' => new NutritionalValues(
@@ -53,7 +62,7 @@ final class MealProductTest extends TestCase
                     new Weight(5.0),
                     85.0,
                 ),
-                'weight' => new Weight(50.0),
+                'weight' => new Weight(25.0),
             ],
             [
                 'expected' => new NutritionalValues(
