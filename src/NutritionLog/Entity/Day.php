@@ -8,6 +8,7 @@ namespace App\NutritionLog\Entity;
 
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Value\ConsumptionTime;
+use App\NutritionLog\Value\Weight;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
@@ -17,6 +18,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Generator;
+use function array_values;
+use function is_object;
+use function round;
 
 #[Entity]
 #[Table('nutrition_log_day')]
@@ -133,4 +137,40 @@ class Day
 
         throw new NotFoundException("Meal product with id $mealProductId not found");
     }
+
+    public function replaceMealProduct(string $mealId, string $productId, Product $product): void
+    {
+        $meal = $this->meals->filter(fn(DayMeal $m) => $m->getId() === $mealId)->first();
+
+        if (!is_object($meal)) {
+            throw new NotFoundException("Meal with id $mealId not found");
+        }
+
+        /** @var DayMealProduct $replacedProduct */
+        $replacedProduct = array_values(array_filter($meal->getProducts(), fn(DayMealProduct $p) => $p->getId() === $productId))[0] ?? null;
+
+        if (!is_object($replacedProduct)) {
+            throw new NotFoundException("Product with id $productId not found");
+        }
+
+        $desiredKcal = $replacedProduct->getKcal();
+
+        $caloriesPer100g = $product->getNutritionValues()->getKcal();
+
+        $amountNeeded = round(($desiredKcal) / ($caloriesPer100g) * 100, 2);
+
+        $replacedProduct->replaceByProduct($product);
+        $replacedProduct->changeWeight(new Weight($amountNeeded));
+
+//        $this->changeProductWeight($productId, new Weight($amountNeeded));
+    }
+
+//    private function changeProductWeight(string $productId, Weight $weight): void
+//    {
+//        $product = $this->products->filter(fn(DayMealProduct $p) => $p->getId() === $productId);
+//        /** @var DayMealProduct|Collection $product */
+//        $product = $product->count() > 0 ? $product->first() : throw new NotFoundException('Product: ' . $productId . ' does not exist');
+//
+//        $product->changeWeight($weight);
+//    }
 }

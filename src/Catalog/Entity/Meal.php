@@ -117,22 +117,6 @@ class Meal
 
         $amountNeeded = round(($desiredKcal) / ($caloriesPer100g) * 100, 2);
 
-//        $this->products->add(
-//            new MealProduct(
-//                $newId = uniqid('MP-'),
-//                new Weight(100),
-//                new NutritionalValues(
-//                    new Weight($product->getNutritionValues()->getProteins()),
-//                    new Weight($product->getNutritionValues()->getProteins()),
-//                    new Weight($product->getNutritionValues()->getProteins()),
-//                    $product->getNutritionValues()->getKcal(),
-//                ),
-//                $product->getName(),
-//                $product->getId(),
-//                $product->getProducerName(),
-//            )
-//        );
-
         $replacedProduct->replaceByProduct($product);
         $replacedProduct->changeWeight(new Weight($amountNeeded));
 
