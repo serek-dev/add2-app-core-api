@@ -26,6 +26,7 @@ class DayView implements JsonSerializable, LogAbleInterface
     private Collection $products;
 
     #[OneToMany(mappedBy: 'day', targetEntity: DayMealView::class, fetch: "EAGER")]
+    #[OrderBy(["consumptionTime" => 'ASC'])]
     private Collection $meals;
 
     public function __construct(
