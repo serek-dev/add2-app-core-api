@@ -7,7 +7,10 @@ namespace App\Catalog\Entity;
 
 
 use App\Catalog\Exception\InvalidArgumentException;
+use App\Catalog\Exception\NotFoundException;
+use App\Catalog\Value\Weight;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -85,5 +88,17 @@ class Meal
     public function hasProduct(string $id): bool
     {
         return $this->products->filter(fn(MealProduct $p) => $p->getId() === $id)->count() > 0;
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    public function changeProductWeight(string $productId, Weight $newWeight): void
+    {
+        $product = $this->products->filter(fn(MealProduct $p) => $p->getId() === $productId);
+        /** @var MealProduct|Collection $product */
+        $product = $product->count() > 0 ? $product->first() : throw new NotFoundException('Product: ' . $productId . ' does not exist');
+
+        $product->changeWeight($newWeight);
     }
 }

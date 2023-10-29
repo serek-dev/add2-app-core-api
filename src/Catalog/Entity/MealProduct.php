@@ -89,4 +89,23 @@ class MealProduct
     {
         return $this->producerName;
     }
+
+    public function changeWeight(Weight $weight): void
+    {
+        $divider = $weight->getRaw() / 100; // grams
+
+        $new = new NutritionalValues(
+            new Weight($this->proteins * $divider),
+            new Weight($this->fats * $divider),
+            new Weight($this->carbs * $divider),
+            $this->kcal * $divider,
+        );
+
+        $this->proteins = $new->getProteins();
+        $this->fats = $new->getFats();
+        $this->carbs = $new->getCarbs();
+        $this->kcal = $new->getKcal();
+
+        $this->weight = $weight->getRaw();
+    }
 }
