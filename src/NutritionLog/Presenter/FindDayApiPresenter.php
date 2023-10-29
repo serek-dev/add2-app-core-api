@@ -7,7 +7,7 @@ namespace App\NutritionLog\Presenter;
 
 
 use App\NutritionLog\ViewQuery\Day\FindDayViewInterface;
-use function asort;
+use function uksort;
 
 final class FindDayApiPresenter
 {
@@ -29,7 +29,14 @@ final class FindDayApiPresenter
             $grouped[$meal->consumptionTime][] = $meal->jsonSerialize();
         }
 
-        asort($grouped);
+        uksort($grouped, function (string $a, string $b) {
+            $timeA = strtotime($a);
+            $timeB = strtotime($b);
+            if ($timeA == $timeB) {
+                return 0;
+            }
+            return ($timeA < $timeB) ? -1 : 1;
+        });
 
         $view = array_merge($view->jsonSerialize(), ['products' => $grouped]);
         unset($view['meals']);
