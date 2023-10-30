@@ -161,16 +161,20 @@ class Day
 
         $replacedProduct->replaceByProduct($product);
         $replacedProduct->changeWeight(new Weight($amountNeeded));
-
-//        $this->changeProductWeight($productId, new Weight($amountNeeded));
     }
 
-//    private function changeProductWeight(string $productId, Weight $weight): void
-//    {
-//        $product = $this->products->filter(fn(DayMealProduct $p) => $p->getId() === $productId);
-//        /** @var DayMealProduct|Collection $product */
-//        $product = $product->count() > 0 ? $product->first() : throw new NotFoundException('Product: ' . $productId . ' does not exist');
-//
-//        $product->changeWeight($weight);
-//    }
+    /**
+     * @throws NotFoundException
+     */
+    public function removeMeal(string $mealId): DayMeal
+    {
+        $meal = $this->meals->filter(fn(DayMeal $m) => $m->getId() === $mealId)->first();
+
+        if (!is_object($meal)) {
+            throw new NotFoundException("Meal with id $mealId not found");
+        }
+
+        $this->meals->removeElement($meal);
+        return $meal;
+    }
 }
