@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Generator;
+use function array_filter;
 use function array_values;
 use function is_object;
 use function round;
@@ -176,5 +177,19 @@ class Day
 
         $this->meals->removeElement($meal);
         return $meal;
+    }
+
+    public function changeMealProductWeight(string $mealId, string $productId, Weight $newWeight): void
+    {
+        $meal = $this->meals->filter(fn(DayMeal $m) => $m->getId() === $mealId)->first();
+
+        if (!is_object($meal)) {
+            throw new NotFoundException("Meal with id $mealId not found");
+        }
+
+        /** @var DayMealProduct $product */
+        $product = array_values(array_filter($meal->getProducts(), fn(DayMealProduct $p) => $p->getId() === $productId))[0] ?? null;
+
+        $product->changeWeight($newWeight);
     }
 }
