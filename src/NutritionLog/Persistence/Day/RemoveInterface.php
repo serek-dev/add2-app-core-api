@@ -22,4 +22,9 @@ interface RemoveInterface
      * @throws NotFoundException
      */
     public function removeMeal(Day $day, string $mealId): void;
+
+    /**
+     * @throws NotFoundException
+     */
+    public function removeProduct(Day $day, string $productId): void;
 }

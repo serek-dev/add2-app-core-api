@@ -192,4 +192,16 @@ class Day
 
         $product->changeWeight($newWeight);
     }
+
+    public function removeProduct(string $productId): DayProduct
+    {
+        foreach ($this->products as $p) {
+            if ($p->getId() === $productId) {
+                $this->products->removeElement($p);
+                return $p;
+            }
+        }
+
+        throw new NotFoundException("Product with id $productId not found");
+    }
 }
