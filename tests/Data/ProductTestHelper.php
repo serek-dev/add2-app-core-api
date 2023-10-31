@@ -42,7 +42,9 @@ final class ProductTestHelper
             10.0,
             30.0,
             80 + 90 + 120,
-            'Producer'
+            'Producer',
+            null,
+            null,
         );
     }
 }

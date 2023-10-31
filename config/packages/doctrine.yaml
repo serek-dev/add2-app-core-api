@@ -16,11 +16,16 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 auto_mapping: true
                 mappings:
-                    Product:
+                    ProductValue:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Catalog/Value'
+                        prefix: 'App\Catalog\Value'
+                        alias: App\Catalog\Value
+                    ProductEntity:
                         is_bundle: false
                         dir: '%kernel.project_dir%/src/Catalog/Entity'
                         prefix: 'App\Catalog\Entity'
-                        alias: App\Catalog
+                        alias: App\Catalog\Entity
                     NutritionLog:
                         is_bundle: false
                         dir: '%kernel.project_dir%/src/NutritionLog/Entity'
@@ -37,6 +42,11 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Catalog/View'
                         prefix: 'App\Catalog\View'
                         alias: App\Catalog
+                    ProductValue:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Catalog/Value'
+                        prefix: 'App\Catalog\Value'
+                        alias: App\Catalog\Value
                     NutritionLogViews:
                         is_bundle: false
                         dir: '%kernel.project_dir%/src/NutritionLog/View'

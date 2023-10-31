@@ -8,6 +8,7 @@ namespace App\Catalog\Command;
 
 use App\Catalog\Dto\UpdateProductDtoInterface;
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 
 final class UpdateProductCommand implements UpdateProductDtoInterface
@@ -20,6 +21,8 @@ final class UpdateProductCommand implements UpdateProductDtoInterface
         private readonly float   $carbs,
         private readonly float   $kcal,
         private readonly ?string $producerName,
+        private readonly ?string $unit,
+        private readonly ?int    $weightPerUnit = null,
     )
     {
     }
@@ -47,5 +50,14 @@ final class UpdateProductCommand implements UpdateProductDtoInterface
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getPortion(): ?Portion
+    {
+        if ($this->unit && $this->weightPerUnit) {
+            return new Portion($this->unit, $this->weightPerUnit);
+        }
+
+        return null;
     }
 }

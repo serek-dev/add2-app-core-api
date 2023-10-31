@@ -14,6 +14,7 @@ use App\Catalog\Specification\Product\NutritionMistakeThresholdSpecification;
 use App\Catalog\Specification\Product\UniqueIdSpecification;
 use App\Catalog\Specification\Product\UniqueNameSpecification;
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -69,6 +70,9 @@ final class ProductFactoryTest extends TestCase
                 30.0,
                 ((20 * 4) + (20 * 9) + (30 * 4)) * 2,
                 '',
+                null,
+                null,
+                null,
             )
         );
     }
@@ -145,6 +149,11 @@ final class ProductFactoryTest extends TestCase
             public function getId(): ?string
             {
                 return $this->id;
+            }
+
+            public function getPortion(): ?Portion
+            {
+                return null;
             }
         };
     }

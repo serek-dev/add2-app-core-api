@@ -7,8 +7,10 @@ namespace App\Catalog\Entity;
 
 
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -36,7 +38,9 @@ class Product
         #[Column]
         private string  $name,
         #[Column(nullable: true)]
-        private ?string $producerName
+        private ?string  $producerName,
+        #[Embedded(class: Portion::class, columnPrefix: false)]
+        private ?Portion $portion = null,
     ) {
         $this->proteins = $this->nutritionalValues->getProteins();
         $this->fats = $this->nutritionalValues->getFats();
@@ -85,5 +89,15 @@ class Product
     public function setProducerName(?string $newProducerName): void
     {
         $this->producerName = $newProducerName;
+    }
+
+    public function getPortion(): ?Portion
+    {
+        return $this->portion;
+    }
+
+    public function setPortion(?Portion $portion): void
+    {
+        $this->portion = $portion;
     }
 }

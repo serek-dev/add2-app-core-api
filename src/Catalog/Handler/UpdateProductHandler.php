@@ -51,6 +51,7 @@ final class UpdateProductHandler
         $product->setNutritionalValues($command->getNutritionValues());
         $product->setName($command->getName());
         $product->setProducerName($command->getProducerName());
+        $product->setPortion($command->getPortion());
 
         foreach ($this->specifications as $spec) {
             $spec->isSatisfiedBy($product);

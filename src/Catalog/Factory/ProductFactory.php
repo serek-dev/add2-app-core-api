@@ -15,14 +15,6 @@ use function uniqid;
 
 final class ProductFactory
 {
-    private const PROTEIN_KCAL_PER_G = 4;
-    private const FAT_KCAL_PER_G = 9;
-    private const CARBS_KCAL_PER_G = 4;
-
-    // we allow some mistake threshold, as some nutrition's tables
-    // adds some calories from fibre for example, and we do not support it
-    private const KCAL_MISTAKE_THRESHOLD_PERCENTAGE = 10;
-
     /**
      * @param ProductSpecificationInterface[] $specifications
      */
@@ -51,6 +43,7 @@ final class ProductFactory
             $createProductDto->getNutritionValues(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),
+            $createProductDto->getPortion(),
         );
 
         foreach ($this->specifications as $spec) {

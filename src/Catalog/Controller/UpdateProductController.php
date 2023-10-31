@@ -34,6 +34,8 @@ final class UpdateProductController extends AbstractController
                     carbs: (float)$request->getPayload()->get('carbs'),
                     kcal: (float)$request->getPayload()->get('kcal'),
                     producerName: $request->getPayload()->get('producerName') ?? null,
+                    unit: $request->getPayload()->get('unit') ?? null,
+                    weightPerUnit: (int)$request->getPayload()->get('weightPerUnit') ?? null,
                 )
             );
         } catch (HandlerFailedException $e) {

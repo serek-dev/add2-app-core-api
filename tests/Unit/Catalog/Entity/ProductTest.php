@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Catalog\Entity;
 
 
 use App\Catalog\Entity\Product;
+use App\Catalog\Value\Portion;
 use App\Tests\Data\ProductTestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -35,5 +36,20 @@ final class ProductTest extends TestCase
         );
 
         $this->assertInstanceOf(Product::class, $sut);
+    }
+
+    public function testPortion(): void
+    {
+        $sut = new Product(
+            uniqid(),
+            ProductTestHelper::createNutritionValues(),
+            'Product name',
+            'Producer'
+        );
+
+        $sut->setPortion(new Portion('szt', 50));
+
+        $this->assertSame('szt', $sut->getPortion()->getUnit());
+        $this->assertSame(50, $sut->getPortion()->getWeightPerUnit());
     }
 }

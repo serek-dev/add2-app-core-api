@@ -17,7 +17,10 @@ final class CreateProductCommandTest extends TestCase
             2,
             3,
             10,
-            'producer'
+            'producer',
+            null,
+            null,
+            null,
         );
 
         $this->assertInstanceOf(CreateProductDtoInterface::class, $sut);

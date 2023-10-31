@@ -6,7 +6,9 @@ declare(strict_types=1);
 namespace App\Catalog\View;
 
 
+use App\Catalog\Value\Portion;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -42,6 +44,9 @@ class ProductView implements JsonSerializable
     #[Column]
     private float $kcal;
 
+    #[Embedded(class: Portion::class, columnPrefix: false)]
+    private ?Portion $portion = null;
+
     public function jsonSerialize(): array
     {
         return [
@@ -52,6 +57,8 @@ class ProductView implements JsonSerializable
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
+            'unit' => $this->portion?->getUnit(),
+            'weightPerUnit' => $this->portion?->getWeightPerUnit(),
         ];
     }
 

@@ -30,7 +30,9 @@ final class ProductFixtures extends Fixture
             carbs: $c,
             kcal: $k,
             producerName: null,
-            id: self::PRODUCT_1
+            id: self::PRODUCT_1,
+            unit: null,
+            weightPerUnit: null,
         );
 
         $this->bus->dispatch($command);
@@ -45,7 +47,9 @@ final class ProductFixtures extends Fixture
             carbs: $c,
             kcal: $k,
             producerName: null,
-            id: self::PRODUCT_2
+            id: self::PRODUCT_2,
+            unit: null,
+            weightPerUnit: null,
         );
 
         $this->bus->dispatch($command);

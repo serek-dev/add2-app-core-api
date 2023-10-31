@@ -52,7 +52,9 @@ final class CreateProductCliCommand extends Command
                 $fats,
                 $carbs,
                 $kcal,
-                $producerName
+                $producerName,
+                null,
+                null,
             )
         );
 

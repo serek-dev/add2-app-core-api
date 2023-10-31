@@ -24,6 +24,9 @@ final class UploadProductsHandler
     private const FATS_COL = 4;
     private const CARBS_COL = 5;
     private const KCAL_COL = 6;
+    private const ID_UNIT = 7;
+
+    private const ID_UNIT_PER_WEIGHT = 8;
 
     public function __construct(
         private readonly XlsToArrayInterface         $converter,
@@ -51,6 +54,8 @@ final class UploadProductsHandler
                         kcal: (float)$productData[self::KCAL_COL],
                         producerName: $productData[self::PRODUCER_COL],
                         id: $productData[self::ID_COL],
+                        unit: $productData[self::ID_UNIT],
+                        weightPerUnit: $productData[self::ID_UNIT_PER_WEIGHT],
                     ));
             } catch (DomainException|InvalidArgumentException $e) {
                 $this->logger->warning($e->getMessage());

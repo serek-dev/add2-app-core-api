@@ -46,6 +46,8 @@ final class UpdateProductHandlerTest extends TestCase
             carbs: 1,
             kcal: 17,
             producerName: 'Updated Producer',
+            unit: 'g',
+            weightPerUnit: 1,
         );
 
         $handler = new UpdateProductHandler($this->findProductMock, $this->storeProductMock);

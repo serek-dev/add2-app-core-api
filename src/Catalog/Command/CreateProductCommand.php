@@ -8,6 +8,7 @@ namespace App\Catalog\Command;
 
 use App\Catalog\Dto\CreateProductDtoInterface;
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 
 final class CreateProductCommand implements CreateProductDtoInterface
@@ -20,6 +21,8 @@ final class CreateProductCommand implements CreateProductDtoInterface
         private readonly float $kcal,
         private readonly ?string $producerName,
         private readonly ?string $id = null,
+        private readonly ?string $unit = null,
+        private readonly ?int    $weightPerUnit = null,
     ) {
     }
 
@@ -46,5 +49,14 @@ final class CreateProductCommand implements CreateProductDtoInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getPortion(): ?Portion
+    {
+        if ($this->unit && $this->weightPerUnit) {
+            return new Portion($this->unit, $this->weightPerUnit);
+        }
+
+        return null;
     }
 }
