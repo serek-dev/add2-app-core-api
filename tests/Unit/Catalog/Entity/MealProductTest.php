@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Catalog\Entity;
 use App\Catalog\Entity\MealProduct;
 use App\Catalog\Entity\Product;
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 use PHPUnit\Framework\TestCase;
 
@@ -103,6 +104,7 @@ final class MealProductTest extends TestCase
             ),
             name: 'name-2',
             producerName: 'producerName-2',
+            portion: new Portion('g', 100)
         );
 
         $mealProduct->replaceByProduct($product);
@@ -113,5 +115,7 @@ final class MealProductTest extends TestCase
         $this->assertSame('prg-product', $mealProduct->getParentId());
 
         $this->assertEquals(new Weight(50.0), $mealProduct->getWeight());
+
+        $this->assertSame($product->getPortion(), $mealProduct->getPortion());
     }
 }

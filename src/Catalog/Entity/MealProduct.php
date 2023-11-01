@@ -138,6 +138,7 @@ class MealProduct
         $this->fats = $product->getNutritionValues()->getFats() * $divider;
         $this->carbs = $product->getNutritionValues()->getCarbs() * $divider;
         $this->kcal = $product->getNutritionValues()->getKcal() * $divider;
+        $this->portion = $product->getPortion();
     }
 
     public function getParentId(): string
