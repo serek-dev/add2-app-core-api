@@ -8,6 +8,7 @@ use App\Catalog\Entity\MealProduct;
 use App\Catalog\Entity\Product;
 use App\Catalog\Factory\MealProductFactory;
 use App\Catalog\Value\NutritionalValues;
+use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +24,7 @@ final class MealProductFactoryTest extends TestCase
         $product->method('getProducerName')->willReturn('Producer X');
         $productValues = new NutritionalValues(new Weight(10.0), new Weight(5.0), new Weight(15.0), 200.0);
         $product->method('getNutritionValues')->willReturn($productValues);
+        $product->method('getPortion')->willReturn(new Portion('szt.', 50));
 
         // Create a Weight object
         $quantity = new Weight(200.0);
@@ -49,5 +51,7 @@ final class MealProductFactoryTest extends TestCase
         );
 
         $this->assertEquals($expectedNutritionalValues, $mealProduct->getNutritionValues());
+
+        $this->assertEquals($product->getPortion(), $mealProduct->getPortion());
     }
 }

@@ -31,4 +31,9 @@ class Portion
     {
         return $this->weightPerUnit;
     }
+
+    public function isEmpty(): bool
+    {
+        return !$this->unit && !$this->weightPerUnit;
+    }
 }

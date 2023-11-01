@@ -29,6 +29,7 @@ final class MealProductFactory
             name: $product->getName(),
             parentId: $product->getId(),
             producerName: $product->getProducerName(),
+            portion: $product->getPortion(),
         );
     }
 }
