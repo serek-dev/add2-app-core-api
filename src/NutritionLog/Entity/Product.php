@@ -65,4 +65,21 @@ final class Product
     {
         return $this->portion;
     }
+
+    public static function createFromArray(array $body): Product
+    {
+        return new Product(
+            id: $body['id'],
+            nutritionalValues: new NutritionalValues(
+                new Weight((float)$body['proteins']),
+                new Weight((float)$body['fats']),
+                new Weight((float)$body['carbs']),
+                (float)$body['kcal'],
+            ),
+            name: $body['name'],
+            weight: new Weight(100.0),
+            producerName: $body['producerName'],
+            portion: isset($body['unit']) && isset($body['weightPerUnit']) ? new Portion($body['unit'], $body['weightPerUnit']) : null,
+        );
+    }
 }
