@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace App\NutritionLog\View;
 
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -35,7 +37,7 @@ class DayView implements JsonSerializable, LogAbleInterface
         #[Column]
         public readonly ?string $id,
         #[Column(type: 'date')]
-        public readonly string $date,
+        public readonly DateTimeInterface $date,
     ) {
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
@@ -43,7 +45,7 @@ class DayView implements JsonSerializable, LogAbleInterface
 
     public static function createEmpty(string $date): self
     {
-        return new self(null, $date);
+        return new self(null, new DateTimeImmutable($date));
     }
 
     public function jsonSerialize(): array

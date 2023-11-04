@@ -35,17 +35,13 @@ class Day
     #[OneToMany(mappedBy: 'day', targetEntity: DayProduct::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $products;
 
-    #[Column(type: 'date')]
-    private readonly string $date;
-
     #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $meals;
 
     public function __construct(
-        DateTimeInterface $date,
+        #[Column(type: 'date')]
+        private readonly DateTimeInterface $date,
     ) {
-        $this->date = $date->format('Y-m-d');
-
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
     }
@@ -58,7 +54,7 @@ class Day
 
     public function getDate(): string
     {
-        return $this->date;
+        return $this->date->format('Y-m-d');
     }
 
     /** @return DayProduct[] */
