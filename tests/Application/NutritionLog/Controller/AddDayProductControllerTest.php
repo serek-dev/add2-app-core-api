@@ -16,7 +16,7 @@ final class AddDayProductControllerTest extends NutritionLogTestCase
     {
         $this->withMilk();
         $this->iAmAuthenticated();
-        $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/products', [
+        $response = $this->iCallPostApi('/api/nutrition-log/days/2020-01-01/products', [
             'consumptionTime' => '10:15',
             'productId' => self::MILK,
             'productWeight' => 50.0,
@@ -29,7 +29,7 @@ final class AddDayProductControllerTest extends NutritionLogTestCase
     {
         $this->withMilk();
         $this->iAmAuthenticated();
-        $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/products', [
+        $response = $this->iCallPostApi('/api/nutrition-log/days/2020-01-01/products', [
             'consumptionTime' => '10:15',
             'productId' => self::MILK,
             'productWeight' => 50.0,

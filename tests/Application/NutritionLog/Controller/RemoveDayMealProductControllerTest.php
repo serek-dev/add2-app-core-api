@@ -21,7 +21,7 @@ final class RemoveDayMealProductControllerTest extends NutritionLogTestCase
         $date = (new DateTimeImmutable())->format('Y-m-d');
         $productId = MealFixtures::MEAL_1_MEAL_PRODUCT_1;
 
-        $response = $this->iCallDeleteApi("/api/nutrition-log/$date/products/$productId");
+        $response = $this->iCallDeleteApi("/api/nutrition-log/days/$date/products/$productId");
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }

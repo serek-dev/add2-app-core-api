@@ -14,11 +14,11 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/{date}', methods: 'GET')]
+#[Route('/api/nutrition-log/days/{date}', methods: 'GET')]
 final class FindDayController extends AbstractController
 {
-    public function __invoke(Request $request, FindDayApiPresenter $presenter): JsonResponse
+    public function __invoke(Request $request, FindDayApiPresenter $presenter, string $date): JsonResponse
     {
-        return $this->json($presenter->render($request->get('date')));
+        return $this->json($presenter->render($date));
     }
 }

@@ -16,14 +16,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/{dayId}/meals', methods: ['POST'])]
+#[Route('/api/nutrition-log/days/{dayId}/meals', methods: ['POST'])]
 final class AddDayMealController extends AbstractController
 {
-    public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse
+    public function __invoke(Request $request, MessageBusInterface $bus, string $dayId): JsonResponse
     {
         $bus->dispatch(
             new AddDayMealCommand(
-                date: $request->get('dayId'),
+                date: $dayId,
                 consumptionTime: $request->getPayload()->get('consumptionTime'),
                 mealId: $request->getPayload()->get('mealId'),
             )

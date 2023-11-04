@@ -15,16 +15,16 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/{day}/products/{productId}/replacements', methods: 'GET')]
+#[Route('/api/nutrition-log/days/{day}/products/{productId}/replacements', methods: 'GET')]
 final class FindProductReplacementsController extends AbstractController
 {
 
 
-    public function __invoke(Request $request, FindProductReplacementsPresenter $presenter): JsonResponse
+    public function __invoke(Request $request, FindProductReplacementsPresenter $presenter, string $day): JsonResponse
     {
         return $this->json(
             $presenter->render(
-                $request->get('day'),
+                $day,
                 $request->get('productId'),
             ),
             Response::HTTP_OK

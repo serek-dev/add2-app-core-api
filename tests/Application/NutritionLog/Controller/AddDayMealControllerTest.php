@@ -16,7 +16,7 @@ final class AddDayMealControllerTest extends NutritionLogTestCase
     {
         $this->withPancakeMeal();
         $this->iAmAuthenticated();
-        $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/meals', [
+        $response = $this->iCallPostApi('/api/nutrition-log/days/2020-01-01/meals', [
             'consumptionTime' => '10:15',
             'mealId' => self::PANCAKE,
         ]);
@@ -28,7 +28,7 @@ final class AddDayMealControllerTest extends NutritionLogTestCase
     {
         $this->withPancakeMeal();
         $this->iAmAuthenticated();
-        $response = $this->iCallPostApi('/api/nutrition-log/2020-01-01/meals', [
+        $response = $this->iCallPostApi('/api/nutrition-log/days/2020-01-01/meals', [
             'consumptionTime' => '10:15',
             'mealId' => self::PANCAKE,
         ]);

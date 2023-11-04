@@ -18,7 +18,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/{day}/products/{productId}', methods: 'PATCH')]
+#[Route('/api/nutrition-log/days/{day}/products/{productId}', methods: 'PATCH')]
 final class UpdateDayProductWeightController extends AbstractController
 {
     public function __invoke(Request $request, MessageBusInterface $bus, string $day, string $productId): JsonResponse

@@ -26,7 +26,7 @@ final class FindProductReplacementsPresenterTest extends NutritionLogTestCase
 
         $dayProductId = $this->findDayProductId($day, parent::EGG);
 
-        $response = $this->iCallGetApi("/api/nutrition-log/${day}/products/${dayProductId}/replacements");
+        $response = $this->iCallGetApi("/api/nutrition-log/days/${day}/products/${dayProductId}/replacements");
 
         $this->assertCollectionFormat($response);
 

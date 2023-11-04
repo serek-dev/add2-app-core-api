@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/{date}/meals/{mealId}', methods: 'DELETE')]
+#[Route('/api/nutrition-log/days/{date}/meals/{mealId}', methods: 'DELETE')]
 final class RemoveDayMealController extends AbstractController
 {
     public function __invoke(Request $request, string $date, string $mealId, MessageBusInterface $bus): JsonResponse

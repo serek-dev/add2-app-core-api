@@ -18,7 +18,7 @@ final class RemoveDayProductsByConsumptionTimeControllerTest extends NutritionLo
 
         $day = '2021-01-02';
 
-        $response = $this->iCallDeleteApi("/api/nutrition-log/${day}/12:00");
+        $response = $this->iCallDeleteApi("/api/nutrition-log/days/${day}/12:00");
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
@@ -34,7 +34,7 @@ final class RemoveDayProductsByConsumptionTimeControllerTest extends NutritionLo
             ->withEgg()
             ->withProductInNutritionLog($day, '10:45', parent::EGG, 100);
 
-        $response = $this->iCallDeleteApi("/api/nutrition-log/${day}/10:45");
+        $response = $this->iCallDeleteApi("/api/nutrition-log/days/${day}/10:45");
 
         $this->assertEquals(Response::HTTP_ACCEPTED, $response->getStatusCode());
     }
@@ -48,7 +48,7 @@ final class RemoveDayProductsByConsumptionTimeControllerTest extends NutritionLo
 
         $day = '2021-01-02';
 
-        $response = $this->iCallDeleteApi("/api/nutrition-log/${day}/10:45");
+        $response = $this->iCallDeleteApi("/api/nutrition-log/days/${day}/10:45");
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }

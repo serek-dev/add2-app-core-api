@@ -16,7 +16,7 @@ final class FindDayControllerTest extends NutritionLogTestCase
     {
         $this->iAmAuthenticated();
 
-        $response = $this->iCallGetApi('/api/nutrition-log/2018-01-01');
+        $response = $this->iCallGetApi('/api/nutrition-log/days/2018-01-01');
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertItemFormat($response);
@@ -33,7 +33,7 @@ final class FindDayControllerTest extends NutritionLogTestCase
             ->withEgg()
             ->withProductInNutritionLog($day, '10:45', parent::EGG, 100);
 
-        $response = $this->iCallGetApi("/api/nutrition-log/${day}");
+        $response = $this->iCallGetApi("/api/nutrition-log/days/${day}");
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertItemFormat($response);
