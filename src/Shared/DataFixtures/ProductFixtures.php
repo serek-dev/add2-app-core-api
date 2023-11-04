@@ -31,8 +31,8 @@ final class ProductFixtures extends Fixture
             kcal: $k,
             producerName: null,
             id: self::PRODUCT_1,
-            unit: null,
-            weightPerUnit: null,
+            unit: 'szt.',
+            weightPerUnit: 50,
         );
 
         $this->bus->dispatch($command);

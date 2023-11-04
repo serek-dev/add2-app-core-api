@@ -33,6 +33,7 @@ final class DayMealFactory
                         $p->getId(),
                         $p->getName(),
                         $p->getProducerName(),
+                        $p->getPortion(),
                     )
                 );
             }, $realMeal->getProducts()),

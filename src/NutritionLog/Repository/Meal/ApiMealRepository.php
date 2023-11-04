@@ -9,6 +9,7 @@ namespace App\NutritionLog\Repository\Meal;
 use App\NutritionLog\Entity\Meal;
 use App\NutritionLog\Entity\Product;
 use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Portion;
 use App\NutritionLog\Value\Weight;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -40,6 +41,7 @@ final class ApiMealRepository implements GetOneMealInterface
                     name: $data['name'],
                     weight: new Weight((float)$data['weight']),
                     producerName: $data['producerName'],
+                    portion: isset($data['unit']) && isset($data['weightPerUnit']) ? new Portion($data['unit'], $data['weightPerUnit']) : null,
                 );
             }, $body['products']),
         );
