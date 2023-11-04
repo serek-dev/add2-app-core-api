@@ -34,7 +34,7 @@ class DayView implements JsonSerializable, LogAbleInterface
         #[GeneratedValue]
         #[Column]
         public readonly ?string $id,
-        #[Column]
+        #[Column(type: 'date')]
         public readonly string $date,
     ) {
         $this->products = new ArrayCollection();

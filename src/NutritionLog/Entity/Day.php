@@ -35,7 +35,7 @@ class Day
     #[OneToMany(mappedBy: 'day', targetEntity: DayProduct::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $products;
 
-    #[Column]
+    #[Column(type: 'date')]
     private readonly string $date;
 
     #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
