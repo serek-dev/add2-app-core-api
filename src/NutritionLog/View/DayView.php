@@ -6,11 +6,14 @@ declare(strict_types=1);
 namespace App\NutritionLog\View;
 
 
+use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Weight;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -35,9 +38,11 @@ class DayView implements JsonSerializable, LogAbleInterface
         #[Id]
         #[GeneratedValue]
         #[Column]
-        public readonly ?string $id,
+        public readonly ?string           $id,
         #[Column(type: 'date')]
         public readonly DateTimeInterface $date,
+        #[Embedded(class: NutritionalValues::class)]
+        private NutritionalValues         $target,
     ) {
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
@@ -45,7 +50,12 @@ class DayView implements JsonSerializable, LogAbleInterface
 
     public static function createEmpty(string $date): self
     {
-        return new self(null, new DateTimeImmutable($date));
+        return new self(null, new DateTimeImmutable($date), new NutritionalValues(
+            new Weight(0),
+            new Weight(0),
+            new Weight(0),
+            0,
+        ));
     }
 
     public function jsonSerialize(): array
@@ -53,11 +63,18 @@ class DayView implements JsonSerializable, LogAbleInterface
         return [
             'id' => $this->id,
             'date' => $this->date->format('Y-m-d'),
+
             'proteins' => $this->getProteins(),
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
+
+            'proteinsTarget' => $this->target->getProteins()->getRaw(),
+            'fatsTarget' => $this->target->getFats()->getRaw(),
+            'carbsTarget' => $this->target->getCarbs()->getRaw(),
+            'kcalTarget' => $this->target->getKcal(),
             'weight' => $this->getWeight(),
+
             'products' => $this->products->toArray(),
             'meals' => $this->meals->toArray(),
         ];

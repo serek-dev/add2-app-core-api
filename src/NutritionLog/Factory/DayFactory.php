@@ -13,7 +13,10 @@ use DateTimeInterface;
 
 final class DayFactory
 {
-    public function __construct(private readonly FindDayByDateInterface $findDayByDate)
+    public function __construct(
+        private readonly FindDayByDateInterface $findDayByDate,
+        private readonly DayFactoryNutritionalTargetResolverInterface $resolver,
+    )
     {
     }
 
@@ -23,6 +26,6 @@ final class DayFactory
             throw new DuplicateException('Day already exists');
         }
 
-        return new Day($dateTime);
+        return new Day($dateTime, $this->resolver->resolve($dateTime));
     }
 }

@@ -17,16 +17,28 @@ use PHPUnit\Framework\TestCase;
 /** @covers \App\NutritionLog\Entity\Day */
 final class DayTest extends TestCase
 {
+    private NutritionalValues $target;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->target = new NutritionalValues(
+            new Weight(100),
+            new Weight(100),
+            new Weight(100),
+            2500,
+        );
+    }
+
     public function testConstructor(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
         $this->assertInstanceOf(Day::class, $sut);
         $this->assertSame('2020-01-01', $sut->getDate());
     }
 
     public function testAddProduct(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
         $sut->addProduct(
             NutritionLogTestHelper::createDayProductEntity()
         );
@@ -36,7 +48,7 @@ final class DayTest extends TestCase
 
     public function testAddMeal(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
         $sut->addMeal(
             new DayMeal(
                 'id',
@@ -51,7 +63,7 @@ final class DayTest extends TestCase
 
     public function testRemoveMeal(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
         $sut->addMeal(
             new DayMeal(
                 'id',
@@ -71,7 +83,7 @@ final class DayTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Meal with id id2 not found');
 
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
 
         $sut->removeMeal('id2');
     }
@@ -81,14 +93,14 @@ final class DayTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Product with id id2 not found');
 
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
 
         $sut->removeProduct('id2');
     }
 
     public function testRemoveProduct(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'));
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
         $sut->addProduct(
             new DayProduct(
                 'id',

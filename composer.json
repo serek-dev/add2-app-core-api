@@ -71,7 +71,7 @@
         ],
         "db:truncate": [
             "./bin/console doctrine:database:drop --force",
-            "./bin/console doctrine:database:create",
+            "./bin/console doctrine:database:create || true",
             "./bin/console doctrine:migrations:migrate --no-interaction"
         ],
         "phpunit": "php ./vendor/phpunit/phpunit/phpunit",

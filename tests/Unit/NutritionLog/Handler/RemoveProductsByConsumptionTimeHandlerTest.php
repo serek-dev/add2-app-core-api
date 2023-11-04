@@ -16,6 +16,8 @@ use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Persistence\Day\OrmDayPersistenceRepository;
 use App\NutritionLog\Persistence\Day\RemoveInterface;
 use App\NutritionLog\Value\ConsumptionTime;
+use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Weight;
 use App\Tests\Data\DayProductTestHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +25,17 @@ use PHPUnit\Framework\TestCase;
 
 final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
 {
+    private NutritionalValues $target;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->target = new NutritionalValues(
+            new Weight(100),
+            new Weight(100),
+            new Weight(100),
+            2500,
+        );
+    }
     public function testThrowsNotFoundOnNonExistingDay(): void
     {
         $sut = new RemoveProductsByConsumptionTimeHandler(
@@ -40,7 +53,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
     public function testThrowsNotFoundOnNonExistingMealAtGivenTime(): void
     {
         // Given I have a valid day
-        $day = new Day(new DateTimeImmutable());
+        $day = new Day(new DateTimeImmutable(), $this->target);
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
 
         // And the query that returns it
@@ -60,7 +73,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
     public function testRemovesAllProductsAndMeals(): void
     {
         // Given I have a valid day with two products
-        $day = new Day(new DateTimeImmutable());
+        $day = new Day(new DateTimeImmutable(), $this->target);
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
 

@@ -5,7 +5,11 @@ SELECT
     IFNULL(dmp.weight_sum, 0) + IFNULL(dp.weight_sum, 0) AS weight,
     IFNULL(dmp.proteins_sum, 0) + IFNULL(dp.proteins_sum, 0) AS proteins,
     IFNULL(dmp.fats_sum, 0) + IFNULL(dp.fats_sum, 0) AS fats,
-    IFNULL(dmp.carbs_sum, 0) + IFNULL(dp.carbs_sum, 0) AS carbs
+    IFNULL(dmp.carbs_sum, 0) + IFNULL(dp.carbs_sum, 0) AS carbs,
+    day.target_kcal targetKcal,
+    day.target_proteins targetProteins,
+    day.target_fats targetFats,
+    day.target_carbs targetCarbs
 FROM
     nutrition_log_day day
         LEFT JOIN (

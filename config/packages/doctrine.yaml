@@ -57,6 +57,11 @@ doctrine:
                         dir: '%kernel.project_dir%/src/NutritionLog/View'
                         prefix: 'App\NutritionLog\View'
                         alias: App\NutritionLog
+                    NutritionLogViewsValue:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/NutritionLog/Value'
+                        prefix: 'App\NutritionLog\Value'
+                        alias: App\NutritionLog
 
 when@prod:
     doctrine:

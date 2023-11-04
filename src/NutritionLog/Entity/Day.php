@@ -8,10 +8,12 @@ namespace App\NutritionLog\Entity;
 
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Value\ConsumptionTime;
+use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\Weight;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -41,6 +43,8 @@ class Day
     public function __construct(
         #[Column(type: 'date')]
         private readonly DateTimeInterface $date,
+        #[Embedded(class: NutritionalValues::class)]
+        private NutritionalValues          $target,
     ) {
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
@@ -211,5 +215,10 @@ class Day
         }
 
         $product->changeWeight($weight);
+    }
+
+    public function changeTarget(NutritionalValues $new): void
+    {
+        $this->target = $new;
     }
 }

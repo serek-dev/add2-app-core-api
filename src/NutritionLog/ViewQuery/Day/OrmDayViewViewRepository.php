@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use function array_map;
 use function file_get_contents;
 
-final class OrmDayViewViewRepository implements FindDayViewInterface, FindDayStatsViewInterface
+final class OrmDayViewViewRepository implements FindDayViewInterface
 {
     public function __construct(private readonly EntityManagerInterface $viewsEntityManager)
     {
@@ -24,14 +24,5 @@ final class OrmDayViewViewRepository implements FindDayViewInterface, FindDaySta
     {
         $repo = $this->viewsEntityManager->getRepository(DayView::class);
         return $repo->findOneBy(['date' => new DateTimeImmutable($date)]) ?? DayView::createEmpty($date);
-    }
-
-    /** @inheritDoc */
-    public function findStats(DateTimeInterface $from, DateTimeInterface $to): array
-    {
-        $statement = $this->viewsEntityManager->getConnection()->prepare(file_get_contents(__DIR__ . '/findStats.sql'));
-        $result = $statement->executeQuery([':from' => $from->format('Y-m-d'), ':to' => $to->format('Y-m-d')])->fetchAllAssociative();
-
-        return array_map(fn(array $row) => DayStatsView::fromArray($row), $result);
     }
 }
