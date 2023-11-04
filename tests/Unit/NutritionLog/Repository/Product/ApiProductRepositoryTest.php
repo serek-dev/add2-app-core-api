@@ -6,6 +6,7 @@ use App\NutritionLog\Entity\Product;
 use App\NutritionLog\Repository\Product\ApiProductRepository;
 use App\NutritionLog\Repository\Product\FindAllProductsInterface;
 use App\NutritionLog\Repository\Product\GetOneProductInterface;
+use App\NutritionLog\Value\Weight;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -113,6 +114,8 @@ final class ApiProductRepositoryTest extends TestCase
 
         foreach ($products as $p) {
             $this->assertInstanceOf(Product::class, $p);
+            // if there is no weight attribute, it should return 100 as weight
+            $this->assertEquals(new Weight(100.0), $p->getWeight());
         }
     }
 }

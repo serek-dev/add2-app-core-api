@@ -77,7 +77,7 @@ final class Product
                 (float)$body['kcal'],
             ),
             name: $body['name'],
-            weight: $body['weight'] ? new Weight($body['weight']) : new Weight(100.0),
+            weight: isset($body['weight']) ? new Weight($body['weight']) : new Weight(100.0),
             producerName: $body['producerName'],
             portion: isset($body['unit']) && isset($body['weightPerUnit']) ? new Portion($body['unit'], $body['weightPerUnit']) : null,
         );
