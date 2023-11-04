@@ -52,7 +52,7 @@ class DayView implements JsonSerializable, LogAbleInterface
     {
         return [
             'id' => $this->id,
-            'date' => $this->date,
+            'date' => $this->date->format('Y-m-d'),
             'proteins' => $this->getProteins(),
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),

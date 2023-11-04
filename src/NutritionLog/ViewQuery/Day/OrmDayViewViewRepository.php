@@ -8,6 +8,7 @@ namespace App\NutritionLog\ViewQuery\Day;
 
 use App\NutritionLog\View\DayStatsView;
 use App\NutritionLog\View\DayView;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use function array_map;
@@ -21,7 +22,7 @@ final class OrmDayViewViewRepository implements FindDayViewInterface, FindDaySta
     public function findDay(string $date): DayView
     {
         $repo = $this->viewsEntityManager->getRepository(DayView::class);
-        return $repo->findOneBy(['date' => $date]) ?? DayView::createEmpty($date);
+        return $repo->findOneBy(['date' => new DateTimeImmutable($date)]) ?? DayView::createEmpty($date);
     }
 
     /** @inheritDoc */
