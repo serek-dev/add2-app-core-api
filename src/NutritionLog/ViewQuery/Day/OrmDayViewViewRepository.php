@@ -29,10 +29,17 @@ final class OrmDayViewViewRepository implements FindDayViewInterface, FindDaySta
     public function findStats(DateTimeInterface $from, DateTimeInterface $to): array
     {
         $query = $this->viewsEntityManager->createQueryBuilder()
-            ->select('day.date, (SUM(dmp.kcal)) AS kcal, (SUM(dmp.proteins)) AS proteins, (SUM(dmp.fats)) AS fats, (SUM(dmp.carbs)) AS carbs')
+            ->select('
+            day.date, 
+            COALESCE(SUM(dmp.kcal) + SUM(dp.kcal)) AS kcal, 
+            COALESCE(SUM(dmp.proteins) + SUM(dp.proteins)) AS proteins, 
+            COALESCE(SUM(dmp.fats) + SUM(dp.fats)) AS fats, 
+            COALESCE(SUM(dmp.carbs) + SUM(dp.carbs)) AS carbs
+            ')
             ->from(DayView::class, 'day')
             ->leftJoin('day.meals', 'dm')
             ->leftJoin('dm.products', 'dmp')
+            ->leftJoin('day.products', 'dp')
             ->where('day.date >= :startDate')
             ->andWhere('day.date <= :endDate')
             ->setParameter('startDate', $from)
