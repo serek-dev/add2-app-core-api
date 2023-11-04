@@ -8,10 +8,12 @@ namespace App\NutritionLog\Entity;
 
 use App\NutritionLog\Value\ConsumptionTime;
 use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Portion;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -44,17 +46,20 @@ class DayProduct
     private ?string $producerName;
     #[Column]
     private string $consumptionTime;
+    #[Embedded(class: Portion::class, columnPrefix: false)]
+    private ?Portion $portion;
 
     public function __construct(
         #[Id]
         #[GeneratedValue(strategy: "NONE")]
         #[Column]
         private readonly string $id,
-        Weight $weight,
+        Weight                  $weight,
         private NutritionalValues $nutritionalValues,
-        ConsumptionTime $consumptionTime,
-        private ProductDetail $original,
-    ) {
+        ConsumptionTime         $consumptionTime,
+        private ProductDetail   $original,
+    )
+    {
         $this->proteins = $this->nutritionalValues->getProteins()->getRaw();
         $this->fats = $this->nutritionalValues->getFats()->getRaw();
         $this->carbs = $this->nutritionalValues->getCarbs()->getRaw();
@@ -66,6 +71,8 @@ class DayProduct
         $this->producerName = $this->original->getOriginalProducerName();
 
         $this->consumptionTime = (string)$consumptionTime;
+
+        $this->portion = $this->original->getPortion();
     }
 
     public function setDay(Day $day): void
@@ -96,5 +103,10 @@ class DayProduct
             new Weight($this->carbs),
             $this->kcal
         );
+    }
+
+    public function getPortion(): ?Portion
+    {
+        return $this->portion;
     }
 }

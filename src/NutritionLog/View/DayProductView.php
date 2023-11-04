@@ -44,6 +44,10 @@ class DayProductView implements JsonSerializable, LogAbleInterface
         private readonly float $kcal,
         #[Column]
         private readonly float $weight,
+        #[Column(nullable: true)]
+        private readonly ?string $unit,
+        #[Column(nullable: true)]
+        private readonly ?int    $weightPerUnit,
     ) {
     }
 
@@ -59,6 +63,8 @@ class DayProductView implements JsonSerializable, LogAbleInterface
             'kcal' => $this->getKcal(),
             'weight' => $this->getWeight(),
             'productId' => $this->productId,
+            'unit' => $this->unit,
+            'weightPerUnit' => $this->weightPerUnit,
         ];
     }
 

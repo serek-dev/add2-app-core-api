@@ -41,6 +41,7 @@ final class DayProductFactory
                 $product->getId(),
                 $product->getName(),
                 $product->getProducerName(),
+                $product->getPortion(),
             ),
         );
     }

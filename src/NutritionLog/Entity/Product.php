@@ -7,6 +7,7 @@ namespace App\NutritionLog\Entity;
 
 
 use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Portion;
 use App\NutritionLog\Value\Weight;
 
 final class Product
@@ -21,7 +22,8 @@ final class Product
         private readonly NutritionalValues $nutritionalValues,
         private readonly string $name,
         private readonly Weight $weight,
-        private readonly ?string $producerName
+        private readonly ?string  $producerName,
+        private readonly ?Portion $portion = null
     ) {
         $this->proteins = $this->nutritionalValues->getProteins()->getRaw();
         $this->fats = $this->nutritionalValues->getFats()->getRaw();
@@ -57,5 +59,10 @@ final class Product
     public function getWeight(): Weight
     {
         return new Weight($this->weight->getRaw());
+    }
+
+    public function getPortion(): ?Portion
+    {
+        return $this->portion;
     }
 }

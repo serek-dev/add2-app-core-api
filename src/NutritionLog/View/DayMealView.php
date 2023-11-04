@@ -53,6 +53,8 @@ class DayMealView implements JsonSerializable, LogAbleInterface
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
             'weight' => $this->getWeight(),
+            'unit' => null,
+            'weightPerUnit' => null,
             'modified' => $this->isModified(),
             'products' => $this->products->toArray(),
         ];

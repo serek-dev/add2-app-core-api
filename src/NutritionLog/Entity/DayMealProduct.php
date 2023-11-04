@@ -7,9 +7,11 @@ namespace App\NutritionLog\Entity;
 
 
 use App\NutritionLog\Value\NutritionalValues;
+use App\NutritionLog\Value\Portion;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
@@ -41,6 +43,9 @@ class DayMealProduct
     #[Column(nullable: true)]
     private ?string $producerName;
 
+    #[Embedded(class: Portion::class, columnPrefix: false)]
+    private ?Portion $portion;
+
     public function __construct(
         #[Id]
         #[GeneratedValue(strategy: "NONE")]
@@ -59,6 +64,8 @@ class DayMealProduct
         $this->productId = $this->original->getOriginalProductId();
         $this->productName = $this->original->getOriginalProductName();
         $this->producerName = $this->original->getOriginalProducerName();
+
+        $this->portion = $this->original->getPortion();
     }
 
     public function setMeal(DayMeal $value): void

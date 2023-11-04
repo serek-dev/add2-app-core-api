@@ -25,25 +25,31 @@ class DayMealProductView implements JsonSerializable, LogAbleInterface
     #[Column]
     private readonly string $id;
     #[Column]
-    private float $weight;
+    private readonly float $weight;
     #[Column]
-    private float $proteins;
+    private readonly float $proteins;
     #[Column]
-    private float $fats;
+    private readonly float $fats;
     #[Column]
-    private float $carbs;
+    private readonly float $carbs;
     #[Column]
-    private float $kcal;
+    private readonly float $kcal;
 
     #[ManyToOne(targetEntity: DayMealView::class, inversedBy: 'products')]
-    private DayMealView $meal;
+    private readonly DayMealView $meal;
 
     #[Column]
-    private string $productId;
+    private readonly string $productId;
     #[Column]
-    private string $productName;
+    private readonly string $productName;
     #[Column(nullable: true)]
-    private ?string $producerName;
+    private readonly ?string $producerName;
+
+    #[Column(nullable: true)]
+    private readonly ?string $unit;
+    #[Column(nullable: true)]
+    private readonly ?int $weightPerUnit;
+
 
     public function jsonSerialize(): array
     {
@@ -56,6 +62,8 @@ class DayMealProductView implements JsonSerializable, LogAbleInterface
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
             'weight' => $this->getWeight(),
+            'unit' => $this->unit,
+            'weightPerUnit' => $this->weightPerUnit,
         ];
     }
 

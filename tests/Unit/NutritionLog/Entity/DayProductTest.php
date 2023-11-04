@@ -4,6 +4,7 @@ namespace App\Tests\Unit\NutritionLog\Entity;
 
 use App\NutritionLog\Entity\DayProduct;
 use App\NutritionLog\Value\ConsumptionTime;
+use App\NutritionLog\Value\Portion;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
 use App\Tests\Data\NutritionLogTestHelper;
@@ -22,10 +23,13 @@ final class DayProductTest extends TestCase
             original: new ProductDetail(
                 'id',
                 'name',
-                'producer'
+                'producer',
+                new Portion('g', 100.0),
             ),
         );
 
         $this->assertInstanceOf(DayProduct::class, $sut);
+
+        $this->assertEquals(new Portion('g', 100.0), $sut->getPortion());
     }
 }

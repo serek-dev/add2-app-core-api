@@ -12,6 +12,7 @@ final class ProductDetail
         private readonly string $originalProductId,
         private readonly string $originalProductName,
         private readonly ?string $originalProducerName = null,
+        private readonly ?Portion $portion = null,
     ) {
     }
 
@@ -28,5 +29,10 @@ final class ProductDetail
     public function getOriginalProducerName(): ?string
     {
         return $this->originalProducerName;
+    }
+
+    public function getPortion(): ?Portion
+    {
+        return $this->portion;
     }
 }
