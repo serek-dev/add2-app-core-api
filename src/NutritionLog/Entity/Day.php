@@ -204,4 +204,16 @@ class Day
 
         throw new NotFoundException("Product with id $productId not found");
     }
+
+    public function changeProductWeight(string $productId, Weight $weight): void
+    {
+        /** @var DayProduct $product */
+        $product = $this->products->filter(fn(DayProduct $m) => $m->getId() === $productId)->first();
+
+        if (!is_object($product)) {
+            throw new NotFoundException("Product with id $productId not found");
+        }
+
+        $product->changeWeight($weight);
+    }
 }
