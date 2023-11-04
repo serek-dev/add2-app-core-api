@@ -68,7 +68,7 @@ final class Product
 
     public static function createFromArray(array $body): Product
     {
-        return new Product(
+        return new self(
             id: $body['id'],
             nutritionalValues: new NutritionalValues(
                 new Weight((float)$body['proteins']),
@@ -77,7 +77,7 @@ final class Product
                 (float)$body['kcal'],
             ),
             name: $body['name'],
-            weight: new Weight(100.0),
+            weight: $body['weight'] ? new Weight($body['weight']) : new Weight(100.0),
             producerName: $body['producerName'],
             portion: isset($body['unit']) && isset($body['weightPerUnit']) ? new Portion($body['unit'], $body['weightPerUnit']) : null,
         );
