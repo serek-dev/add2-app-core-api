@@ -5,6 +5,7 @@ namespace App\Tests\Unit\NutritionLog\Factory;
 use App\NutritionLog\Entity\Day;
 use App\NutritionLog\Exception\DuplicateException;
 use App\NutritionLog\Factory\DayFactory;
+use App\NutritionLog\Factory\DayFactoryNutritionalTargetResolverInterface;
 use App\NutritionLog\Factory\NutritionalTargetResolver;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Value\NutritionalValues;
@@ -34,7 +35,7 @@ final class DayFactoryTest extends TestCase
             ->willReturn(new Day(new DateTimeImmutable(), $this->target));
 
         // And my factory
-        $sut = new DayFactory($query, new NutritionalTargetResolver());
+        $sut = new DayFactory($query, $this->createMock(DayFactoryNutritionalTargetResolverInterface::class));
 
         // Then show me an error
         $this->expectException(DuplicateException::class);
@@ -51,7 +52,10 @@ final class DayFactoryTest extends TestCase
             ->willReturn(null);
 
         // And my factory
-        $sut = new DayFactory($query, new NutritionalTargetResolver());
+        $resolver = $this->createMock(DayFactoryNutritionalTargetResolverInterface::class);
+        $resolver->method('resolve')
+            ->willReturn($this->target);
+        $sut = new DayFactory($query, $resolver);
 
         // When trying to create
         $res = $sut->create($date = new DateTimeImmutable('2020-01-01'));

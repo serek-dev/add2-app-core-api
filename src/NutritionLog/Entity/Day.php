@@ -221,4 +221,9 @@ class Day
     {
         $this->target = $new;
     }
+
+    public function getTarget(): NutritionalValues
+    {
+        return $this->target;
+    }
 }
