@@ -4,41 +4,39 @@ declare(strict_types=1);
 
 namespace App\NutritionLog\View;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 final class DayStatsView
 {
-    public readonly string $date;
-
-    public readonly int $kcal;
-
-    public readonly int $proteins;
-
-    public readonly int $fats;
-
-    public readonly int $carbs;
 
     private function __construct(
-        string $date,
-        int    $kcal,
-        int    $proteins,
-        int    $fats,
-        int    $carbs
+        public readonly string $date,
+        public readonly int    $kcal,
+        public readonly int    $proteins,
+        public readonly int    $fats,
+        public readonly int    $carbs,
+        public readonly int    $weight,
     )
     {
-        $this->date = $date;
-        $this->kcal = $kcal;
-        $this->proteins = $proteins;
-        $this->fats = $fats;
-        $this->carbs = $carbs;
     }
 
-    public static function fromArray(mixed $row): self
+    #[ArrayShape([
+        'date' => "string",
+        'kcal' => "int|string",
+        'proteins' => "int|string",
+        'fats' => "int|string",
+        'carbs' => "int|string",
+        'weight' => "int|string",
+    ])]
+    public static function fromArray(array $row): self
     {
         return new self(
-            $row['date']->format('Y-m-d'),
+            $row['date'],
             (int)$row['kcal'],
             (int)$row['proteins'],
             (int)$row['fats'],
             (int)$row['carbs'],
+            (int)$row['weight'],
         );
     }
 }

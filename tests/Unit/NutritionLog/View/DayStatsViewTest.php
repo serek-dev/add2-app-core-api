@@ -12,11 +12,12 @@ final class DayStatsViewTest extends TestCase
     public function testFromArray(): void
     {
         $view = DayStatsView::fromArray([
-            'date' => new \DateTimeImmutable('2021-01-01'),
+            'date' => '2021-01-01',
             'kcal' => '100.0',
             'proteins' => '10.0',
             'fats' => '20.0',
             'carbs' => '30.0',
+            'weight' => '32.0',
         ]);
 
         self::assertSame('2021-01-01', $view->date);
@@ -24,5 +25,6 @@ final class DayStatsViewTest extends TestCase
         self::assertSame(10, $view->proteins);
         self::assertSame(20, $view->fats);
         self::assertSame(30, $view->carbs);
+        self::assertSame(32, $view->weight);
     }
 }

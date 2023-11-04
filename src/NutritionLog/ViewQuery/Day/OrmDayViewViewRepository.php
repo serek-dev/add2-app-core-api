@@ -12,6 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use function array_map;
+use function file_get_contents;
 
 final class OrmDayViewViewRepository implements FindDayViewInterface, FindDayStatsViewInterface
 {
@@ -28,26 +29,9 @@ final class OrmDayViewViewRepository implements FindDayViewInterface, FindDaySta
     /** @inheritDoc */
     public function findStats(DateTimeInterface $from, DateTimeInterface $to): array
     {
-        $query = $this->viewsEntityManager->createQueryBuilder()
-            ->select('
-            day.date, 
-            COALESCE(SUM(dmp.kcal) + SUM(dp.kcal)) AS kcal, 
-            COALESCE(SUM(dmp.proteins) + SUM(dp.proteins)) AS proteins, 
-            COALESCE(SUM(dmp.fats) + SUM(dp.fats)) AS fats, 
-            COALESCE(SUM(dmp.carbs) + SUM(dp.carbs)) AS carbs
-            ')
-            ->from(DayView::class, 'day')
-            ->leftJoin('day.meals', 'dm')
-            ->leftJoin('dm.products', 'dmp')
-            ->leftJoin('day.products', 'dp')
-            ->where('day.date >= :startDate')
-            ->andWhere('day.date <= :endDate')
-            ->setParameter('startDate', $from)
-            ->setParameter('endDate', $to)
-            ->groupBy('day.date')
-            ->orderBy('day.date', 'ASC')
-            ->getQuery();
+        $statement = $this->viewsEntityManager->getConnection()->prepare(file_get_contents(__DIR__ . '/findStats.sql'));
+        $result = $statement->executeQuery([':from' => $from->format('Y-m-d'), ':to' => $to->format('Y-m-d')])->fetchAllAssociative();
 
-        return array_map(fn(array $row) => DayStatsView::fromArray($row), $query->getArrayResult());
+        return array_map(fn(array $row) => DayStatsView::fromArray($row), $result);
     }
 }
