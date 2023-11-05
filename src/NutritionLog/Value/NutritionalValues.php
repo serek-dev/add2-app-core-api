@@ -12,16 +12,16 @@ use Doctrine\ORM\Mapping\Embeddable;
 #[Embeddable]
 final class NutritionalValues
 {
-    #[Column(nullable: true)] private float $proteins = 0.0;
-    #[Column(nullable: true)] private float $fats = 0.0;
-    #[Column(nullable: true)] private float $carbs = 0.0;
+    #[Column(nullable: true)] private readonly float $proteins;
+    #[Column(nullable: true)] private readonly float $fats;
+    #[Column(nullable: true)] private readonly float $carbs;
 
     public function __construct(
         Weight                 $proteins,
         Weight                 $fats,
         Weight                 $carbs,
         #[Column(nullable: true)]
-        private readonly float $kcal = 0.0,
+        private readonly float $kcal,
     )
     {
         $this->carbs = $carbs->getRaw();
