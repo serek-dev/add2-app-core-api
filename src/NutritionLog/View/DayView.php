@@ -6,8 +6,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\View;
 
 
-use App\NutritionLog\Value\NutritionalValues;
-use App\NutritionLog\Value\Weight;
+use App\NutritionLog\Value\NutritionalTarget;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,20 +40,21 @@ class DayView implements JsonSerializable, LogAbleInterface
         public readonly ?string           $id,
         #[Column(type: 'date')]
         public readonly DateTimeInterface $date,
-        #[Embedded(class: NutritionalValues::class)]
-        private NutritionalValues         $target,
-    ) {
+        #[Embedded(class: NutritionalTarget::class)]
+        private NutritionalTarget         $target,
+    )
+    {
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
     }
 
     public static function createEmpty(string $date): self
     {
-        return new self(null, new DateTimeImmutable($date), new NutritionalValues(
-            new Weight(0),
-            new Weight(0),
-            new Weight(0),
+        return new self(null, new DateTimeImmutable($date), new NutritionalTarget(
             0,
+            0,
+            0,
+            0.0,
         ));
     }
 
@@ -69,9 +69,9 @@ class DayView implements JsonSerializable, LogAbleInterface
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),
 
-            'proteinsTarget' => $this->target->getProteins()->getRaw(),
-            'fatsTarget' => $this->target->getFats()->getRaw(),
-            'carbsTarget' => $this->target->getCarbs()->getRaw(),
+            'proteinsTarget' => $this->target->getProteins(),
+            'fatsTarget' => $this->target->getFats(),
+            'carbsTarget' => $this->target->getCarbs(),
             'kcalTarget' => $this->target->getKcal(),
             'weight' => $this->getWeight(),
 

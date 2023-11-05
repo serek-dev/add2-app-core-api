@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\NutritionLog\Factory;
 
 use App\NutritionLog\Repository\FindClosestPreviousDayInterface;
-use App\NutritionLog\Value\NutritionalValues;
-use App\NutritionLog\Value\Weight;
+use App\NutritionLog\Value\NutritionalTarget;
 use DateTimeInterface;
 
 final class NutritionalTargetResolver implements DayFactoryNutritionalTargetResolverInterface
@@ -15,12 +14,12 @@ final class NutritionalTargetResolver implements DayFactoryNutritionalTargetReso
     {
     }
 
-    public function resolve(DateTimeInterface $dateTime): NutritionalValues
+    public function resolve(DateTimeInterface $dateTime): NutritionalTarget
     {
-        $null = new NutritionalValues(
-            new Weight(0.0),
-            new Weight(0.0),
-            new Weight(0.0),
+        $null = new NutritionalTarget(
+            0,
+            0,
+            0,
             0.0,
         );
 

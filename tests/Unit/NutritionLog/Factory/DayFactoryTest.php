@@ -8,6 +8,7 @@ use App\NutritionLog\Factory\DayFactory;
 use App\NutritionLog\Factory\DayFactoryNutritionalTargetResolverInterface;
 use App\NutritionLog\Factory\NutritionalTargetResolver;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
+use App\NutritionLog\Value\NutritionalTarget;
 use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\Weight;
 use DateTimeImmutable;
@@ -16,15 +17,15 @@ use PHPUnit\Framework\TestCase;
 /** @covers \App\NutritionLog\Factory\DayFactory */
 final class DayFactoryTest extends TestCase
 {
-    private NutritionalValues $target;
+    private NutritionalTarget $target;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->target = new NutritionalValues(
-            new Weight(100),
-            new Weight(100),
-            new Weight(100),
-            2500,
+        $this->target = new NutritionalTarget(
+            0,
+            0,
+            0,
+            0.0,
         );
     }
     public function testCreateThrowsExceptionOnExistingDay(): void

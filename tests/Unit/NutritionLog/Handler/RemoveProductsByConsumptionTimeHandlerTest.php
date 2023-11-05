@@ -16,8 +16,7 @@ use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Persistence\Day\OrmDayPersistenceRepository;
 use App\NutritionLog\Persistence\Day\RemoveInterface;
 use App\NutritionLog\Value\ConsumptionTime;
-use App\NutritionLog\Value\NutritionalValues;
-use App\NutritionLog\Value\Weight;
+use App\NutritionLog\Value\NutritionalTarget;
 use App\Tests\Data\DayProductTestHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,17 +24,19 @@ use PHPUnit\Framework\TestCase;
 
 final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
 {
-    private NutritionalValues $target;
+    private NutritionalTarget $target;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->target = new NutritionalValues(
-            new Weight(100),
-            new Weight(100),
-            new Weight(100),
-            2500,
+        $this->target = new NutritionalTarget(
+            0,
+            0,
+            0,
+            0.0,
         );
     }
+
     public function testThrowsNotFoundOnNonExistingDay(): void
     {
         $sut = new RemoveProductsByConsumptionTimeHandler(

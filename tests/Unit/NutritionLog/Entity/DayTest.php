@@ -7,6 +7,7 @@ use App\NutritionLog\Entity\DayMeal;
 use App\NutritionLog\Entity\DayProduct;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Value\ConsumptionTime;
+use App\NutritionLog\Value\NutritionalTarget;
 use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
@@ -17,15 +18,15 @@ use PHPUnit\Framework\TestCase;
 /** @covers \App\NutritionLog\Entity\Day */
 final class DayTest extends TestCase
 {
-    private NutritionalValues $target;
+    private NutritionalTarget $target;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->target = new NutritionalValues(
-            new Weight(100),
-            new Weight(100),
-            new Weight(100),
-            2500,
+        $this->target = new NutritionalTarget(
+            0,
+            0,
+            0,
+            0.0,
         );
     }
 
