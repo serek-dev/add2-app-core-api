@@ -36,6 +36,11 @@ doctrine:
                         dir: '%kernel.project_dir%/src/NutritionLog/Value'
                         prefix: 'App\NutritionLog\Value'
                         alias: App\NutritionLog
+                    MetricsEntity:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Metric/Entity'
+                        prefix: 'App\Metric\Entity'
+                        alias: App\Metric\Entity
             views:
                 connection: default
                 report_fields_where_declared: true
