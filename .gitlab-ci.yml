@@ -16,12 +16,12 @@ stages:
 tests_phpunit:
   stage: test
   script:
-    - docker-compose run --rm tests_unit
+    - docker-compose -f docker-compose.gitlab.yml run --rm tests_unit
 
 tests_architecture:
   stage: test
   script:
-    - docker-compose run --rm tests_architecture
+    - docker-compose -f docker-compose.gitlab.yml run --rm tests_architecture
 
 build:
   stage: build

@@ -2,6 +2,19 @@ version: '3.6'
 
 services:
 
+  tests_unit:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      target: static_analysis
+
+  tests_architecture:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      target: static_analysis
+    command: [ "composer", "tests:architecture" ]
+
   build_app:
     build:
       context: .
