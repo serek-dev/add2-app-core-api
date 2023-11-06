@@ -9,7 +9,7 @@ use DateTimeInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-final readonly class FindMetricDto
+final class FindMetricDto
 {
     public function __construct(
         public array|null  $types,
