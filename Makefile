@@ -9,13 +9,14 @@ start: stop build up _finish ## Starts containers with build
 fast: stop up _finish ## Attempts to start existing containers
 
 up:
+	docker network create add2_backend
 	$(docker-compose) run --rm dependencies
 	$(docker-compose) up --force-recreate -d
-	$(docker-compose) exec app composer install
-	$(docker-compose) exec app sh ./tools/post_deploy.sh
 
 build:
 	$(docker-compose) build
+	$(docker-compose) exec app composer install
+	$(docker-compose) exec app sh ./tools/post_deploy.sh
 
 stop: ## Stops containers and removes network
 	$(docker-compose) down --remove-orphans

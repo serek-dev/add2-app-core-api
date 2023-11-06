@@ -23,7 +23,7 @@ RUN apt-get update \
 
 CMD ["composer", "tests:unit"]
 
-FROM php:8.1.8-fpm-alpine as base
+FROM php:8.1.8-fpm-alpine as dev
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
@@ -51,16 +51,4 @@ COPY resources resources
 COPY src src
 
 RUN mkdir -p var/ && chmod 777 -R var/ \
-    && composer install --no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader
-
-# Development environment
-FROM base as dev
-RUN composer install --dev
-
-# Missing packages for alpine
-# https://stackoverflow.com/questions/19816275/no-acceptable-c-compiler-found-in-path-when-installing-python
-RUN apk add autoconf build-base \
-    && pecl install xdebug-3.1.0 \
-
-COPY ./docker/app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-RUN	docker-php-ext-enable xdebug
+    && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader

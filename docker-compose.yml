@@ -15,24 +15,17 @@ services:
       target: static_analysis
     command: [ "composer", "tests:architecture" ]
 
-  web:
+  app:
+    container_name: add2_backend_api
     build:
       context: .
-      dockerfile: ./docker/web/Dockerfile
-    depends_on:
-      - app
+      dockerfile: ./docker/web_app/Dockerfile
+    volumes:
+      - ./:/var/www/html/
     ports:
       - "8888:80"
-
-  app:
-    build:
-      context: .
-      dockerfile: ./docker/app/Dockerfile
-      target: dev
-    volumes:
-      - ./:/app/
-    expose:
-      - 9000
+    networks:
+      - add2_backend
 
   db:
     image: mysql:8.0.23
@@ -47,14 +40,22 @@ services:
       MYSQL_PASSWORD: Rand0m
     ports:
       - 3306:3306
+    networks:
+      - add2_backend
 
   dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
       - db
       - app
-    command: db:3306 app:9000
+    command: db:3306
+    networks:
+      - add2_backend
 
 volumes:
   app-volume:
   app-db-volume:
+
+networks:
+  add2_backend:
+    external: true
