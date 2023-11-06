@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use JsonSerializable;
 
 #[Entity('metrics_metric')]
-class Metric
+class Metric implements JsonSerializable
 {
     #[Column(type: 'integer')]
     #[GeneratedValue]
@@ -46,5 +47,14 @@ class Metric
     public function getTime(): DateTimeInterface
     {
         return $this->time;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'type' => $this->type,
+            'value' => $this->value,
+            'time' => $this->time->format(DATE_ATOM),
+        ];
     }
 }
