@@ -49,13 +49,14 @@ final class OrmMetricRepository implements CreateMetricInterface, FindMetricsInt
 
     public function findAverageByTypesTimeAscOrdered(DateTimeInterface $from, DateTimeInterface $to, array $types = []): array
     {
-        $statement = $this->entityManager->getConnection()->prepare(file_get_contents(__DIR__ . '/findAverageByTypesTimeAscOrdered.sql'));
-        $result = $statement->executeQuery([
-            ':from' => $from->format('Y-m-d H:i'),
-            ':to' => $to->format('Y-m-d H:i'),
-//            ':types' => implode(', ', $types), todo
-        ])
-            ->fetchAllAssociative();
+        $rawSql = file_get_contents(__DIR__ . '/findAverageByTypesTimeAscOrdered.sql');
+        $statement = $this->entityManager->getConnection()->prepare($rawSql);
+
+        $statement->bindValue('from', $from->format('Y-m-d H:i'));
+        $statement->bindValue('to', $to->format('Y-m-d H:i'));
+        $statement->bindValue('types', implode(',', $types));
+
+        $result = $statement->executeQuery()->fetchAllAssociative();
 
         return array_map(fn(array $row) => new Metric($row['type'], $row['value'], new DateTimeImmutable($row['time'])), $result);
     }
