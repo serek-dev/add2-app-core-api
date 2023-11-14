@@ -46,7 +46,7 @@ services:
         arguments:
             $specifications: !tagged app.catalog.product_specification.update
 
-    App\Metric\Factory\Factory:
-        class: App\Metric\Factory\Factory
+    App\Metric\Factory\MetricFactoryDirector:
+        class: App\Metric\Factory\MetricFactoryDirector
         arguments:
             $factories: !tagged app.metric.factory
