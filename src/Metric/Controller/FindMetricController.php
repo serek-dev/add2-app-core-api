@@ -10,7 +10,6 @@ use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -20,18 +19,27 @@ use function date;
 #[Route('/api/metric/metrics', methods: ['GET'])]
 final class FindMetricController extends AbstractController
 {
-    public function __invoke(Request $request, ValidatorInterface $validator, FindMetricsInterface $findUngrouped): JsonResponse
+    public function __invoke(Request $request, ValidatorInterface $validator, FindMetricsInterface $find): JsonResponse
     {
         $dto = new FindMetricDto(
             $request->query->all('types'),
             $request->query->get('from', (new DateTimeImmutable())->modify('-1 week')->format('Y-m-d')),
             $request->query->get('to', date('Y-m-d')),
-            $request->query->getBoolean('avg'),
+            $request->query->get('aggregation'),
         );
 
-        if (!$dto->avg) {
+        if ($dto->aggregation === 'avg') {
             return $this->json([
-                'collection' => $findUngrouped->findByTypesTimeAscOrdered(
+                'collection' => $find->findAverageByTypesTimeAscOrdered(
+                    from: $dto->getFrom(),
+                    to: $dto->getTo(),
+                    types: $dto->getTypes())
+            ]);
+        }
+
+        if ($dto->aggregation === 'sum') {
+            return $this->json([
+                'collection' => $find->findSumByTypesTimeAscOrdered(
                     from: $dto->getFrom(),
                     to: $dto->getTo(),
                     types: $dto->getTypes())
@@ -39,7 +47,7 @@ final class FindMetricController extends AbstractController
         }
 
         return $this->json([
-            'collection' => $findUngrouped->findAverageByTypesTimeAscOrdered(
+            'collection' => $find->findByTypesTimeAscOrdered(
                 from: $dto->getFrom(),
                 to: $dto->getTo(),
                 types: $dto->getTypes())

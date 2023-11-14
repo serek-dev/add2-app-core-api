@@ -25,7 +25,7 @@ final class MetricFixtures extends Fixture implements FixtureGroupInterface
         $now = new DateTimeImmutable();
         $dates = [];
 
-        $range = range(0, 2);
+        $range = range(0, 7);
 
         foreach ($range as $value) {
             $dates[] = $now->modify("-{$value} day");
@@ -37,11 +37,23 @@ final class MetricFixtures extends Fixture implements FixtureGroupInterface
                 // random time within the same day
                 $date = $date->setTime(rand(0, 23), rand(0, 59), rand(0, 59));
 
+                // hunger
                 $manager->persist(
                     $this->factory->create(
                         new CreateMetricDto(
                             type: MetricType::HUNGER->value,
                             value: rand(1, 10),
+                            date: $date->format('Y-m-d H:i'),
+                        )
+                    )
+                );
+
+                // kcal
+                $manager->persist(
+                    $this->factory->create(
+                        new CreateMetricDto(
+                            type: MetricType::KCAL->value,
+                            value: rand(10, 400),
                             date: $date->format('Y-m-d H:i'),
                         )
                     )

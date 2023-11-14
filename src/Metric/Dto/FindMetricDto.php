@@ -7,7 +7,6 @@ namespace App\Metric\Dto;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class FindMetricDto
 {
@@ -17,7 +16,7 @@ final class FindMetricDto
         public string|null $from,
         #[DateTime]
         public string|null $to,
-        public bool $avg = false,
+        public string|null $aggregation = null,
     )
     {
     }

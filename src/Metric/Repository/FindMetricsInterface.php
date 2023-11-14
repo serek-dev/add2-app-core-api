@@ -18,4 +18,10 @@ interface FindMetricsInterface
      * @return Metric[]
      */
     public function findAverageByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
+
+    /**
+     * @param string[] $types
+     * @return Metric[]
+     */
+    public function findSumByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
 }

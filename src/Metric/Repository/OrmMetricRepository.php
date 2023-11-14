@@ -49,10 +49,32 @@ final class OrmMetricRepository implements CreateMetricInterface, FindMetricsInt
 
     public function findAverageByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
     {
+        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findAverageByTypesTimeAscOrdered.sql');
+    }
+
+    private function adjustTime(DateTimeImmutable $time, bool $down): DateTimeImmutable
+    {
+        return $time->setTime(
+            $down ? 0 : 23,
+            $down ? 0 : 59,
+            $down ? 0 : 59);
+    }
+
+    public function findSumByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
+    {
+        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findSumByTypesTimeAscOrdered.sql');
+    }
+
+    /**
+     * @param string[] $types
+     * @return Metric[]
+     */
+    public function getResultsUsingSqlFromFile(DateTimeImmutable $from, DateTimeImmutable $to, array $types, string $fileName): array
+    {
         $from = $this->adjustTime($from, true);
         $to = $this->adjustTime($to, false);
 
-        $rawSql = file_get_contents(__DIR__ . '/findAverageByTypesTimeAscOrdered.sql');
+        $rawSql = file_get_contents(__DIR__ . '/' . $fileName);
         $statement = $this->entityManager->getConnection()->prepare($rawSql);
 
         $statement->bindValue('from', $from->format('Y-m-d H:i'));
@@ -62,13 +84,5 @@ final class OrmMetricRepository implements CreateMetricInterface, FindMetricsInt
         $result = $statement->executeQuery()->fetchAllAssociative();
 
         return array_map(fn(array $row) => new Metric($row['type'], $row['value'], new DateTimeImmutable($row['time'])), $result);
-    }
-
-    private function adjustTime(DateTimeImmutable $time, bool $down): DateTimeImmutable
-    {
-        return $time->setTime(
-            $down ? 0 : 23,
-            $down ? 0 : 59,
-            $down ? 0 : 59);
     }
 }
