@@ -11,5 +11,5 @@ interface MetricFactoryInterface
 {
     public function supports(string $type): bool;
 
-    public function create(string $type, float|string|int $value, DateTimeInterface $date): Metric;
+    public function create(string $type, float|string|int $value, DateTimeInterface $date, ?string $parentId, ?string $parentName): Metric;
 }

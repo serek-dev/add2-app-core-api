@@ -32,7 +32,7 @@ final class WeightMetricFactoryTest extends TestCase
         $value = 50.5;
         $date = new DateTimeImmutable();
 
-        $metric = $factory->create($type, $value, $date);
+        $metric = $factory->create($type, $value, $date, null, null);
 
         $this->assertInstanceOf(Metric::class, $metric);
         $this->assertEquals($type, $metric->getType());
@@ -50,7 +50,7 @@ final class WeightMetricFactoryTest extends TestCase
         $date = new DateTimeImmutable();
 
         $this->expectException(DomainException::class);
-        $factory->create($type, $invalidValue, $date);
+        $factory->create($type, $invalidValue, $date, null, null);
     }
 
     public function invalidWeightValues(): array

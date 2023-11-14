@@ -26,7 +26,7 @@ final readonly class MetricFactoryDirector
                 $new = $f->create(
                     $dto->getType(),
                     $dto->getValue(),
-                    $dto->getDate() ?? new DateTimeImmutable()
+                    $dto->getDate() ?? new DateTimeImmutable(), null, null
                 );
                 return $new;
             }
@@ -43,6 +43,8 @@ final readonly class MetricFactoryDirector
                     'kcal',
                     $event->getKcal(),
                     $event->getDate(),
+                    $event->getDayProductId(),
+                    ProductAddedToNutritionLogInterface::class,
                 );
                 return $new;
             }

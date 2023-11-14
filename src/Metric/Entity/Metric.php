@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use InvalidArgumentException;
 use JsonSerializable;
 
 #[Entity('metrics_metric')]
@@ -18,15 +19,23 @@ class Metric implements JsonSerializable
     #[GeneratedValue]
     #[Id]
     private ?int $id;
+
     public function __construct(
         #[Column(length: 25)]
-        private readonly string $type,
+        private readonly string            $type,
         #[Column(type: 'string', length: 75)]
-        private readonly string|int|float $value,
+        private readonly string|int|float  $value,
         #[Column(type: 'datetime_immutable')]
         private readonly DateTimeInterface $time,
+        #[Column(length: 75, nullable: true)]
+        private readonly ?string           $parentId = null,
+        #[Column(length: 75, nullable: true)]
+        private readonly ?string           $parentName = null,
     )
     {
+        if ($this->parentId === null && $this->parentName !== null) {
+            throw new InvalidArgumentException('Parent name cannot be set without parent id');
+        }
     }
 
     public function getId(): ?int
@@ -56,5 +65,15 @@ class Metric implements JsonSerializable
             'value' => $this->value,
             'time' => $this->time->format(DATE_ATOM),
         ];
+    }
+
+    public function getParentId(): ?string
+    {
+        return $this->parentId;
+    }
+
+    public function getParentName(): ?string
+    {
+        return $this->parentName;
     }
 }

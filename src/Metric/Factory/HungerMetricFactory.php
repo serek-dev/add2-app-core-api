@@ -15,7 +15,7 @@ final class HungerMetricFactory implements MetricFactoryInterface
         return $type === 'hunger';
     }
 
-    public function create(string $type, float|int|string $value, DateTimeInterface $date): Metric
+    public function create(string $type, float|int|string $value, DateTimeInterface $date, ?string $parentId, ?string $parentName): Metric
     {
         if ($value < 1 || $value > 10) {
             throw new DomainException('Invalid hunger value');
