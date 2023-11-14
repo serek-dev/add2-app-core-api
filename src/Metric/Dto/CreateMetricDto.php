@@ -16,8 +16,8 @@ final readonly class CreateMetricDto implements CreateMetricDtoInterface
 {
     public function __construct(
         #[NotBlank]
-        #[Choice(choices: ['weight', 'hunger'])]
-        public string|null           $type ,
+        #[Choice(choices: ['weight', 'hunger', 'kcal'])]
+        public string|null $type,
         #[NotBlank]
         #[Type(type: ['float', 'int', 'string'])]
         #[Length(max: 75)]
