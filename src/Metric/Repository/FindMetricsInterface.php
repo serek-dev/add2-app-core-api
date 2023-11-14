@@ -3,7 +3,7 @@
 namespace App\Metric\Repository;
 
 use App\Metric\Entity\Metric;
-use DateTimeInterface;
+use DateTimeImmutable;
 
 interface FindMetricsInterface
 {
@@ -11,11 +11,11 @@ interface FindMetricsInterface
      * @param string[] $types
      * @return Metric[]
      */
-    public function findByTypesTimeAscOrdered(DateTimeInterface $from, DateTimeInterface $to, array $types = []): array;
+    public function findByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
 
     /**
      * @param string[] $types
      * @return Metric[]
      */
-    public function findAverageByTypesTimeAscOrdered(DateTimeInterface $from, DateTimeInterface $to, array $types = []): array;
+    public function findAverageByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
 }
