@@ -6,15 +6,16 @@ namespace App\Metric\Factory;
 
 use App\Metric\Dto\CreateMetricDtoInterface;
 use App\Metric\Entity\Metric;
+use App\Shared\Event\ProductAddedToNutritionLogInterface;
 use DateTimeImmutable;
 use DomainException;
 
-final class MetricFactoryDirector
+final readonly class MetricFactoryDirector
 {
     /**
      * @param iterable|MetricFactoryInterface[] $factories
      */
-    public function __construct(private readonly iterable $factories = [])
+    public function __construct(private iterable $factories = [])
     {
     }
 
@@ -26,6 +27,22 @@ final class MetricFactoryDirector
                     $dto->getType(),
                     $dto->getValue(),
                     $dto->getDate() ?? new DateTimeImmutable()
+                );
+                return $new;
+            }
+        }
+
+        throw new DomainException('Unsupported metric type');
+    }
+
+    public function createFromProductAddedToNutritionLog(ProductAddedToNutritionLogInterface $event): Metric
+    {
+        foreach ($this->factories as $f) {
+            if ($f->supports('kcal')) {
+                $new = $f->create(
+                    'kcal',
+                    $event->getKcal(),
+                    $event->getDate(),
                 );
                 return $new;
             }

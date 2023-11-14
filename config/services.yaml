@@ -30,6 +30,7 @@ services:
             - '../src/*/Exception/'
             - '../src/*/View/'
             - '../src/*/Value/'
+            - '../src/*/Event/'
             - '../src/*/Entity/'
             - '../src/*/Kernel.php'
 

@@ -8,6 +8,7 @@ use App\Metric\Dto\CreateMetricDtoInterface;
 use App\Metric\Entity\Metric;
 use App\Metric\Factory\MetricFactoryDirector;
 use App\Metric\Factory\MetricFactoryInterface;
+use App\Shared\Event\ProductAddedToNutritionLogInterface;
 use DateTimeImmutable;
 use DomainException;
 use PHPUnit\Framework\TestCase;
@@ -25,11 +26,10 @@ final class MetricFactoryDirectorTest extends TestCase
         // Create a mock for a MetricFactoryInterface
         $factory = $this->createMock(MetricFactoryInterface::class);
         $factory->method('supports')->willReturnCallback(
-            fn ($type) => $type === 'supported_type'
+            fn($type) => $type === 'supported_type'
         );
         $factory->method('create')->willReturnCallback(
-            fn ($type, $value, $date) =>
-            new Metric($type, $value, $date)
+            fn($type, $value, $date) => new Metric($type, $value, $date)
         );
 
         // Create the Factory with the mock factory
@@ -51,7 +51,7 @@ final class MetricFactoryDirectorTest extends TestCase
         // Create a mock for a MetricFactoryInterface
         $factory = $this->createMock(MetricFactoryInterface::class);
         $factory->method('supports')->willReturnCallback(
-            fn ($type) => $type === 'supported_type'
+            fn($type) => $type === 'supported_type'
         );
 
         // Create the Factory with the mock factory
@@ -72,11 +72,10 @@ final class MetricFactoryDirectorTest extends TestCase
         // Create a mock for a MetricFactoryInterface
         $factory = $this->createMock(MetricFactoryInterface::class);
         $factory->method('supports')->willReturnCallback(
-            fn ($type) => $type === 'supported_type'
+            fn($type) => $type === 'supported_type'
         );
         $factory->method('create')->willReturnCallback(
-            fn ($type, $value, $date) =>
-            new Metric($type, $value, $date)
+            fn($type, $value, $date) => new Metric($type, $value, $date)
         );
 
         // Create the Factory with the mock factory
@@ -88,5 +87,31 @@ final class MetricFactoryDirectorTest extends TestCase
         $this->assertEquals('supported_type', $metric->getType());
         $this->assertEquals(42, $metric->getValue());
         $this->assertInstanceOf(DateTimeImmutable::class, $metric->getTime());
+    }
+
+    public function testCreateFromProductAddedToNutritionLog(): void
+    {
+        // Create a mock for ProductAddedToNutritionLogInterface
+        $event = $this->createMock(ProductAddedToNutritionLogInterface::class);
+        $event->method('getKcal')->willReturn(42.0);
+        $event->method('getDate')->willReturn(new DateTimeImmutable());
+
+        // Create a mock for a MetricFactoryInterface
+        $factory = $this->createMock(MetricFactoryInterface::class);
+        $factory->method('supports')->willReturnCallback(
+            fn($type) => $type === 'kcal'
+        );
+        $factory->method('create')->willReturnCallback(
+            fn($type, $value, $date) => new Metric($type, $value, $date)
+        );
+
+        // Create the Factory with the mock factory
+        $factory = new MetricFactoryDirector([$factory]);
+
+        // Test the create method
+        $metric = $factory->createFromProductAddedToNutritionLog($event);
+        $this->assertInstanceOf(Metric::class, $metric);
+        $this->assertEquals('kcal', $metric->getType());
+        $this->assertEquals(42.0, $metric->getValue());
     }
 }

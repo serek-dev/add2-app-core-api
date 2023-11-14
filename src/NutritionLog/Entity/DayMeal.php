@@ -17,6 +17,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use function array_map;
+use function array_sum;
+use function round;
 
 #[Entity]
 #[Table('nutrition_log_day_meal')]
@@ -44,9 +47,10 @@ class DayMeal
         private readonly string $id,
         #[Column]
         private readonly string $name,
-        ConsumptionTime $consumptionTime,
-        array $products,
-    ) {
+        ConsumptionTime         $consumptionTime,
+        array                   $products,
+    )
+    {
         foreach ($products as $p) {
             if (!$p instanceof DayMealProduct) {
                 throw new InvalidArgumentException('Argument must be a: ' . DayMealProduct::class . ' instance');
@@ -97,5 +101,10 @@ class DayMeal
     public function markAsModified(): void
     {
         $this->modified = true;
+    }
+
+    public function getKcal(): float
+    {
+        return round(array_sum(array_map(fn(DayMealProduct $p) => $p->getKcal(), $this->products->toArray())), 2);
     }
 }
