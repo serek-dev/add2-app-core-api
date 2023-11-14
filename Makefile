@@ -63,3 +63,9 @@ migrate: ### Run migrations
 	$(docker-compose) exec app php bin/console doctrine:migrations:migrate --no-interaction
 
 mig: migrations_diff migrate ### Generates new migration and run it immediately
+
+seed: ### Seeds and cleans up database
+	$(docker-compose) exec app composer db:seed:tests
+
+seed_metrics: ### Appends more metric seeds
+	$(docker-compose) exec app composer db:seed:more-metrics
