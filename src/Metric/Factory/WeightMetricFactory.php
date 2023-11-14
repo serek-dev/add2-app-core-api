@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Metric\Factory;
 
 use App\Metric\Entity\Metric;
-use DateTimeImmutable;
+use DateTimeInterface;
 use DomainException;
 
 final class WeightMetricFactory implements MetricFactoryInterface
@@ -15,7 +15,7 @@ final class WeightMetricFactory implements MetricFactoryInterface
         return $type === 'weight';
     }
 
-    public function create(string $type, float|int|string $value, DateTimeImmutable $date): Metric
+    public function create(string $type, float|int|string $value, DateTimeInterface $date): Metric
     {
         if ($value <= 5 || $value >= 250) {
             throw new DomainException('Invalid weight value');

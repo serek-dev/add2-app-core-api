@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Metric\Factory;
 
 use App\Metric\Entity\Metric;
-use DateTimeImmutable;
+use DateTimeInterface;
 use DomainException;
 
 final class HungerMetricFactory implements MetricFactoryInterface
@@ -15,7 +15,7 @@ final class HungerMetricFactory implements MetricFactoryInterface
         return $type === 'hunger';
     }
 
-    public function create(string $type, float|int|string $value, DateTimeImmutable $date): Metric
+    public function create(string $type, float|int|string $value, DateTimeInterface $date): Metric
     {
         if ($value < 1 || $value > 10) {
             throw new DomainException('Invalid hunger value');
