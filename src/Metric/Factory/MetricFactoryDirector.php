@@ -9,7 +9,7 @@ use App\Metric\Entity\Metric;
 use DateTimeImmutable;
 use DomainException;
 
-final class Factory
+final class MetricFactoryDirector
 {
     /**
      * @param iterable|MetricFactoryInterface[] $factories

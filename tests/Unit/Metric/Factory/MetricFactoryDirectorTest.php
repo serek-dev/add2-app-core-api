@@ -6,14 +6,14 @@ namespace App\Tests\Unit\Metric\Factory;
 
 use App\Metric\Dto\CreateMetricDtoInterface;
 use App\Metric\Entity\Metric;
-use App\Metric\Factory\Factory;
+use App\Metric\Factory\MetricFactoryDirector;
 use App\Metric\Factory\MetricFactoryInterface;
 use DateTimeImmutable;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 
-/** @covers \App\Metric\Factory\Factory */
-final class FactoryTest extends TestCase
+/** @covers \App\Metric\Factory\MetricFactoryDirector */
+final class MetricFactoryDirectorTest extends TestCase
 {
     public function testCreateWithSupportedFactory(): void
     {
@@ -33,7 +33,7 @@ final class FactoryTest extends TestCase
         );
 
         // Create the Factory with the mock factory
-        $factory = new Factory([$factory]);
+        $factory = new MetricFactoryDirector([$factory]);
 
         // Test the create method
         $metric = $factory->create($dto);
@@ -55,7 +55,7 @@ final class FactoryTest extends TestCase
         );
 
         // Create the Factory with the mock factory
-        $factory = new Factory([$factory]);
+        $factory = new MetricFactoryDirector([$factory]);
 
         // Test that an exception is thrown when an unsupported type is used
         $this->expectException(DomainException::class);
@@ -80,7 +80,7 @@ final class FactoryTest extends TestCase
         );
 
         // Create the Factory with the mock factory
-        $factory = new Factory([$factory]);
+        $factory = new MetricFactoryDirector([$factory]);
 
         // Test that the default date is used when not provided
         $metric = $factory->create($dto);

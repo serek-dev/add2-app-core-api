@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Metric\Controller;
 
 use App\Metric\Dto\CreateMetricDto;
-use App\Metric\Factory\Factory;
+use App\Metric\Factory\MetricFactoryDirector;
 use App\Metric\Repository\CreateMetricInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +20,7 @@ use function count;
 #[Route('/api/metric/metrics', name: 'metrics_create', methods: ['POST'])]
 final class CreateMetricController extends AbstractController
 {
-    public function __invoke(Request $request, CreateMetricInterface $persist, Factory $factory, ValidatorInterface $validator): JsonResponse
+    public function __invoke(Request $request, CreateMetricInterface $persist, MetricFactoryDirector $factory, ValidatorInterface $validator): JsonResponse
     {
         $dto = new CreateMetricDto(
             type: $request->getPayload()->get('type'),
