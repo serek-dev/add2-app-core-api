@@ -7,13 +7,16 @@ namespace App\NutritionLog\Handler;
 
 
 use App\NutritionLog\Dto\AddDayProductDtoInterface;
+use App\NutritionLog\Event\ProductAddedToNutritionLog;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Factory\DayFactory;
 use App\NutritionLog\Factory\DayProductFactory;
 use App\NutritionLog\Persistence\Day\DayPersistenceInterface;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Repository\Product\GetOneProductInterface;
+use DateTimeImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
 final class AddDayProductHandler
@@ -25,7 +28,9 @@ final class AddDayProductHandler
         private readonly DayFactory              $dayFactory,
         private readonly DayProductFactory       $dayProductFactory,
         private readonly GetOneProductInterface  $getOneProduct,
-    ) {
+        private readonly MessageBusInterface     $integrationEventBus
+    )
+    {
     }
 
     /**
@@ -46,6 +51,14 @@ final class AddDayProductHandler
         );
 
         $day->addProduct($dayProduct);
+
+        $this->integrationEventBus->dispatch(
+            new ProductAddedToNutritionLog(
+                dayProductId: $dayProduct->getId(),
+                date: DateTimeImmutable::createFromFormat('Y-m-d H:i', $day->getDate() . ' ' . $dto->getConsumptionTime()),
+                kcal: $dayProduct->getNutritionValues()->getKcal(),
+            )
+        );
 
         $this->storeDay->store($day);
     }

@@ -28,7 +28,7 @@ final class AddDayMealHandler
         private readonly DayFactory              $dayFactory,
         private readonly DayMealFactory          $dayMealFactory,
         private readonly GetOneMealInterface     $getOneMeal,
-        private readonly MessageBusInterface $integrationEventBus
+        private readonly MessageBusInterface     $integrationEventBus
     )
     {
     }
@@ -53,8 +53,7 @@ final class AddDayMealHandler
 
         $this->integrationEventBus->dispatch(
             new ProductAddedToNutritionLog(
-                dayProductId: $realMeal->getId(),
-                productName: $realMeal->getName(),
+                dayProductId: $dayMeal->getId(),
                 date: DateTimeImmutable::createFromFormat('Y-m-d H:i', $day->getDate() . ' ' . $dto->getConsumptionTime()),
                 kcal: $dayMeal->getKcal(),
             )
