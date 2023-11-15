@@ -24,6 +24,6 @@ RUN mkdir -p var/ && chmod 777 -R var/ \
     && apt-get update \
     && apt-get install -y libzip-dev zip \
     && docker-php-ext-install zip \
-    && composer install --no-scripts --no-ansi --no-interaction --no-progress --optimize-autoloader --ignore-platform-reqs
+    && composer install --no-dev --no-scripts --no-ansi --no-interaction --no-progress --optimize-autoloader --ignore-platform-reqs
 
 CMD ["composer", "build"]
