@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\NutritionLog\Handler;
 
 use App\NutritionLog\Dto\UpdateDayProductWeightDtoInterface;
+use App\NutritionLog\Event\ProductUpdatedInNutritionLog;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Persistence\Day\DayPersistenceInterface;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
 final class UpdateDayProductWeightHandler
 {
     public function __construct(private readonly FindDayByDateInterface  $find,
+                                private MessageBusInterface              $integrationEventBus,
                                 private readonly DayPersistenceInterface $persistence,
     )
     {
@@ -27,8 +30,16 @@ final class UpdateDayProductWeightHandler
             throw new NotFoundException('Day: ' . $dto->getDay() . ' does not exist');
         }
 
-        $day->changeProductWeight($dto->getProductId(), $dto->getWeight());
+        $kcal = $day->changeProductWeight($dto->getProductId(), $dto->getWeight());
 
         $this->persistence->store($day);
+
+        $this->integrationEventBus->dispatch(
+            new ProductUpdatedInNutritionLog(
+                dayProductId: $dto->getProductId(),
+                date: $dto->getDay(),
+                newKcal: $kcal,
+            )
+        );
     }
 }

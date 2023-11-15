@@ -24,7 +24,7 @@ class Metric implements JsonSerializable
         #[Column(length: 25)]
         private readonly string            $type,
         #[Column(type: 'string', length: 75)]
-        private readonly string|int|float  $value,
+        private string|int|float           $value,
         #[Column(type: 'datetime_immutable')]
         private readonly DateTimeInterface $time,
         #[Column(length: 75, nullable: true)]
@@ -75,5 +75,10 @@ class Metric implements JsonSerializable
     public function getParentName(): ?string
     {
         return $this->parentName;
+    }
+
+    public function setValue(float|int|string $value): void
+    {
+        $this->value = $value;
     }
 }

@@ -180,7 +180,10 @@ class Day
         return $meal;
     }
 
-    public function changeMealProductWeight(string $mealId, string $productId, Weight $newWeight): void
+    /**
+     * @return float - new number of kcal
+     */
+    public function changeMealProductWeight(string $mealId, string $productId, Weight $newWeight): float
     {
         $meal = $this->meals->filter(fn(DayMeal $m) => $m->getId() === $mealId)->first();
 
@@ -192,6 +195,8 @@ class Day
         $product = array_values(array_filter($meal->getProducts(), fn(DayMealProduct $p) => $p->getId() === $productId))[0] ?? null;
 
         $product->changeWeight($newWeight);
+
+        return $product->getKcal();
     }
 
     public function removeProduct(string $productId): DayProduct
@@ -206,7 +211,7 @@ class Day
         throw new NotFoundException("Product with id $productId not found");
     }
 
-    public function changeProductWeight(string $productId, Weight $weight): void
+    public function changeProductWeight(string $productId, Weight $weight): float
     {
         /** @var DayProduct $product */
         $product = $this->products->filter(fn(DayProduct $m) => $m->getId() === $productId)->first();
@@ -216,6 +221,8 @@ class Day
         }
 
         $product->changeWeight($weight);
+
+        return $product->getNutritionValues()->getKcal();
     }
 
     public function changeTarget(NutritionalTarget $new): void

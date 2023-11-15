@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Metric\Repository;
 
 use App\Metric\Entity\Metric;
+use App\Metric\Value\MetricType;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use function array_map;
@@ -100,6 +101,23 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
         }
 
         $this->entityManager->remove($metric);
+        $this->entityManager->flush();
+    }
+
+    public function updateByParentIdAndType(string $parentId, MetricType $type, float $value): void
+    {
+        $metric = $this->entityManager->getRepository(Metric::class)->findOneBy([
+            'parentId' => $parentId,
+            'type' => $type->value,
+        ]);
+
+        if (!$metric) {
+            return;
+        }
+
+        $metric->setValue($value);
+
+        $this->entityManager->persist($metric);
         $this->entityManager->flush();
     }
 }
