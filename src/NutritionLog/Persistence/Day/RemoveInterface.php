@@ -11,7 +11,10 @@ use App\NutritionLog\Value\ConsumptionTime;
 
 interface RemoveInterface
 {
-    public function removeProductsAndMeals(Day $day, ConsumptionTime $time): void;
+    /**
+     * @return string[] - removed products and meals products
+     */
+    public function removeProductsAndMeals(Day $day, ConsumptionTime $time): array;
 
     /**
      * @throws NotFoundException

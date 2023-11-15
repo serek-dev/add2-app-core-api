@@ -21,6 +21,7 @@ use App\Tests\Data\DayProductTestHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Messenger\MessageBus;
 
 final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
 {
@@ -41,6 +42,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
     {
         $sut = new RemoveProductsByConsumptionTimeHandler(
             $this->createMock(FindDayByDateInterface::class),
+            new MessageBus(),
             $this->createMock(RemoveInterface::class),
         );
 
@@ -62,7 +64,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
         $findByDate->method('findDayByDate')
             ->willReturn($day);
 
-        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, $this->createMock(RemoveInterface::class));
+        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new MessageBus(), $this->createMock(RemoveInterface::class));
 
         $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:00');
 
@@ -92,7 +94,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
         // When I attempt to remove it by consumption time
         $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->once())->method('flush');
-        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new OrmDayPersistenceRepository($em));
+        $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new MessageBus(), new OrmDayPersistenceRepository($em));
 
         $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:45');
 

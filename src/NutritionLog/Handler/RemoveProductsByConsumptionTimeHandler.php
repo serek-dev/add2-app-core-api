@@ -6,15 +6,23 @@ declare(strict_types=1);
 namespace App\NutritionLog\Handler;
 
 use App\NutritionLog\Dto\RemoveDayProductsByConsumptionTimeInterface;
+use App\NutritionLog\Event\ProductRemovedFromNutritionLog;
+use App\NutritionLog\Event\ProductsRemovedFromNutritionLog;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Persistence\Day\RemoveInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\MessageBusInterface;
+use function array_map;
 
 #[AsMessageHandler]
-final class RemoveProductsByConsumptionTimeHandler
+final readonly class RemoveProductsByConsumptionTimeHandler
 {
-    public function __construct(private readonly FindDayByDateInterface $findDayByDate, private readonly RemoveInterface $remove)
+    public function __construct(
+        private FindDayByDateInterface $findDayByDate,
+        private MessageBusInterface    $integrationEventBus,
+        private RemoveInterface        $remove
+    )
     {
     }
 
@@ -30,6 +38,16 @@ final class RemoveProductsByConsumptionTimeHandler
             throw new NotFoundException("There is no meal or product eaten at: " . $command->getConsumptionTime());
         }
 
-        $this->remove->removeProductsAndMeals($day, $command->getConsumptionTime());
+        $removedMealAndProductIds = $this->remove->removeProductsAndMeals($day, $command->getConsumptionTime());
+
+        $this->integrationEventBus->dispatch(
+            new ProductsRemovedFromNutritionLog(
+                array_map(function (string $id) {
+                    return new ProductRemovedFromNutritionLog(
+                        dayProductId: $id,
+                    );
+                }, $removedMealAndProductIds),
+            )
+        );
     }
 }

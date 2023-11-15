@@ -87,4 +87,19 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
 
         return array_map(fn(array $row) => new Metric($row['type'], $row['value'], new DateTimeImmutable($row['time'])), $result);
     }
+
+    public function removeByParentIdAndName(string $parentId, string $parentName): void
+    {
+        $metric = $this->entityManager->getRepository(Metric::class)->findOneBy([
+            'parentId' => $parentId,
+            'parentName' => $parentName,
+        ]);
+
+        if (!$metric) {
+            return;
+        }
+
+        $this->entityManager->remove($metric);
+        $this->entityManager->flush();
+    }
 }

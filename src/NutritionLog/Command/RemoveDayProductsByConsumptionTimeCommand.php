@@ -11,12 +11,13 @@ use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class RemoveDayProductsByConsumptionTimeCommand implements RemoveDayProductsByConsumptionTimeInterface
+final readonly class RemoveDayProductsByConsumptionTimeCommand implements RemoveDayProductsByConsumptionTimeInterface
 {
     public function __construct(
-        private readonly string $date,
-        private readonly string $consumptionTime,
-    ) {
+        private string $date,
+        private string $consumptionTime,
+    )
+    {
     }
 
     public function getDay(): DateTimeInterface
