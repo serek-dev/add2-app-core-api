@@ -11,15 +11,17 @@ use function array_map;
 use function file_get_contents;
 use function implode;
 
-final class OrmMetricRepository implements CreateMetricInterface, FindMetricsInterface
+final readonly class OrmMetricRepository implements CreateMetricInterface, FindMetricsInterface
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
-    public function store(Metric $metric): void
+    public function store(Metric ...$metric): void
     {
-        $this->entityManager->persist($metric);
+        foreach ($metric as $m) {
+            $this->entityManager->persist($m);
+        }
         $this->entityManager->flush();
     }
 

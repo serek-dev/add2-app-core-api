@@ -44,7 +44,7 @@ final readonly class MetricFactoryDirector
                     $event->getKcal(),
                     $event->getDate(),
                     $event->getDayProductId(),
-                    ProductAddedToNutritionLogInterface::class,
+                    $event::NAME,
                 );
                 return $new;
             }
