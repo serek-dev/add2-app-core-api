@@ -1,5 +1,5 @@
 # Lightweight and external dependencies free - phpunit stage
-FROM php:8.1.8 as static_analysis
+FROM php:8.2 as static_analysis
 
 WORKDIR /app
 
