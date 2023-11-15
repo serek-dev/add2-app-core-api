@@ -7,6 +7,7 @@ namespace App\NutritionLog\Persistence\Day;
 
 
 use App\NutritionLog\Entity\Day;
+use App\NutritionLog\Entity\DayMealProduct;
 use App\NutritionLog\Value\ConsumptionTime;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,11 +47,16 @@ final class OrmDayPersistenceRepository implements FindDayByDateInterface, DayPe
         $this->em->flush();
     }
 
-    public function removeMeal(Day $day, string $mealId): void
+    /**
+     * @return string[] - ids of removed products
+     */
+    public function removeMeal(Day $day, string $mealId): array
     {
         $meal = $day->removeMeal($mealId);
         $this->em->remove($meal);
         $this->em->flush();
+
+        return array_map(fn(DayMealProduct $product) => $product->getId(), $meal->getProducts());
     }
 
     public function removeProduct(Day $day, string $productId): void

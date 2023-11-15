@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Id;
 use InvalidArgumentException;
 use JsonSerializable;
 
-#[Entity('metrics_metric')]
+#[Entity]
 class Metric implements JsonSerializable
 {
     #[Column(type: 'integer')]

@@ -26,6 +26,16 @@ final class RemoveDayMealHandler
             throw new NotFoundException('Day not found');
         }
 
-        $this->remove->removeMeal($day, $command->getMealId());
+        $removedMealProductIds = $this->remove->removeMeal($day, $command->getMealId());
+
+        $this->integrationEventBus->dispatch(
+            new ProductsRemovedFromNutritionLog(
+                array_map(function (string $id) {
+                    return new ProductRemovedFromNutritionLog(
+                        dayProductId: $id,
+                    );
+                }, $removedMealProductIds),
+            )
+        );
     }
 }

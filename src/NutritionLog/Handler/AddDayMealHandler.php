@@ -70,7 +70,7 @@ final class AddDayMealHandler
         );
     }
 
-    function extractDateTime(?Day $day, AddDayMealDtoInterface $dto): DateTimeImmutable
+    private function extractDateTime(?Day $day, AddDayMealDtoInterface $dto): DateTimeImmutable
     {
         return DateTimeImmutable::createFromFormat('Y-m-d H:i', $day->getDate() . ' ' . $dto->getConsumptionTime());
     }
