@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use function array_map;
 
-#[AsCommand('app:nl:metrics:sync', 'Iterates through all days and creates metrics for them')]
+#[AsCommand('app:nl:metrics:sync-kcal', 'Iterates through all days and creates metrics for them')]
 final class SyncKcalMetricsCommand extends Command
 {
     public function __construct(private readonly MessageBusInterface $integrationEventBus, private readonly EntityManagerInterface $em)

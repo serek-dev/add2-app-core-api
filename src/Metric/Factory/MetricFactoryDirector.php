@@ -6,8 +6,10 @@ namespace App\Metric\Factory;
 
 use App\Metric\Dto\CreateMetricDtoInterface;
 use App\Metric\Entity\Metric;
+use App\Metric\Value\MetricType;
 use App\Shared\Event\ProductAddedToNutritionLogInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 use DomainException;
 
 final readonly class MetricFactoryDirector
@@ -45,6 +47,24 @@ final readonly class MetricFactoryDirector
                     $event->getDate(),
                     $event->getDayProductId(),
                     $event::NAME,
+                );
+                return $new;
+            }
+        }
+
+        throw new DomainException('Unsupported metric type');
+    }
+
+    public function createByArguments(MetricType $type, float|string|int $value, DateTimeInterface $date, ?string $parentId, ?string $parentName): Metric
+    {
+        foreach ($this->factories as $f) {
+            if ($f->supports('kcal')) {
+                $new = $f->create(
+                    $type->value,
+                    $value,
+                    $date,
+                    $parentId ?? null,
+                    $parentName ?? null,
                 );
                 return $new;
             }

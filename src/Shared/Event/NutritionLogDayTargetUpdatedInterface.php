@@ -6,6 +6,8 @@ namespace App\Shared\Event;
 
 interface NutritionLogDayTargetUpdatedInterface
 {
+    public const NAME = 'NutritionLogDayTargetUpdated';
+
     public function getDate(): string;
 
     public function getKcalTarget(): float;
