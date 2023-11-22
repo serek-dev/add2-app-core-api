@@ -6,10 +6,13 @@ declare(strict_types=1);
 namespace App\NutritionLog\Entity;
 
 
+use App\NutritionLog\Event\NutritionLogDayCreated;
+use App\NutritionLog\Event\NutritionLogDayTargetUpdated;
 use App\NutritionLog\Exception\NotFoundException;
 use App\NutritionLog\Value\ConsumptionTime;
 use App\NutritionLog\Value\NutritionalTarget;
 use App\NutritionLog\Value\Weight;
+use App\Shared\Entity\AggregateRoot;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
@@ -27,7 +30,7 @@ use function round;
 
 #[Entity]
 #[Table('nutrition_log_day')]
-class Day
+class Day implements AggregateRoot
 {
     #[Id]
     #[GeneratedValue]
@@ -39,6 +42,7 @@ class Day
 
     #[OneToMany(mappedBy: 'day', targetEntity: DayMeal::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private mixed $meals;
+    private array $events = [];
 
     public function __construct(
         #[Column(type: 'date')]
@@ -49,6 +53,11 @@ class Day
     {
         $this->products = new ArrayCollection();
         $this->meals = new ArrayCollection();
+
+        $this->events[] = new NutritionLogDayCreated(
+            date: $this->date->format('Y-m-d'),
+            kcalTarget: $this->target->getKcal()
+        );
     }
 
     public function addProduct(DayProduct $dayProduct): void
@@ -228,10 +237,28 @@ class Day
     public function changeTarget(NutritionalTarget $new): void
     {
         $this->target = $new;
+
+        $this->events[] = new NutritionLogDayTargetUpdated(
+            date: $this->date->format('Y-m-d'),
+            kcalTarget: $new->getKcal()
+        );
     }
 
     public function getTarget(): NutritionalTarget
     {
         return $this->target;
+    }
+
+    public function getId(): string|int
+    {
+        return $this->id;
+    }
+
+    /** @inheritDoc */
+    public function pullEvents(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+        return $events;
     }
 }

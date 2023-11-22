@@ -17,22 +17,24 @@ use App\NutritionLog\Factory\DayMealFactory;
 use App\NutritionLog\Persistence\Day\DayPersistenceInterface;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Repository\Meal\GetOneMealInterface;
+use App\Shared\Integration\DomainEventsPublisherInterface;
 use DateTimeImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use function array_map;
 
 #[AsMessageHandler]
-final class AddDayMealHandler
+final readonly class AddDayMealHandler
 {
     // todo: missing test
     public function __construct(
-        private readonly FindDayByDateInterface  $findDayByDate,
-        private readonly DayPersistenceInterface $storeDay,
-        private readonly DayFactory              $dayFactory,
-        private readonly DayMealFactory          $dayMealFactory,
-        private readonly GetOneMealInterface     $getOneMeal,
-        private readonly MessageBusInterface     $integrationEventBus
+        private FindDayByDateInterface         $findDayByDate,
+        private DayPersistenceInterface        $storeDay,
+        private DayFactory                     $dayFactory,
+        private DayMealFactory                 $dayMealFactory,
+        private GetOneMealInterface            $getOneMeal,
+        private MessageBusInterface            $integrationEventBus,
+        private DomainEventsPublisherInterface $domainEventsPublisher,
     )
     {
     }
@@ -56,6 +58,8 @@ final class AddDayMealHandler
         $day->addMeal($dayMeal);
 
         $this->storeDay->store($day);
+
+        $this->domainEventsPublisher->publishFrom($day);
 
         $this->integrationEventBus->dispatch(
             new ProductsAddedToNutritionLog(

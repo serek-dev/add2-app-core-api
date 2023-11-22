@@ -11,6 +11,9 @@ use App\NutritionLog\Value\NutritionalTarget;
 use App\NutritionLog\Value\NutritionalValues;
 use App\NutritionLog\Value\ProductDetail;
 use App\NutritionLog\Value\Weight;
+use App\Shared\Entity\AggregateRoot;
+use App\Shared\Event\NutritionLogDayCreatedInterface;
+use App\Shared\Event\NutritionLogDayTargetUpdatedInterface;
 use App\Tests\Data\NutritionLogTestHelper;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 final class DayTest extends TestCase
 {
     private NutritionalTarget $target;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,7 +37,8 @@ final class DayTest extends TestCase
     public function testConstructor(): void
     {
         $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
-        $this->assertInstanceOf(Day::class, $sut);
+
+        $this->assertInstanceOf(AggregateRoot::class, $sut);
         $this->assertSame('2020-01-01', $sut->getDate());
     }
 
@@ -121,5 +126,45 @@ final class DayTest extends TestCase
 
         $this->assertCount(0, $sut->getProducts());
         $this->assertInstanceOf(DayProduct::class, $dayProduct);
+    }
+
+    public function testConstructorShouldCreateEvent(): Day
+    {
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+
+        $events = $sut->pullEvents();
+
+        $this->assertCount(1, $events);
+
+        $event = $events[0] ?? null;
+
+        $this->assertInstanceOf(NutritionLogDayCreatedInterface::class, $event);
+        $this->assertSame($this->target->getKcal(), $event->getKcalTarget());
+
+        $this->assertEmpty($sut->pullEvents());
+
+        return $sut;
+    }
+
+    /** @depends testConstructorShouldCreateEvent */
+    public function testChangeTargetShouldCreateEvent(Day $sut): void
+    {
+        $sut->changeTarget(
+            new NutritionalTarget(
+                0,
+                0,
+                0,
+                $newKcalTarget = 50.5,
+            )
+        );
+
+        $events = $sut->pullEvents();
+
+        $this->assertCount(1, $events);
+
+        $event = $events[0] ?? null;
+
+        $this->assertInstanceOf(NutritionLogDayTargetUpdatedInterface::class, $event);
+        $this->assertSame($newKcalTarget, $event->getKcalTarget());
     }
 }

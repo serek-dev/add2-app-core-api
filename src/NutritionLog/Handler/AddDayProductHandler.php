@@ -14,6 +14,7 @@ use App\NutritionLog\Factory\DayProductFactory;
 use App\NutritionLog\Persistence\Day\DayPersistenceInterface;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Repository\Product\GetOneProductInterface;
+use App\Shared\Integration\DomainEventsPublisherInterface;
 use DateTimeImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -23,12 +24,13 @@ final class AddDayProductHandler
 {
     // todo: missing test
     public function __construct(
-        private readonly FindDayByDateInterface  $findDayByDate,
-        private readonly DayPersistenceInterface $storeDay,
-        private readonly DayFactory              $dayFactory,
-        private readonly DayProductFactory       $dayProductFactory,
-        private readonly GetOneProductInterface  $getOneProduct,
-        private readonly MessageBusInterface     $integrationEventBus
+        private readonly FindDayByDateInterface         $findDayByDate,
+        private readonly DayPersistenceInterface        $storeDay,
+        private readonly DayFactory                     $dayFactory,
+        private readonly DayProductFactory              $dayProductFactory,
+        private readonly GetOneProductInterface         $getOneProduct,
+        private readonly MessageBusInterface            $integrationEventBus,
+        private readonly DomainEventsPublisherInterface $domainEventsPublisher,
     )
     {
     }
@@ -61,5 +63,7 @@ final class AddDayProductHandler
         );
 
         $this->storeDay->store($day);
+
+        $this->domainEventsPublisher->publishFrom($day);
     }
 }
