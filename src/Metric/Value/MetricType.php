@@ -6,6 +6,6 @@ enum MetricType: string
 {
     case WEIGHT = 'weight';
     case HUNGER = 'hunger';
-
     case KCAL = 'kcal';
+    case KCAL_TARGET = 'kcalTarget';
 }

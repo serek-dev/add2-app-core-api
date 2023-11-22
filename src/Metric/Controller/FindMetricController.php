@@ -28,18 +28,10 @@ final class FindMetricController extends AbstractController
             $request->query->get('aggregation'),
         );
 
-        if ($dto->aggregation === 'avg') {
+        if ($dto->getAggregation()) {
             return $this->json([
-                'collection' => $find->findAverageByTypesTimeAscOrdered(
-                    from: $dto->getFrom(),
-                    to: $dto->getTo(),
-                    types: $dto->getTypes())
-            ]);
-        }
-
-        if ($dto->aggregation === 'sum') {
-            return $this->json([
-                'collection' => $find->findSumByTypesTimeAscOrdered(
+                'collection' => $find->findAggregatedByTypesTimeAscOrdered(
+                    aggregation: $dto->getAggregation(),
                     from: $dto->getFrom(),
                     to: $dto->getTo(),
                     types: $dto->getTypes())

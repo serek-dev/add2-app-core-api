@@ -3,6 +3,7 @@
 namespace App\Metric\Repository;
 
 use App\Metric\Entity\Metric;
+use App\Metric\Value\AggregationType;
 use DateTimeImmutable;
 
 interface FindMetricsInterface
@@ -17,11 +18,5 @@ interface FindMetricsInterface
      * @param string[] $types
      * @return Metric[]
      */
-    public function findAverageByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
-
-    /**
-     * @param string[] $types
-     * @return Metric[]
-     */
-    public function findSumByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
+    public function findAggregatedByTypesTimeAscOrdered(AggregationType $aggregation, DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
 }

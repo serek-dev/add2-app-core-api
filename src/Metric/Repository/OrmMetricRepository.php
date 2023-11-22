@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Metric\Repository;
 
 use App\Metric\Entity\Metric;
+use App\Metric\Value\AggregationType;
 use App\Metric\Value\MetricType;
 use DateTimeImmutable;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use function array_map;
 use function file_get_contents;
 use function implode;
+use function str_replace;
 
 final readonly class OrmMetricRepository implements CreateMetricInterface, FindMetricsInterface
 {
@@ -50,11 +53,6 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
         return $qb->getQuery()->getResult();
     }
 
-    public function findAverageByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
-    {
-        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findAverageByTypesTimeAscOrdered.sql');
-    }
-
     private function adjustTime(DateTimeImmutable $time, bool $down): DateTimeImmutable
     {
         return $time->setTime(
@@ -63,21 +61,18 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
             $down ? 0 : 59);
     }
 
-    public function findSumByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
-    {
-        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findSumByTypesTimeAscOrdered.sql');
-    }
-
     /**
      * @param string[] $types
      * @return Metric[]
+     * @throws Exception
      */
-    public function getResultsUsingSqlFromFile(DateTimeImmutable $from, DateTimeImmutable $to, array $types, string $fileName): array
+    public function getResultsUsingSqlFromFile(DateTimeImmutable $from, DateTimeImmutable $to, array $types, string $fileName, ?AggregationType $aggregationType = null): array
     {
         $from = $this->adjustTime($from, true);
         $to = $this->adjustTime($to, false);
 
         $rawSql = file_get_contents(__DIR__ . '/' . $fileName);
+        $rawSql = str_replace('--AGGREGATION--', $aggregationType?->value ?? '', $rawSql);
         $statement = $this->entityManager->getConnection()->prepare($rawSql);
 
         $statement->bindValue('from', $from->format('Y-m-d H:i'));
@@ -119,5 +114,14 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
 
         $this->entityManager->persist($metric);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public function findAggregatedByTypesTimeAscOrdered(AggregationType $aggregation, DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
+    {
+        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findAggregatedByTypesTimeAscOrdered.sql', $aggregation);
     }
 }
