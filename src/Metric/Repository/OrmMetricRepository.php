@@ -72,12 +72,16 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
         $to = $this->adjustTime($to, false);
 
         $rawSql = file_get_contents(__DIR__ . '/' . $fileName);
+
         $rawSql = str_replace('--AGGREGATION--', $aggregationType?->value ?? '', $rawSql);
+
+        $types = array_map(fn(string $t) => "'$t'", $types);
+        $rawSql = str_replace('--TYPES--', implode(', ', $types), $rawSql);
+
         $statement = $this->entityManager->getConnection()->prepare($rawSql);
 
         $statement->bindValue('from', $from->format('Y-m-d H:i'));
         $statement->bindValue('to', $to->format('Y-m-d H:i'));
-        $statement->bindValue('types', implode(',', $types));
 
         $result = $statement->executeQuery()->fetchAllAssociative();
 
