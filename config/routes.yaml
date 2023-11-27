@@ -1,17 +1,23 @@
 product:
-    resource:
-        path: ../src/Catalog/Controller/
-        namespace: App\Catalog\Controller
-    type: attribute
+  resource:
+    path: ../src/Catalog/Controller/
+    namespace: App\Catalog\Controller
+  type: attribute
 
 nutrition_log:
-    resource:
-        path: ../src/NutritionLog/Controller/
-        namespace: App\NutritionLog\Controller
-    type: attribute
+  resource:
+    path: ../src/NutritionLog/Controller/
+    namespace: App\NutritionLog\Controller
+  type: attribute
 
 metrics:
-    resource:
-        path: ../src/Metric/Controller/
-        namespace: App\Metric\Controller
-    type: attribute
+  resource:
+    path: ../src/Metric/Controller/
+    namespace: App\Metric\Controller
+  type: attribute
+
+identity:
+  resource:
+    path: ../src/Identity/Controller/
+    namespace: App\Identity\Controller
+  type: attribute

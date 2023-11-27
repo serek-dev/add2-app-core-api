@@ -1,89 +1,94 @@
 doctrine:
-    dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
 
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '15'
-    orm:
-        auto_generate_proxy_classes: true
-        enable_lazy_ghost_objects: true
-        entity_managers:
-            default:
-                connection: default
-                report_fields_where_declared: true
-                validate_xml_mapping: true
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                auto_mapping: true
-                mappings:
-                    ProductValue:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Catalog/Value'
-                        prefix: 'App\Catalog\Value'
-                        alias: App\Catalog\Value
-                    ProductEntity:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Catalog/Entity'
-                        prefix: 'App\Catalog\Entity'
-                        alias: App\Catalog\Entity
-                    NutritionLog:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/NutritionLog/Entity'
-                        prefix: 'App\NutritionLog\Entity'
-                        alias: App\NutritionLog
-                    NutritionLogValue:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/NutritionLog/Value'
-                        prefix: 'App\NutritionLog\Value'
-                        alias: App\NutritionLog
-                    MetricsEntity:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Metric/Entity'
-                        prefix: 'App\Metric\Entity'
-                        alias: App\Metric\Entity
-            views:
-                connection: default
-                report_fields_where_declared: true
-                validate_xml_mapping: true
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                mappings:
-                    ProductViews:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Catalog/View'
-                        prefix: 'App\Catalog\View'
-                        alias: App\Catalog
-                    ProductValue:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Catalog/Value'
-                        prefix: 'App\Catalog\Value'
-                        alias: App\Catalog\Value
-                    NutritionLogViews:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/NutritionLog/View'
-                        prefix: 'App\NutritionLog\View'
-                        alias: App\NutritionLog
-                    NutritionLogViewsValue:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/NutritionLog/Value'
-                        prefix: 'App\NutritionLog\Value'
-                        alias: App\NutritionLog
+    # IMPORTANT: You MUST configure your server version,
+    # either here or in the DATABASE_URL env var (see .env file)
+    #server_version: '15'
+  orm:
+    auto_generate_proxy_classes: true
+    enable_lazy_ghost_objects: true
+    entity_managers:
+      default:
+        connection: default
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+          ProductValue:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Catalog/Value'
+            prefix: 'App\Catalog\Value'
+            alias: App\Catalog\Value
+          ProductEntity:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Catalog/Entity'
+            prefix: 'App\Catalog\Entity'
+            alias: App\Catalog\Entity
+          NutritionLog:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/NutritionLog/Entity'
+            prefix: 'App\NutritionLog\Entity'
+            alias: App\NutritionLog
+          NutritionLogValue:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/NutritionLog/Value'
+            prefix: 'App\NutritionLog\Value'
+            alias: App\NutritionLog
+          MetricsEntity:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Metric/Entity'
+            prefix: 'App\Metric\Entity'
+            alias: App\Metric\Entity
+          Identity\Entity:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Identity/Entity'
+            prefix: 'App\Identity\Entity'
+            alias: App\Identity\Entity
+      views:
+        connection: default
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        mappings:
+          ProductViews:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Catalog/View'
+            prefix: 'App\Catalog\View'
+            alias: App\Catalog
+          ProductValue:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Catalog/Value'
+            prefix: 'App\Catalog\Value'
+            alias: App\Catalog\Value
+          NutritionLogViews:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/NutritionLog/View'
+            prefix: 'App\NutritionLog\View'
+            alias: App\NutritionLog
+          NutritionLogViewsValue:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/NutritionLog/Value'
+            prefix: 'App\NutritionLog\Value'
+            alias: App\NutritionLog
 
 when@prod:
-    doctrine:
-        orm:
-            auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
+  doctrine:
+    orm:
+      auto_generate_proxy_classes: false
+      proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+      query_cache_driver:
+        type: pool
+        pool: doctrine.system_cache_pool
+      result_cache_driver:
+        type: pool
+        pool: doctrine.result_cache_pool
 
-    framework:
-        cache:
-            pools:
-                doctrine.result_cache_pool:
-                    adapter: cache.app
-                doctrine.system_cache_pool:
-                    adapter: cache.system
+  framework:
+    cache:
+      pools:
+        doctrine.result_cache_pool:
+          adapter: cache.app
+        doctrine.system_cache_pool:
+          adapter: cache.system
