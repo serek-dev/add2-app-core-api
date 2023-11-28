@@ -28,6 +28,9 @@ class MealView implements JsonSerializable
     #[Column]
     public string $name;
 
+    #[Column]
+    public string $userId;
+
     private function __construct()
     {
         $this->products = new ArrayCollection();

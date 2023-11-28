@@ -12,6 +12,7 @@ final class CreateMealCommandTest extends TestCase
     public function testConstructorAndGetters(): void
     {
         $sut = new CreateMealCommand(
+            'userId',
             'name', $products = [
             ['id' => 'productId', 'weight' => 10.5],
         ]
@@ -19,6 +20,7 @@ final class CreateMealCommandTest extends TestCase
 
         $this->assertInstanceOf(CreateMealDtoInterface::class, $sut);
 
+        $this->assertSame('userId', $sut->getUserId());
         $this->assertSame('name', $sut->getName());
         $this->assertEquals($products, $sut->getProducts());
     }

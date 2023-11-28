@@ -38,8 +38,11 @@ class Meal
         private readonly string $id,
         #[Column]
         private readonly string $name,
-        array $products,
-    ) {
+        #[Column]
+        private readonly string $userId,
+        array                   $products,
+    )
+    {
         foreach ($products as $p) {
             if (!$p instanceof MealProduct) {
                 throw new InvalidArgumentException('Argument must be a: ' . MealProduct::class . ' instance');

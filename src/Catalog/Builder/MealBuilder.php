@@ -23,14 +23,14 @@ final class MealBuilder
     {
     }
 
-    public function build(string $name, ?string $producerName = null): Meal
+    public function build(string $userId, string $name, ?string $producerName = null): Meal
     {
         if ($this->findMealByName->findByName($name)) {
             throw new DuplicateException(
                 "Meal with name: {$name} and produced by: {$producerName} already exist"
             );
         }
-        return new Meal($this->id ?? uniqid('M-'), $name, $this->products);
+        return new Meal($this->id ?? uniqid('M-'), $name, $userId, $this->products);
     }
 
     public function addProduct(Weight $quantity, Product $product): self

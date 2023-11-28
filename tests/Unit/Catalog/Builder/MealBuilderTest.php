@@ -18,7 +18,7 @@ final class MealBuilderTest extends TestCase
     {
         $sut = new MealBuilder($this->createMock(FindMealByNameInterface::class));
 
-        $actual = $sut->build('name');
+        $actual = $sut->build('user', 'name');
 
         $this->assertInstanceOf(Meal::class, $actual);
         $this->assertSame('name', $actual->getName());
@@ -29,14 +29,14 @@ final class MealBuilderTest extends TestCase
     public function testBuildThrowsDuplicate(): void
     {
         $mealByName = $this->createMock(FindMealByNameInterface::class);
-        $meal = new Meal('id', 'name', []);
+        $meal = new Meal('id', 'name', 'user', []);
         $mealByName->method('findByName')->willReturn($meal);
 
         $sut = new MealBuilder($mealByName);
 
         $this->expectException(DuplicateException::class);
 
-        $sut->build('name');
+        $sut->build('user', 'name');
     }
 
     public function testBuildWithProducts(): MealBuilder
@@ -63,7 +63,7 @@ final class MealBuilderTest extends TestCase
         );
 
         // And I build meal
-        $actual = $sut->build('name');
+        $actual = $sut->build('userId', 'name');
 
         // Then there new meal product should be created
         $this->assertCount(1, $actual->getProducts());
@@ -97,7 +97,7 @@ final class MealBuilderTest extends TestCase
         );
 
         // And I build meal
-        $actual = $sut->build('name');
+        $actual = $sut->build('userId', 'name');
 
         // Then there new meal product should be created
         $this->assertCount(2, $actual->getProducts());

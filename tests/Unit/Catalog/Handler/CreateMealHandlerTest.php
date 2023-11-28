@@ -17,7 +17,7 @@ final class CreateMealHandlerTest extends TestCase
     public function testInvokeWithValidProducts(): void
     {
         // Given I have a dto request
-        $dto = new CreateMealCommand('name', [
+        $dto = new CreateMealCommand('user', 'name', [
             [
                 'id' => 'product-1',
                 'weight' => 100.0

@@ -15,4 +15,6 @@ interface CreateMealDtoInterface
     public function getProducts(): array;
 
     public function getId(): ?string;
+
+    public function getUserId(): string;
 }

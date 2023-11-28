@@ -77,7 +77,7 @@ final class AddMealProductHandlerTest extends TestCase
 
     public function testProductAddedToMeal(): void
     {
-        $sut = new Meal(id: 'M123', name: 'Test Meal', products: []);
+        $sut = new Meal(id: 'M123', name: 'Test Meal', userId: 'U123', products: []);
         $product = $this->getProduct();
 
         // Create a mock FindProductByIdInterface that returns a mock Product

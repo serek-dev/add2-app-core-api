@@ -21,7 +21,8 @@ final class CreateMealHandler
         private readonly MealBuilder              $mealBuilder,
         private readonly FindProductByIdInterface $findProductById,
         private readonly MealPersistenceInterface $storeMeal,
-    ) {
+    )
+    {
     }
 
     public function __invoke(CreateMealDtoInterface $createMealDto): void
@@ -41,7 +42,7 @@ final class CreateMealHandler
             $this->mealBuilder->withId($createMealDto->getId());
         }
 
-        $meal = $this->mealBuilder->build($createMealDto->getName());
+        $meal = $this->mealBuilder->build($createMealDto->getUserId(), $createMealDto->getName());
 
         $this->storeMeal->store($meal);
     }

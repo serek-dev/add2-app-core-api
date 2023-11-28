@@ -18,12 +18,15 @@ final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneM
     }
 
     /** @inheritDoc */
-    public function findAll(?string $name = null): array
+    public function findAll(?string $name = null, ?string $userId = null): array
     {
         $qb = $this->viewsEntityManager->getRepository(MealView::class)->createQueryBuilder('m');
 
+        $qb->where('m.userId = :userId');
+        $qb->setParameter('userId', $userId);
+
         if ($name) {
-            $qb->where(
+            $qb->andWhere(
                 $qb->expr()->like('m.name', $qb->expr()->literal('%' . $name . '%'))
             );
         }

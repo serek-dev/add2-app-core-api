@@ -26,7 +26,7 @@ final class RemoveMealProductHandlerTest extends TestCase
             ->method('findById')
             ->with('mealId')
             ->willReturn(
-                $meal = new Meal('mealId', 'mealName', [
+                $meal = new Meal('mealId', 'mealName', 'user', [
                     new MealProduct(
                         'productId',
                         $w = new Weight(100.0),

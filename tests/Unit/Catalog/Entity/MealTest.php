@@ -17,19 +17,19 @@ final class MealTest extends TestCase
 {
     public function testConstructor(): void
     {
-        $sut = new Meal('id', 'name', []);
+        $sut = new Meal('id', 'name', 'userId', []);
         $this->assertInstanceOf(Meal::class, $sut);
     }
 
     public function testConstructorFailsOnNonMealProductData(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Meal('id', 'name', [$this]);
+        new Meal('id', 'name', 'userId', [$this]);
     }
 
     public function testRemoveAllProductsWhenNoArgs(): void
     {
-        $sut = new Meal('id', 'name', [
+        $sut = new Meal('id', 'name', 'userId', [
             new MealProduct(
                 'id',
                 $w = new Weight(100.0),
@@ -52,7 +52,7 @@ final class MealTest extends TestCase
 
     public function testRemoveJustOneProductWhenIdPassed(): void
     {
-        $sut = new Meal('id', 'name', [
+        $sut = new Meal('id', 'name', 'userId', [
             new MealProduct(
                 'id',
                 $w = new Weight(100.0),
@@ -75,7 +75,7 @@ final class MealTest extends TestCase
 
     public function testChangeProductWeight(): Meal
     {
-        $sut = new Meal('id', 'name', [
+        $sut = new Meal('id', 'name', 'userId', [
             new MealProduct(
                 'MP-123',
                 $w = new Weight(100.0),
@@ -107,7 +107,7 @@ final class MealTest extends TestCase
 
     public function testReplaceProduct(): void
     {
-        $sut = new Meal('id', 'name', [
+        $sut = new Meal('id', 'name', 'userId', [
             new MealProduct(
                 'MP-123',
                 $w = new Weight(100.0),

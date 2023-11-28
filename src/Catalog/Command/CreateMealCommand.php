@@ -14,10 +14,12 @@ final class CreateMealCommand implements CreateMealDtoInterface
      * @param array<array{id: string, weight: float}> $products
      */
     public function __construct(
+        private readonly string $userId,
         private readonly string $name,
-        private readonly array $products,
+        private readonly array  $products,
         private readonly ?string $id = null,
-    ) {
+    )
+    {
     }
 
     public function getName(): string
@@ -34,5 +36,10 @@ final class CreateMealCommand implements CreateMealDtoInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

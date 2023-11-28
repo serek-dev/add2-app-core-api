@@ -12,5 +12,5 @@ interface FindMealViewsInterface
     /**
      * @return MealView[]
      */
-    public function findAll(?string $name = null): array;
+    public function findAll(?string $name = null, ?string $userId = null): array;
 }
