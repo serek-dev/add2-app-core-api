@@ -18,7 +18,7 @@ final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneM
     }
 
     /** @inheritDoc */
-    public function findAll(?string $name = null, ?string $userId = null): array
+    public function findAll(?string $userId = null, ?string $name = null): array
     {
         $qb = $this->viewsEntityManager->getRepository(MealView::class)->createQueryBuilder('m');
 

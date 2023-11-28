@@ -20,7 +20,7 @@ final class FindMealsController extends AbstractController
 {
     public function __invoke(string $userId, FindMealViewsInterface $query, #[MapQueryParameter] ?string $name = null): JsonResponse
     {
-        $results = $query->findAll($name, $userId);
+        $results = $query->findAll($userId, $name);
 
         return $this->json([
             'collection' => $results,
