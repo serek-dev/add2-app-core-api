@@ -25,6 +25,7 @@ final class GetUserByIdentifierController extends AbstractController
         return $this->json([
             'item' => [
                 'id' => $user->getId(),
+                'identifier' => $user->getIdentifier(),
                 'hashedPassword' => $user->getHashedPassword(),
             ],
         ]);

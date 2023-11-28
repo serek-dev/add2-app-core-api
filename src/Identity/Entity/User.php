@@ -18,6 +18,8 @@ final class User
         #[Column]
         private string $id,
         #[Column]
+        private string $identifier,
+        #[Column]
         private string $hashedPassword)
     {
     }
@@ -30,5 +32,10 @@ final class User
     public function getHashedPassword(): string
     {
         return $this->hashedPassword;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
     }
 }
