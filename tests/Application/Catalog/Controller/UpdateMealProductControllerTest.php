@@ -10,7 +10,7 @@ use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use function sprintf;
 
-/** @covers \App\Catalog\Controller\AddMealProductController */
+/** @covers \App\Catalog\Controller\Statefull\AddMealProductController */
 final class UpdateMealProductControllerTest extends CatalogTestCase
 {
     public function testICanAddProductToExistingMeal(): void
