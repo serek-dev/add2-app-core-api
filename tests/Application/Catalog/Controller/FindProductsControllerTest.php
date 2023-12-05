@@ -9,7 +9,7 @@ namespace App\Tests\Application\Catalog\Controller;
 use App\Tests\Application\Catalog\CatalogTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-/** @covers \App\Catalog\Controller\FindProductsController */
+/** @covers \App\Catalog\Controller\Statefull\FindProductsController */
 final class FindProductsControllerTest extends CatalogTestCase
 {
     public function testICanFetchAListOfProducts(): void

@@ -44,6 +44,9 @@ class ProductView implements JsonSerializable
     #[Column]
     private float $kcal;
 
+    #[Column]
+    private string $userId;
+
     #[Embedded(class: Portion::class, columnPrefix: false)]
     private ?Portion $portion = null;
 

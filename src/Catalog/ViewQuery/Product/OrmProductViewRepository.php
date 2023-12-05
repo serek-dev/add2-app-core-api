@@ -18,15 +18,18 @@ final class OrmProductViewRepository implements FindProductViewsInterface
     }
 
     /** @inheritDoc */
-    public function findAll(?string $name = null): array
+    public function findAllByUserAndName(string $userId, ?string $name = null): array
     {
         $qb = $this->viewsEntityManager->createQueryBuilder();
 
         $qb->select('p')
             ->from(ProductView::class, 'p');
 
+        $qb->where('p.userId = :userId')
+            ->setParameter('userId', $userId);
+
         if ($name) {
-            $qb->where(
+            $qb->andWhere(
                 $qb->expr()->like('p.name', $qb->expr()->literal('%' . $name . '%'))
             );
         }

@@ -13,7 +13,7 @@ interface FindProductViewsInterface
     /**
      * @return ProductView[]
      */
-    public function findAll(?string $name = null): array;
+    public function findAllByUserAndName(string $userId, ?string $name = null): array;
 
     /**
      * @throws NotFoundException

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Catalog\Controller;
+namespace App\Catalog\Controller\Statefull;
 
 
 use App\Catalog\ViewQuery\Product\FindProductViewsInterface;
@@ -12,15 +12,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/catalog/products', methods: 'GET')]
+#[Route('/api/catalog/users/{userId}/products', methods: 'GET')]
 final class FindProductsController extends AbstractController
 {
-    public function __invoke(Request $request, FindProductViewsInterface $query): JsonResponse
+    public function __invoke(Request $request, FindProductViewsInterface $query, string $userId, #[MapQueryParameter] ?string $name): JsonResponse
     {
-        $results = $query->findAll($request->get('name'));
+        $results = $query->findAllByUserAndName($userId, $name);
 
         return $this->json([
             'collection' => $results,
