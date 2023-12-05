@@ -9,5 +9,5 @@ use App\Catalog\Entity\Product;
 
 interface FindProductByNameInterface
 {
-    public function findByName(string $productName, ?string $producerName = null): ?Product;
+    public function findByName(string $userId, string $productName, ?string $producerName = null): ?Product;
 }

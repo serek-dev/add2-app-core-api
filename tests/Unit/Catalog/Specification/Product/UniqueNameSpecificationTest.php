@@ -20,7 +20,7 @@ final class UniqueNameSpecificationTest extends TestCase
 
         $find->expects(self::once())
             ->method('findByName')
-            ->with('name')
+            ->with('user-id', 'name')
             ->willReturn(null);
 
         self::assertTrue($specification->isSatisfiedBy(
@@ -36,7 +36,7 @@ final class UniqueNameSpecificationTest extends TestCase
 
         $find->expects(self::once())
             ->method('findByName')
-            ->with('Product name')
+            ->with('user-id', 'Product name')
             ->willReturn(ProductTestHelper::createProductEntity('id-1', 'name'));
 
         $this->expectExceptionMessage('Product with name: Product name already exist');

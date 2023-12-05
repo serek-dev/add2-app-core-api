@@ -15,15 +15,17 @@ final class CreateProductCommand implements CreateProductDtoInterface
 {
     public function __construct(
         private readonly string $name,
-        private readonly float $proteins,
-        private readonly float $fats,
-        private readonly float $carbs,
-        private readonly float $kcal,
+        private readonly float  $proteins,
+        private readonly float  $fats,
+        private readonly float  $carbs,
+        private readonly float  $kcal,
+        private readonly string $userId,
         private readonly ?string $producerName,
         private readonly ?string $id = null,
         private readonly ?string $unit = null,
         private readonly ?int    $weightPerUnit = null,
-    ) {
+    )
+    {
     }
 
     public function getNutritionValues(): NutritionalValues
@@ -58,5 +60,10 @@ final class CreateProductCommand implements CreateProductDtoInterface
         }
 
         return null;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

@@ -19,7 +19,7 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
         $this->repository = $em->getRepository(Product::class);
     }
 
-    public function findByName(string $productName, ?string $producerName = null): ?Product
+    public function findByName(string $userId, string $productName, ?string $producerName = null): ?Product
     {
         $qb = $this->em->createQueryBuilder();
 
@@ -28,6 +28,9 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
 
         $qb->where('p.name = :name');
         $qb->setParameter('name', $productName);
+
+        $qb->andWhere('p.userId = :userId');
+        $qb->setParameter('userId', $userId);
 
 
         if (!empty($producerName)) {

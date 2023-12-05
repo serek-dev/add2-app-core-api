@@ -102,6 +102,7 @@ final class MealProductTest extends TestCase
                 new Weight(20.0),
                 340.0,
             ),
+            userId: 'user-id',
             name: 'name-2',
             producerName: 'producerName-2',
             portion: new Portion('g', 100)

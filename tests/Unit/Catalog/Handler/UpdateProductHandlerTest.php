@@ -34,6 +34,7 @@ final class UpdateProductHandlerTest extends TestCase
         $product = new Product(
             'id-1',
             ProductTestHelper::createNutritionValues(),
+            'user-id',
             'Product name',
             'Producer'
         );

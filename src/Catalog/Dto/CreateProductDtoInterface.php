@@ -19,4 +19,6 @@ interface CreateProductDtoInterface
     public function getProducerName(): ?string;
 
     public function getPortion(): ?Portion;
+
+    public function getUserId(): string;
 }

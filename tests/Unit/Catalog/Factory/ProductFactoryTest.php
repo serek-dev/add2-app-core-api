@@ -83,7 +83,7 @@ final class ProductFactoryTest extends TestCase
         $findProductByName = $this->createMock(FindProductByNameInterface::class);
         $findProductByName
             ->method('findByName')
-            ->with('name', 'product name')
+            ->with('user-id', 'name', 'product name')
             ->willReturn(ProductTestHelper::createProductEntity());
 
         // And my factory
@@ -154,6 +154,11 @@ final class ProductFactoryTest extends TestCase
             public function getPortion(): ?Portion
             {
                 return null;
+            }
+
+            public function getUserId(): string
+            {
+                return 'user-id';
             }
         };
     }

@@ -36,12 +36,15 @@ class Product
         private readonly string $id,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
-        private string  $name,
+        private string          $userId,
+        #[Column]
+        private string          $name,
         #[Column(nullable: true)]
-        private ?string  $producerName,
+        private ?string         $producerName,
         #[Embedded(class: Portion::class, columnPrefix: false)]
-        private ?Portion $portion = null,
-    ) {
+        private ?Portion        $portion = null,
+    )
+    {
         $this->proteins = $this->nutritionalValues->getProteins();
         $this->fats = $this->nutritionalValues->getFats();
         $this->carbs = $this->nutritionalValues->getCarbs();
@@ -99,5 +102,10 @@ class Product
     public function setPortion(?Portion $portion): void
     {
         $this->portion = $portion;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

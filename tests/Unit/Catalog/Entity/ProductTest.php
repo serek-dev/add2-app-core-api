@@ -19,6 +19,7 @@ final class ProductTest extends TestCase
         $sut = new Product(
             uniqid(),
             ProductTestHelper::createNutritionValues(),
+            'user-id',
             'Product name',
             'Producer'
         );
@@ -31,6 +32,7 @@ final class ProductTest extends TestCase
         $sut = new Product(
             uniqid(),
             ProductTestHelper::createNutritionValues(),
+            'user-id',
             'Product name',
             null
         );
@@ -43,6 +45,7 @@ final class ProductTest extends TestCase
         $sut = new Product(
             uniqid(),
             ProductTestHelper::createNutritionValues(),
+            'user-id',
             'Product name',
             'Producer'
         );

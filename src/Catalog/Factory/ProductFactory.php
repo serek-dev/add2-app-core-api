@@ -41,6 +41,7 @@ final class ProductFactory
         $product = new Product(
             $id,
             $createProductDto->getNutritionValues(),
+            $createProductDto->getUserId(),
             $createProductDto->getName(),
             $createProductDto->getProducerName(),
             $createProductDto->getPortion(),

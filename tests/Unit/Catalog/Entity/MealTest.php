@@ -126,6 +126,7 @@ final class MealTest extends TestCase
                 new Weight(100),
                 200,
             ),
+            userId: 'user-id',
             name: 'name',
             producerName: 'producer',
         );

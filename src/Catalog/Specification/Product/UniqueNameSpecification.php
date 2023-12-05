@@ -19,7 +19,7 @@ final class UniqueNameSpecification implements ProductSpecificationInterface
 
     public function isSatisfiedBy(Product $product): bool
     {
-        if ($this->find->findByName($name = $product->getName(), $product->getProducerName())) {
+        if ($this->find->findByName($product->getUserId(), $name = $product->getName(), $product->getProducerName())) {
             throw new DuplicateException(
                 "Product with name: $name already exist"
             );

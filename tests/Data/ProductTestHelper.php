@@ -29,6 +29,7 @@ final class ProductTestHelper
         return new Product(
             $id ?? uniqid(),
             $values ?? self::createNutritionValues(),
+                'user-id',
             $name ?? 'Product name',
             'Producer',
         );

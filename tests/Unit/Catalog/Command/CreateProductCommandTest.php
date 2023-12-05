@@ -17,6 +17,7 @@ final class CreateProductCommandTest extends TestCase
             2,
             3,
             10,
+            'user-id',
             'producer',
             null,
             null,
@@ -32,5 +33,6 @@ final class CreateProductCommandTest extends TestCase
 
         $this->assertSame('name', $sut->getName());
         $this->assertSame('producer', $sut->getProducerName());
+        $this->assertSame('user-id', $sut->getUserId());
     }
 }

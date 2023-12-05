@@ -119,6 +119,7 @@ final class AddMealProductHandlerTest extends TestCase
                 carbs: new Weight(15.0),
                 kcal: 200.0,
             ),
+            userId: 'user-id',
             name: 'Test Product',
             producerName: 'Producer X',
         );
