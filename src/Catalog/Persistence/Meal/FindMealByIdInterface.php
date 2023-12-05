@@ -10,4 +10,6 @@ use App\Catalog\Entity\Meal;
 interface FindMealByIdInterface
 {
     public function findById(string $id): ?Meal;
+
+    public function findByIdAndUser(string $id, string $userId): ?Meal;
 }

@@ -57,4 +57,12 @@ final class OrmMealPersistenceRepository implements MealPersistenceInterface, Fi
         }
         $this->em->flush();
     }
+
+    public function findByIdAndUser(string $id, string $userId): ?Meal
+    {
+        return $this->em->getRepository(Meal::class)->findOneBy([
+            'id' => $id,
+            'userId' => $userId
+        ]);
+    }
 }

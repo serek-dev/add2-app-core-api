@@ -9,18 +9,18 @@ use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class RemoveMealHandler
+final readonly class RemoveMealHandler
 {
     public function __construct(
-        private readonly FindMealByIdInterface    $findMealById,
-        private readonly MealPersistenceInterface $persistence,
+        private FindMealByIdInterface    $findMealById,
+        private MealPersistenceInterface $persistence,
     )
     {
     }
 
     public function __invoke(RemoveMealDtoInterface $dto): void
     {
-        $meal = $this->findMealById->findById($dto->getId());
+        $meal = $this->findMealById->findByIdAndUser($dto->getId(), $dto->getUserId());
 
         if (!$meal) {
             throw new NotFoundException('Meal: ' . $dto->getId() . ' does not exist');
