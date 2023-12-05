@@ -11,5 +11,5 @@ use App\Catalog\View\MealView;
 interface GetOneMealViewInterface
 {
     /** @throws NotFoundException */
-    public function getOne(string $id): MealView;
+    public function getOneByUser(string $id, string $userId): MealView;
 }

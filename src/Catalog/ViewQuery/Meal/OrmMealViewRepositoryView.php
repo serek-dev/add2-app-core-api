@@ -38,12 +38,15 @@ final class OrmMealViewRepositoryView implements FindMealViewsInterface, GetOneM
         return $qb->getQuery()->getResult();
     }
 
-    public function getOne(string $id): MealView
+    public function getOneByUser(string $id, string $userId): MealView
     {
         $qb = $this->viewsEntityManager->getRepository(MealView::class)->createQueryBuilder('m');
 
+        $qb->where('m.userId = :userId')
+            ->setParameter('userId', $userId);
+
         try {
-            $qb->where('m.id = :id')
+            $qb->andWhere('m.id = :id')
                 ->setParameter('id', $id)
                 ->setMaxResults(1);
 

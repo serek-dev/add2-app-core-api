@@ -20,7 +20,7 @@ final class GetMealController extends AbstractController
     public function __invoke(Request $request, GetOneMealViewInterface $query, string $userId, string $id): JsonResponse
     {
         return $this->json(
-            ['item' => $query->getOne($id)],
+            ['item' => $query->getOneByUser($id, $userId)],
         );
     }
 }

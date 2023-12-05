@@ -41,9 +41,12 @@ final class OrmProductViewRepository implements FindProductViewsInterface
     }
 
     /** @inheritDoc */
-    public function getOne(string $id): ProductView
+    public function getOneByUser(string $id, string $userId): ProductView
     {
-        $entity = $this->viewsEntityManager->getRepository(ProductView::class)->find($id);
+        $entity = $this->viewsEntityManager->getRepository(ProductView::class)->findOneBy([
+            'id' => $id,
+            'userId' => $userId,
+        ]);
 
         if (!$entity) {
             throw new NotFoundException('Unable to find Product: ' . $id);

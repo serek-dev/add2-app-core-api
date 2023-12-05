@@ -18,5 +18,5 @@ interface FindProductViewsInterface
     /**
      * @throws NotFoundException
      */
-    public function getOne(string $id): ProductView;
+    public function getOneByUser(string $id, string $userId): ProductView;
 }
