@@ -36,7 +36,7 @@ class Product
         private readonly string            $id,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
-        private string                     $userId,
+        private readonly string            $userId,
         #[Column]
         private string                     $name,
         #[Column(nullable: true)]

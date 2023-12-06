@@ -7,4 +7,6 @@ interface RemoveMealProductDtoInterface
     public function getProductId(): string;
 
     public function getMealId(): string;
+
+    public function getUserId(): string;
 }

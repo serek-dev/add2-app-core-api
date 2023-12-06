@@ -27,6 +27,7 @@ final class MealFixtures extends Fixture implements DependentFixtureInterface
         // RemoveDayMealProductControllerTest
 
         $command = new CreateMealCommand(
+            userId: UserFixtures::USER_1,
             name: 'Meal 1',
             products: [
                 [

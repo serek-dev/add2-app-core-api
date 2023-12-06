@@ -23,8 +23,8 @@ final class RemoveMealProductHandlerTest extends TestCase
         $findMealById = $this->createMock(FindMealByIdInterface::class);
         $findMealById
             ->expects(self::once())
-            ->method('findById')
-            ->with('mealId')
+            ->method('findByIdAndUser')
+            ->with('mealId', 'userId')
             ->willReturn(
                 $meal = new Meal('mealId', 'mealName', 'user', [
                     new MealProduct(
@@ -49,6 +49,6 @@ final class RemoveMealProductHandlerTest extends TestCase
             $persistence,
         );
 
-        $sut->__invoke(new RemoveMealProductCommand('mealId', 'productId'));
+        $sut->__invoke(new RemoveMealProductCommand('mealId', 'productId', 'userId'));
     }
 }

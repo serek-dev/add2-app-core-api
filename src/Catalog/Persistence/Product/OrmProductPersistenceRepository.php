@@ -32,7 +32,6 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
         $qb->andWhere('p.userId = :userId');
         $qb->setParameter('userId', $userId);
 
-
         if (!empty($producerName)) {
             $qb->andWhere('p.producerName = :producerName');
             $qb->setParameter('producerName', $producerName);

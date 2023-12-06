@@ -8,7 +8,7 @@ use App\Catalog\Dto\RemoveMealProductDtoInterface;
 
 final class RemoveMealProductCommand implements RemoveMealProductDtoInterface
 {
-    public function __construct(public readonly string $mealId, public readonly string $productId)
+    public function __construct(public readonly string $mealId, public readonly string $productId, public readonly string $userId)
     {
     }
 
@@ -20,5 +20,10 @@ final class RemoveMealProductCommand implements RemoveMealProductDtoInterface
     public function getMealId(): string
     {
         return $this->mealId;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
