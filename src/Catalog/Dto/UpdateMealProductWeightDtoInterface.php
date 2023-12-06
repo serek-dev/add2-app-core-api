@@ -11,4 +11,6 @@ interface UpdateMealProductWeightDtoInterface
     public function getProductId(): string;
 
     public function getWeight(): Weight;
+
+    public function getUserId(): string;
 }

@@ -9,18 +9,18 @@ use App\Catalog\Persistence\Meal\MealPersistenceInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class UpdateMealProductHandler
+final readonly class UpdateMealProductHandler
 {
     public function __construct(
-        private readonly FindMealByIdInterface    $find,
-        private readonly MealPersistenceInterface $persistence,
+        private FindMealByIdInterface    $find,
+        private MealPersistenceInterface $persistence,
     )
     {
     }
 
     public function __invoke(UpdateMealProductWeightDtoInterface $dto): void
     {
-        $meal = $this->find->findById($dto->getMealId());
+        $meal = $this->find->findByIdAndUser($dto->getMealId(), $dto->getUserId());
 
         if (!$meal) {
             throw new NotFoundException('Meal: ' . $dto->getMealId() . ' does not exist');
