@@ -12,17 +12,17 @@ use App\Catalog\Persistence\Product\FindProductByIdInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class ReplaceMealProductHandler
+final readonly class ReplaceMealProductHandler
 {
-    public function __construct(private readonly FindMealByIdInterface    $findMeal,
-                                private readonly FindProductByIdInterface $findProduct,
-                                private readonly MealPersistenceInterface $persistence)
+    public function __construct(private FindMealByIdInterface    $findMeal,
+                                private FindProductByIdInterface $findProduct,
+                                private MealPersistenceInterface $persistence)
     {
     }
 
     public function __invoke(ReplaceMealProductDtoInterface $command): void
     {
-        $meal = $this->findMeal->findById($command->getMealId());
+        $meal = $this->findMeal->findByIdAndUser($command->getMealId(), $command->getUserId());
 
         if (!$meal) {
             throw new NotFoundException('Meal not found');

@@ -6,12 +6,13 @@ namespace App\Catalog\Command;
 
 use App\Catalog\Dto\ReplaceMealProductDtoInterface;
 
-final class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
+final readonly class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
 {
     public function __construct(
-        private readonly string $mealId,
-        private readonly string $productId,
-        private readonly string $newProductId,
+        private string $mealId,
+        private string $productId,
+        private string $newProductId,
+        private string $userId,
     )
     {
     }
@@ -29,5 +30,10 @@ final class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
     public function getNewProductId(): string
     {
         return $this->newProductId;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
