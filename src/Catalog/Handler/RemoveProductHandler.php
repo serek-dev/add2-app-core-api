@@ -9,18 +9,18 @@ use App\Catalog\Persistence\Product\ProductPersistenceInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class RemoveProductHandler
+final readonly class RemoveProductHandler
 {
     public function __construct(
-        private readonly FindProductByIdInterface    $findProductById,
-        private readonly ProductPersistenceInterface $persistence,
+        private FindProductByIdInterface    $findProductById,
+        private ProductPersistenceInterface $persistence,
     )
     {
     }
 
     public function __invoke(RemoveProductDtoInterface $dto): void
     {
-        $product = $this->findProductById->findById($dto->getId());
+        $product = $this->findProductById->findByIdAndUser($dto->getId(), $dto->getUserId());
 
         if (!$product) {
             throw new NotFoundException('Product: ' . $dto->getId() . ' does not exist');

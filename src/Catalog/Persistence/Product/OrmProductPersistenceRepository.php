@@ -62,4 +62,9 @@ final class OrmProductPersistenceRepository implements FindProductByNameInterfac
         $this->em->remove($product);
         $this->em->flush();
     }
+
+    public function findByIdAndUser(string $id, string $userId): ?Product
+    {
+        return $this->repository->findOneBy(['id' => $id, 'userId' => $userId]);
+    }
 }

@@ -10,4 +10,6 @@ use App\Catalog\Entity\Product;
 interface FindProductByIdInterface
 {
     public function findById(string $id): ?Product;
+
+    public function findByIdAndUser(string $id, string $userId): ?Product;
 }
