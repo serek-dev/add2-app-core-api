@@ -11,18 +11,19 @@ use App\Catalog\Value\NutritionalValues;
 use App\Catalog\Value\Portion;
 use App\Catalog\Value\Weight;
 
-final class UpdateProductCommand implements UpdateProductDtoInterface
+final readonly class UpdateProductCommand implements UpdateProductDtoInterface
 {
     public function __construct(
-        private readonly string  $id,
-        private readonly string  $name,
-        private readonly float   $proteins,
-        private readonly float   $fats,
-        private readonly float   $carbs,
-        private readonly float   $kcal,
-        private readonly ?string $producerName,
-        private readonly ?string $unit,
-        private readonly ?int    $weightPerUnit = null,
+        private string  $id,
+        private string  $userId,
+        private string  $name,
+        private float   $proteins,
+        private float   $fats,
+        private float   $carbs,
+        private float   $kcal,
+        private ?string $producerName,
+        private ?string $unit,
+        private ?int    $weightPerUnit = null,
     )
     {
     }
@@ -59,5 +60,10 @@ final class UpdateProductCommand implements UpdateProductDtoInterface
         }
 
         return null;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

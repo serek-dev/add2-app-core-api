@@ -41,6 +41,7 @@ final class UpdateProductHandlerTest extends TestCase
 
         $updateProductDto = new UpdateProductCommand(
             id: 'id-1',
+            userId: 'user-id',
             name: 'Updated Product',
             proteins: 1,
             fats: 1,
@@ -53,7 +54,7 @@ final class UpdateProductHandlerTest extends TestCase
 
         $handler = new UpdateProductHandler($this->findProductMock, $this->storeProductMock);
 
-        $this->findProductMock->method('findById')->with('id-1')->willReturn($product);
+        $this->findProductMock->method('findByIdAndUser')->with('id-1', 'user-id')->willReturn($product);
 
         $this->storeProductMock->expects($this->once())->method('store')->with($product)
             ->willReturnCallback(function (Product $p): void {

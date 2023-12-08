@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Catalog\Controller;
+namespace App\Catalog\Controller\Statefull;
 
 
 use App\Catalog\Command\UpdateProductCommand;
@@ -16,14 +16,15 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/catalog/products/{id}', methods: 'PUT')]
+#[Route('/api/catalog/users/{userId}/products/{id}', methods: 'PUT')]
 final class UpdateProductController extends AbstractController
 {
-    public function __invoke(Request $request, string $id, MessageBusInterface $bus): JsonResponse
+    public function __invoke(Request $request, string $userId, string $id, MessageBusInterface $bus): JsonResponse
     {
         $bus->dispatch(
             new UpdateProductCommand(
                 id: $id,
+                userId: $userId,
                 name: $request->getPayload()->get('name'),
                 proteins: (float)$request->getPayload()->get('proteins'),
                 fats: (float)$request->getPayload()->get('fats'),

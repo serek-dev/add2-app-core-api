@@ -16,15 +16,15 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Throwable;
 
 #[AsMessageHandler]
-final class UpdateProductHandler
+final readonly class UpdateProductHandler
 {
     /**
      * @param ProductSpecificationInterface[] $specifications
      */
     public function __construct(
-        private readonly FindProductByIdInterface    $find,
-        private readonly ProductPersistenceInterface $storeProduct,
-        private readonly iterable                    $specifications = [],
+        private FindProductByIdInterface    $find,
+        private ProductPersistenceInterface $storeProduct,
+        private iterable                    $specifications = [],
 
     )
     {
@@ -42,7 +42,7 @@ final class UpdateProductHandler
      */
     public function __invoke(UpdateProductDtoInterface $command): void
     {
-        $product = $this->find->findById($command->getId());
+        $product = $this->find->findByIdAndUser($command->getId(), $command->getUserId());
 
         if ($product === null) {
             throw new NotFoundException('Product not found');

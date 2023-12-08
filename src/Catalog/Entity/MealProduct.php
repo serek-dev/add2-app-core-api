@@ -39,18 +39,19 @@ class MealProduct
         #[Id]
         #[GeneratedValue(strategy: "NONE")]
         #[Column]
-        private readonly string $id,
-        Weight $weight,
+        private readonly string            $id,
+        Weight                             $weight,
         private readonly NutritionalValues $nutritionalValues,
         #[Column]
-        private string  $name,
+        private string                     $name,
         #[Column]
-        private string  $parentId,
+        private string                     $parentId,
         #[Column(nullable: true)]
-        private ?string  $producerName,
+        private ?string                    $producerName,
         #[Embedded(class: Portion::class, columnPrefix: false)]
-        private ?Portion $portion = null
-    ) {
+        private ?Portion                   $portion = null
+    )
+    {
         $this->proteins = $this->nutritionalValues->getProteins();
         $this->fats = $this->nutritionalValues->getFats();
         $this->carbs = $this->nutritionalValues->getCarbs();
