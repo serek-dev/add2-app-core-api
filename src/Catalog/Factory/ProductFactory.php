@@ -39,12 +39,12 @@ final class ProductFactory
         $id = $createProductDto->getId() ?? uniqid('P-');
 
         $product = new Product(
-            $id,
-            $createProductDto->getNutritionValues(),
-            $createProductDto->getUserId(),
-            $createProductDto->getName(),
-            $createProductDto->getProducerName(),
-            $createProductDto->getPortion(),
+            id: $id,
+            nutritionalValues: $createProductDto->getNutritionValues(),
+            userId: $createProductDto->getUserId(),
+            name: $createProductDto->getName(),
+            producerName: $createProductDto->getProducerName(),
+            portion: $createProductDto->getPortion(),
         );
 
         foreach ($this->specifications as $spec) {

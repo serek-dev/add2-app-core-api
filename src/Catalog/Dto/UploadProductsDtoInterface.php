@@ -7,4 +7,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 interface UploadProductsDtoInterface
 {
     public function getFile(): UploadedFile;
+
+    public function getUserId(): string;
 }

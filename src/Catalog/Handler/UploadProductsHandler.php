@@ -52,10 +52,11 @@ final class UploadProductsHandler
                         fats: (float)$productData[self::FATS_COL],
                         carbs: (float)$productData[self::CARBS_COL],
                         kcal: (float)$productData[self::KCAL_COL],
+                        userId: $dto->getUserId(),
                         producerName: $productData[self::PRODUCER_COL],
                         id: $productData[self::ID_COL],
-                        unit: $productData[self::ID_UNIT],
-                        weightPerUnit: $productData[self::ID_UNIT_PER_WEIGHT],
+                        unit: null, //$productData[self::ID_UNIT], // todo
+                        weightPerUnit: null, // $productData[self::ID_UNIT_PER_WEIGHT],
                     ));
             } catch (DomainException|InvalidArgumentException $e) {
                 $this->logger->warning($e->getMessage());
