@@ -15,6 +15,7 @@ final class DomainErrorHandler implements EventSubscriberInterface
 {
     private const SUPPORTED_EXCEPTIONS = [
         NotFoundException::class,
+        \App\Shared\Exception\NotFoundException::class,
         DuplicateException::class,
     ];
 

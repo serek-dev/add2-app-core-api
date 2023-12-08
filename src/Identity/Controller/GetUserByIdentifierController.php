@@ -27,6 +27,7 @@ final class GetUserByIdentifierController extends AbstractController
                 'id' => $user->getId(),
                 'identifier' => $user->getIdentifier(),
                 'hashedPassword' => $user->getHashedPassword(),
+                'jwt' => $user->getJwt(),
             ],
         ]);
     }
