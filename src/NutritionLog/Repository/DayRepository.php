@@ -14,7 +14,7 @@ final class DayRepository implements FindClosestPreviousDayInterface
     {
     }
 
-    public function findClosest(DateTimeInterface $dateTime): ?Day
+    public function findClosest(DateTimeInterface $dateTime, string $userId): ?Day
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
@@ -23,6 +23,9 @@ final class DayRepository implements FindClosestPreviousDayInterface
 
         $queryBuilder->where('day.date <= :now AND day.date != :now')
             ->setParameter('now', $dateTime);
+
+        $queryBuilder->andWhere('day.userId = :userId')
+            ->setParameter('userId', $userId);
 
         $queryBuilder->andWhere('day.date >= :sub')
             ->setParameter('sub', $dateTime->modify('-1 week'));

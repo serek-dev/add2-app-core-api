@@ -13,14 +13,15 @@ use App\NutritionLog\ViewQuery\Day\FindDayViewInterface;
 final class FindProductReplacementsPresenter
 {
     public function __construct(
-        private readonly FindDayViewInterface $findDayById,
+        private readonly FindDayViewInterface     $findDayById,
         private readonly FindAllProductsInterface $findAllProducts,
-    ) {
+    )
+    {
     }
 
     public function render(string $date, string $productId): array
     {
-        $day = $this->findDayById->findDay($date);
+        $day = $this->findDayById->findByDateAndUser($date);
 
         $replacedProduct = null;
 

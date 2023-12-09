@@ -7,5 +7,5 @@ use DateTimeInterface;
 
 interface FindClosestPreviousDayInterface
 {
-    public function findClosest(DateTimeInterface $dateTime): ?Day;
+    public function findClosest(DateTimeInterface $dateTime, string $userId): ?Day;
 }

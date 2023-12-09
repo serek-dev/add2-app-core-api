@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity]
 final class User
 {
-    #[Column]
+    #[Column(length: 1000)]
     private ?string $jwt = null;
 
     public function __construct(

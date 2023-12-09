@@ -13,12 +13,13 @@ final class FindDayApiPresenter
 {
     public function __construct(
         private readonly FindDayViewInterface $findDay,
-    ) {
+    )
+    {
     }
 
-    public function render(string $date): array
+    public function render(string $date, string $userId): array
     {
-        $view = $this->findDay->findDay($date);
+        $view = $this->findDay->findByDateAndUser($date, $userId);
 
         $grouped = [];
 

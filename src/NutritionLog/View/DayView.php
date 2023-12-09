@@ -42,6 +42,8 @@ class DayView implements JsonSerializable, LogAbleInterface
         public readonly DateTimeInterface $date,
         #[Embedded(class: NutritionalTarget::class)]
         private NutritionalTarget         $target,
+        #[Column]
+        private readonly string           $userId,
     )
     {
         $this->products = new ArrayCollection();
@@ -54,8 +56,7 @@ class DayView implements JsonSerializable, LogAbleInterface
             0,
             0,
             0,
-            0.0,
-        ));
+            0.0), '');
     }
 
     public function jsonSerialize(): array

@@ -6,11 +6,8 @@ use App\NutritionLog\Entity\Day;
 use App\NutritionLog\Exception\DuplicateException;
 use App\NutritionLog\Factory\DayFactory;
 use App\NutritionLog\Factory\DayFactoryNutritionalTargetResolverInterface;
-use App\NutritionLog\Factory\NutritionalTargetResolver;
 use App\NutritionLog\Persistence\Day\FindDayByDateInterface;
 use App\NutritionLog\Value\NutritionalTarget;
-use App\NutritionLog\Value\NutritionalValues;
-use App\NutritionLog\Value\Weight;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
@@ -18,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 final class DayFactoryTest extends TestCase
 {
     private NutritionalTarget $target;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,12 +26,13 @@ final class DayFactoryTest extends TestCase
             0.0,
         );
     }
+
     public function testCreateThrowsExceptionOnExistingDay(): void
     {
         // Given I have a query that returns existing Day
         $query = $this->createMock(FindDayByDateInterface::class);
         $query->method('findDayByDate')
-            ->willReturn(new Day(new DateTimeImmutable(), $this->target));
+            ->willReturn(new Day(new DateTimeImmutable(), $this->target, 'user-id'));
 
         // And my factory
         $sut = new DayFactory($query, $this->createMock(DayFactoryNutritionalTargetResolverInterface::class));
@@ -42,7 +41,7 @@ final class DayFactoryTest extends TestCase
         $this->expectException(DuplicateException::class);
 
         // When trying to create
-        $sut->create(new DateTimeImmutable());
+        $sut->create(new DateTimeImmutable(), 'user-id');
     }
 
     public function testCreate(): void
@@ -59,7 +58,7 @@ final class DayFactoryTest extends TestCase
         $sut = new DayFactory($query, $resolver);
 
         // When trying to create
-        $res = $sut->create($date = new DateTimeImmutable('2020-01-01'));
+        $res = $sut->create($date = new DateTimeImmutable('2020-01-01'), 'user-id');
 
         // Then new Day should be created
         $this->assertEquals($date->format('Y-m-d'), $res->getDate());

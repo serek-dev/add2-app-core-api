@@ -36,7 +36,7 @@ final class DayTest extends TestCase
 
     public function testConstructor(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
 
         $this->assertInstanceOf(AggregateRoot::class, $sut);
         $this->assertSame('2020-01-01', $sut->getDate());
@@ -44,7 +44,7 @@ final class DayTest extends TestCase
 
     public function testAddProduct(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
         $sut->addProduct(
             NutritionLogTestHelper::createDayProductEntity()
         );
@@ -54,7 +54,7 @@ final class DayTest extends TestCase
 
     public function testAddMeal(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
         $sut->addMeal(
             new DayMeal(
                 'id',
@@ -69,7 +69,7 @@ final class DayTest extends TestCase
 
     public function testRemoveMeal(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
         $sut->addMeal(
             new DayMeal(
                 'id',
@@ -89,7 +89,7 @@ final class DayTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Meal with id id2 not found');
 
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
 
         $sut->removeMeal('id2');
     }
@@ -99,14 +99,14 @@ final class DayTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Product with id id2 not found');
 
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
 
         $sut->removeProduct('id2');
     }
 
     public function testRemoveProduct(): void
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
         $sut->addProduct(
             new DayProduct(
                 'id',
@@ -130,7 +130,7 @@ final class DayTest extends TestCase
 
     public function testConstructorShouldCreateEvent(): Day
     {
-        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target);
+        $sut = new Day(new DateTimeImmutable('2020-01-01'), $this->target, 'user-id');
 
         $events = $sut->pullEvents();
 

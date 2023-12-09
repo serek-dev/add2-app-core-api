@@ -46,7 +46,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
             $this->createMock(RemoveInterface::class),
         );
 
-        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:00');
+        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:00', 'user-id');
 
         $this->expectException(NotFoundException::class);
 
@@ -56,7 +56,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
     public function testThrowsNotFoundOnNonExistingMealAtGivenTime(): void
     {
         // Given I have a valid day
-        $day = new Day(new DateTimeImmutable(), $this->target);
+        $day = new Day(new DateTimeImmutable(), $this->target, 'user-id');
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
 
         // And the query that returns it
@@ -66,7 +66,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
 
         $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new MessageBus(), $this->createMock(RemoveInterface::class));
 
-        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:00');
+        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:00', 'user-id');
 
         $this->expectException(NotFoundException::class);
 
@@ -76,7 +76,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
     public function testRemovesAllProductsAndMeals(): void
     {
         // Given I have a valid day with two products
-        $day = new Day(new DateTimeImmutable(), $this->target);
+        $day = new Day(new DateTimeImmutable(), $this->target, 'user-id');
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
         $day->addProduct(DayProductTestHelper::createDayProductEntity('10:45'));
 
@@ -96,7 +96,7 @@ final class RemoveProductsByConsumptionTimeHandlerTest extends TestCase
         $em->expects($this->once())->method('flush');
         $sut = new RemoveProductsByConsumptionTimeHandler($findByDate, new MessageBus(), new OrmDayPersistenceRepository($em));
 
-        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:45');
+        $command = new RemoveDayProductsByConsumptionTimeCommand('2020-01-01', '10:45', 'user-id');
 
         $sut($command);
 

@@ -28,7 +28,7 @@ final readonly class RemoveProductsByConsumptionTimeHandler
 
     public function __invoke(RemoveDayProductsByConsumptionTimeInterface $command): void
     {
-        $day = $this->findDayByDate->findDayByDate($command->getDay());
+        $day = $this->findDayByDate->findDayByDate($command->getDay(), $command->getUserId());
 
         if (!$day) {
             throw new NotFoundException("There is no meal eaten at: " . $command->getConsumptionTime());

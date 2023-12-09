@@ -6,13 +6,9 @@ declare(strict_types=1);
 namespace App\NutritionLog\ViewQuery\Day;
 
 
-use App\NutritionLog\View\DayStatsView;
 use App\NutritionLog\View\DayView;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use function array_map;
-use function file_get_contents;
 
 final class OrmDayViewViewRepository implements FindDayViewInterface
 {
@@ -20,9 +16,12 @@ final class OrmDayViewViewRepository implements FindDayViewInterface
     {
     }
 
-    public function findDay(string $date): DayView
+    public function findByDateAndUser(string $date, string $userId): DayView
     {
         $repo = $this->viewsEntityManager->getRepository(DayView::class);
-        return $repo->findOneBy(['date' => new DateTimeImmutable($date)]) ?? DayView::createEmpty($date);
+        return $repo->findOneBy([
+            'date' => new DateTimeImmutable($date),
+            'userId' => $userId,
+        ]) ?? DayView::createEmpty($date);
     }
 }

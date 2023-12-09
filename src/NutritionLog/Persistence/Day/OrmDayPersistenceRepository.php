@@ -20,10 +20,11 @@ final class OrmDayPersistenceRepository implements FindDayByDateInterface, DayPe
     {
     }
 
-    public function findDayByDate(DateTimeInterface $date): ?Day
+    public function findDayByDate(DateTimeInterface $date, string $userId): ?Day
     {
         return $this->em->getRepository(Day::class)->findOneBy([
             'date' => $date,
+            'userId' => $userId,
         ]);
     }
 

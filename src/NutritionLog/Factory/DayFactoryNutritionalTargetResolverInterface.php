@@ -9,5 +9,5 @@ use DateTimeInterface;
 
 interface DayFactoryNutritionalTargetResolverInterface
 {
-    public function resolve(DateTimeInterface $dateTime): NutritionalTarget;
+    public function resolve(DateTimeInterface $dateTime, string $userId): NutritionalTarget;
 }

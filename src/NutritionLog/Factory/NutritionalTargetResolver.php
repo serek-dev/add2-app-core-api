@@ -14,7 +14,7 @@ final class NutritionalTargetResolver implements DayFactoryNutritionalTargetReso
     {
     }
 
-    public function resolve(DateTimeInterface $dateTime): NutritionalTarget
+    public function resolve(DateTimeInterface $dateTime, string $userId): NutritionalTarget
     {
         $null = new NutritionalTarget(
             0,
@@ -23,7 +23,7 @@ final class NutritionalTargetResolver implements DayFactoryNutritionalTargetReso
             0.0,
         );
 
-        $day = $this->day->findClosest($dateTime);
+        $day = $this->day->findClosest($dateTime, $userId);
 
         return $day ? $day->getTarget() : $null;
     }

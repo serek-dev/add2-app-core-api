@@ -13,4 +13,6 @@ interface RemoveDayProductsByConsumptionTimeInterface
     public function getDay(): DateTimeInterface;
 
     public function getConsumptionTime(): ConsumptionTime;
+
+    public function getUserId(): string;
 }

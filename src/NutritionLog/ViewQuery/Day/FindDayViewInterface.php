@@ -9,5 +9,5 @@ use App\NutritionLog\View\DayView;
 
 interface FindDayViewInterface
 {
-    public function findDay(string $date): DayView;
+    public function findByDateAndUser(string $date, string $userId): DayView;
 }

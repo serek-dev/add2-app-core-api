@@ -49,6 +49,8 @@ class Day implements AggregateRoot
         private readonly DateTimeInterface $date,
         #[Embedded(class: NutritionalTarget::class)]
         private NutritionalTarget          $target,
+        #[Column]
+        private readonly string            $userId,
     )
     {
         $this->products = new ArrayCollection();

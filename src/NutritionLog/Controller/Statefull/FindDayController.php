@@ -19,6 +19,6 @@ final class FindDayController extends AbstractController
 {
     public function __invoke(Request $request, FindDayApiPresenter $presenter, string $userId, string $date): JsonResponse
     {
-        return $this->json($presenter->render($date));
+        return $this->json($presenter->render($date, $userId));
     }
 }

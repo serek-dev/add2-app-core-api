@@ -10,5 +10,5 @@ use DateTimeInterface;
 
 interface FindDayByDateInterface
 {
-    public function findDayByDate(DateTimeInterface $date): ?Day;
+    public function findDayByDate(DateTimeInterface $date, string $userId): ?Day;
 }

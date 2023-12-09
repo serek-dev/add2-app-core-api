@@ -16,6 +16,7 @@ final readonly class RemoveDayProductsByConsumptionTimeCommand implements Remove
     public function __construct(
         private string $date,
         private string $consumptionTime,
+        private string $userId,
     )
     {
     }
@@ -28,5 +29,10 @@ final readonly class RemoveDayProductsByConsumptionTimeCommand implements Remove
     public function getConsumptionTime(): ConsumptionTime
     {
         return new ConsumptionTime($this->consumptionTime);
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
