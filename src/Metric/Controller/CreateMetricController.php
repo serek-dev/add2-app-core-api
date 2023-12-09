@@ -17,10 +17,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function count;
 
 #[AsController]
-#[Route('/api/metric/metrics', name: 'metrics_create', methods: ['POST'])]
+#[Route('/api/metric/users/{userId}/metrics', name: 'metrics_create', methods: ['POST'])]
 final class CreateMetricController extends AbstractController
 {
-    public function __invoke(Request $request, CreateMetricInterface $persist, MetricFactoryDirector $factory, ValidatorInterface $validator): JsonResponse
+    public function __invoke(Request               $request,
+                             CreateMetricInterface $persist,
+                             MetricFactoryDirector $factory,
+                             ValidatorInterface    $validator,
+                             string                $userId
+    ): JsonResponse
     {
         $dto = new CreateMetricDto(
             type: $request->getPayload()->get('type'),

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function date;
 
 #[AsController]
-#[Route('/api/metric/metrics', methods: ['GET'])]
+#[Route('/api/metric/users/{userId}/metrics', methods: ['GET'])]
 final class FindMetricController extends AbstractController
 {
     public function __invoke(Request $request, ValidatorInterface $validator, FindMetricsInterface $find): JsonResponse
