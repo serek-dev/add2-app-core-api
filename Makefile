@@ -9,7 +9,7 @@ start: stop build up _finish ## Starts containers with build
 fast: stop up _finish ## Attempts to start existing containers
 
 up:
-	docker network create add2_backend
+	docker network create add2_backend || true
 	$(docker-compose) run --rm dependencies
 	$(docker-compose) up --force-recreate -d
 
