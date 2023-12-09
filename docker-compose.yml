@@ -9,8 +9,8 @@ services:
       dockerfile: ./docker/web_app/Dockerfile
     volumes:
       - ./:/var/www/html/
-    ports:
-      - "8888:80"
+    expose:
+      - 9000
     networks:
       - amciu_backend
 

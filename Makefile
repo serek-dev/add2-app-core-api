@@ -6,7 +6,7 @@ docker-compose-gitlab=docker-compose -f docker-compose.gitlab.yml
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-start: stop build up _finish ## Starts containers with build
+start: stop build up install _finish ## Starts containers with build
 fast: stop up _finish ## Attempts to start existing containers
 
 up:
@@ -16,12 +16,14 @@ up:
 
 build:
 	$(docker-compose) build
+
+install:
 	$(docker-compose) exec app composer install
 	$(docker-compose) exec app sh ./tools/post_deploy.sh
 
 stop: ## Stops containers and removes network
 	$(docker-compose) down --remove-orphans
-	docker network prune -f
+	docker network prune -f || true
 
 _finish:
 	@echo "----------------------------------------------------------------------------"
