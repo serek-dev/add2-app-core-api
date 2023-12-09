@@ -35,16 +35,16 @@ copy_vendor: ### Copy vendor directory into a host machine
 	sudo docker cp $$(docker-compose ps -q app):/app/vendor .
 
 envs: ### Debug env file
-	$(docker-compose) exec core_api php bin/console debug:dotenv
+	$(docker-compose) exec app php bin/console debug:dotenv
 
 params: ### Debug container parameters
-	$(docker-compose) exec core_api php bin/console debug:container --parameters
+	$(docker-compose) exec app php bin/console debug:container --parameters
 
 config_dump: ### Displays merged docker-compose configuration
 	$(docker-compose) config
 
 post_deploy: ### Runs post deploy script that normally would be run in CI process
-	$(docker-compose) exec core_api sh ./tools/post_deploy.sh
+	$(docker-compose) exec app sh ./tools/post_deploy.sh
 
 tests_unit: ### Runs unit tests
 	$(docker-compose-gitlab) run --rm tests_unit
@@ -57,6 +57,9 @@ tests: tests_arch tests_unit
 migrations_diff: ### Generates new migration
 	$(docker-compose) exec app php bin/console doctrine:migrations:diff --em default
 
+mig_prev: ### Rollbacks migration
+	$(docker-compose) exec app php bin/console doctrine:migrations:migrate prev --no-interaction
+
 migrate: ### Run migrations
 	$(docker-compose) exec app php bin/console doctrine:migrations:migrate --no-interaction
 
@@ -67,3 +70,6 @@ seed: ### Seeds and cleans up database
 
 seed_metrics: ### Appends more metric seeds
 	$(docker-compose) exec app composer db:seed:more-metrics
+
+logs:
+	$(docker-compose) logs -f

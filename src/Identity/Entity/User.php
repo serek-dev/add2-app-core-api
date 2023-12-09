@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity]
 final class User
 {
-    #[Column(length: 1000)]
+    #[Column(length: 1000, nullable: true)]
     private ?string $jwt = null;
 
     public function __construct(
@@ -23,9 +23,9 @@ final class User
         private string $id,
         #[Column]
         private string $identifier,
-        #[Column]
+        #[Column(nullable: true)]
         private string $hashedPassword,
-        ?string        $jwt)
+        ?string        $jwt = null)
     {
         $this->jwt = $jwt;
     }
