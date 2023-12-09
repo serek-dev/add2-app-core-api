@@ -23,7 +23,7 @@ RUN apt-get update \
 
 CMD ["composer", "tests:unit"]
 
-FROM php:8.1.8-fpm-alpine as dev
+FROM php:8.2-fpm-alpine as dev
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
