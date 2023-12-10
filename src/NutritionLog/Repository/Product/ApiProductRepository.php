@@ -26,9 +26,9 @@ final readonly class ApiProductRepository implements GetOneProductInterface, Fin
     }
 
     /** @inheritdoc */
-    public function findAll(): array
+    public function findAllByUser(string $userId): array
     {
-        $response = $this->catalogApi->request('GET', '/api/catalog/products');
+        $response = $this->catalogApi->request('GET', "/api/catalog/users/$userId/products");
 
         $body = $response->toArray()['collection'];
 

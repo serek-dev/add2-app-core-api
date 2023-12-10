@@ -55,18 +55,18 @@ final class ApiProductRepositoryTest extends TestCase
         // Then it should be used with the expected payload
         $client->expects($this->once())
             ->method('request')
-            ->with('GET', '/api/catalog/products/p-64a466b4e03c1')
+            ->with('GET', "/api/catalog/users/user-id/products/p-64a466b4e03c1")
             ->willReturn($response);
 
         $sut = new ApiProductRepository($client);
 
         // And Product should be as expected
-        $product = $sut->getOne($productId);
+        $product = $sut->getOne($productId, 'user-id');
         $this->assertSame($productId, $product->getId());
         $this->assertSame('ABC', $product->getName());
     }
 
-    public function testFindAll(): void
+    public function testFindAllByUser(): void
     {
         // Given http client
         $client = $this->createMock(HttpClientInterface::class);
@@ -104,13 +104,13 @@ final class ApiProductRepositoryTest extends TestCase
         // Then it should be used with the expected payload
         $client->expects($this->once())
             ->method('request')
-            ->with('GET', '/api/catalog/products')
+            ->with('GET', "/api/catalog/users/user-id/products")
             ->willReturn($response);
 
         $sut = new ApiProductRepository($client);
 
         // And Product should be as expected
-        $products = $sut->findAll();
+        $products = $sut->findAllByUser('user-id');
 
         foreach ($products as $p) {
             $this->assertInstanceOf(Product::class, $p);

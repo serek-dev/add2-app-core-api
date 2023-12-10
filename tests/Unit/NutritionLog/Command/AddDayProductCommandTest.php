@@ -18,7 +18,8 @@ final class AddDayProductCommandTest extends TestCase
             date: '2020-01-01',
             consumptionTime: '10:45',
             productId: 'product-id',
-            productWeight: 10.0
+            productWeight: 10.0,
+            userId: 'user-id',
         );
 
         $this->assertInstanceOf(AddDayProductDtoInterface::class, $sut);
@@ -39,5 +40,7 @@ final class AddDayProductCommandTest extends TestCase
             new Weight(10.0),
             $sut->getProductWeight(),
         );
+
+        $this->assertSame('user-id', $sut->getUserId());
     }
 }

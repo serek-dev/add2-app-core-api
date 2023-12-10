@@ -19,9 +19,9 @@ final class FindProductReplacementsPresenter
     {
     }
 
-    public function render(string $date, string $productId): array
+    public function render(string $date, string $productId, string $userId): array
     {
-        $day = $this->findDayById->findByDateAndUser($date);
+        $day = $this->findDayById->findByDateAndUser($date, $userId);
 
         $replacedProduct = null;
 
@@ -37,7 +37,7 @@ final class FindProductReplacementsPresenter
         }
 
         // All products with its nutrition per 100g
-        $result = $this->findAllProducts->findAll();
+        $result = $this->findAllProducts->findAllByUser($userId);
 
         // Computed replacements
         $replacementProducts = [];

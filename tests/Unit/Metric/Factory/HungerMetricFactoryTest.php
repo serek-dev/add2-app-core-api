@@ -32,7 +32,7 @@ final class HungerMetricFactoryTest extends TestCase
         $value = 5;
         $date = new DateTimeImmutable();
 
-        $metric = $factory->create($type, $value, $date, null, null);
+        $metric = $factory->create($type, $value, $date, 'user-id', null, null);
 
         $this->assertInstanceOf(Metric::class, $metric);
         $this->assertEquals($type, $metric->getType());
@@ -50,7 +50,7 @@ final class HungerMetricFactoryTest extends TestCase
         $date = new DateTimeImmutable();
 
         $this->expectException(DomainException::class);
-        $factory->create($type, $invalidValue, $date, null, null);
+        $factory->create($type, $invalidValue, $date, 'user-id', null, null);
     }
 
     public function invalidHungerValues(): array

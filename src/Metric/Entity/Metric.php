@@ -83,4 +83,9 @@ class Metric implements JsonSerializable
     {
         $this->value = $value;
     }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
 }

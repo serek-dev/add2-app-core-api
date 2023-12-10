@@ -24,7 +24,7 @@ final class KcalMetricFactoryTest extends TestCase
     {
         $factory = new KcalMetricFactory();
 
-        $metric = $factory->create('kcal', 100.0, new DateTimeImmutable(), 'id', 'name');
+        $metric = $factory->create('kcal', 100.0, new DateTimeImmutable(), 'user-id', 'id', 'name');
 
         self::assertSame('kcal', $metric->getType());
         self::assertSame(100.0, $metric->getValue());
@@ -39,6 +39,6 @@ final class KcalMetricFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Invalid kcal value');
 
-        $factory->create('kcal', 5001, new DateTimeImmutable(), null, null);
+        $factory->create('kcal', 5001, new DateTimeImmutable(), 'user-id', null, null);
     }
 }

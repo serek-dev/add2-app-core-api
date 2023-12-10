@@ -12,5 +12,5 @@ interface FindAllProductsInterface
     /**
      * @return Product[]
      */
-    public function findAll(): array;
+    public function findAllByUser(string $userId): array;
 }

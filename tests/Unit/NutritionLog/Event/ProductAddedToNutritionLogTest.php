@@ -17,10 +17,12 @@ final class ProductAddedToNutritionLogTest extends TestCase
             'productId',
             new DateTimeImmutable('2021-01-01'),
             100.0,
+            'userId',
         );
 
         self::assertSame('productId', $event->getDayProductId());
         self::assertSame('2021-01-01', $event->getDate()->format('Y-m-d'));
         self::assertSame(100.0, $event->getKcal());
+        self::assertSame('userId', $event->getUserId());
     }
 }

@@ -29,7 +29,7 @@ final class MetricFactoryDirectorTest extends TestCase
             fn($type) => $type === 'supported_type'
         );
         $factory->method('create')->willReturnCallback(
-            fn($type, $value, $date) => new Metric($type, $value, $date)
+            fn($type, $value, $date) => new Metric($type, $value, $date, 'userId')
         );
 
         // Create the Factory with the mock factory
@@ -75,7 +75,7 @@ final class MetricFactoryDirectorTest extends TestCase
             fn($type) => $type === 'supported_type'
         );
         $factory->method('create')->willReturnCallback(
-            fn($type, $value, $date) => new Metric($type, $value, $date)
+            fn($type, $value, $date) => new Metric($type, $value, $date, 'userId')
         );
 
         // Create the Factory with the mock factory
@@ -102,7 +102,7 @@ final class MetricFactoryDirectorTest extends TestCase
             fn($type) => $type === 'kcal'
         );
         $factory->method('create')->willReturnCallback(
-            fn($type, $value, $date) => new Metric($type, $value, $date)
+            fn($type, $value, $date) => new Metric($type, $value, $date, 'userId')
         );
 
         // Create the Factory with the mock factory

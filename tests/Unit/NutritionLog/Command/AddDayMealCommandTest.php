@@ -16,7 +16,8 @@ final class AddDayMealCommandTest extends TestCase
         $sut = new AddDayMealCommand(
             date: '2020-01-01',
             consumptionTime: '10:45',
-            mealId: 'meal-id'
+            mealId: 'meal-id',
+            userId: 'user-id',
         );
 
         $this->assertInstanceOf(AddDayMealDtoInterface::class, $sut);
@@ -32,5 +33,6 @@ final class AddDayMealCommandTest extends TestCase
         );
 
         $this->assertSame('meal-id', $sut->getMealId());
+        $this->assertSame('user-id', $sut->getUserId());
     }
 }
