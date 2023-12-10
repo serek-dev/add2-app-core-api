@@ -19,7 +19,7 @@ use function date;
 #[Route('/api/metric/users/{userId}/metrics', methods: ['GET'])]
 final class FindMetricController extends AbstractController
 {
-    public function __invoke(Request $request, ValidatorInterface $validator, FindMetricsInterface $find): JsonResponse
+    public function __invoke(Request $request, ValidatorInterface $validator, FindMetricsInterface $find, string $userId): JsonResponse
     {
         $dto = new FindMetricDto(
             $request->query->all('types'),
@@ -34,6 +34,7 @@ final class FindMetricController extends AbstractController
                     aggregation: $dto->getAggregation(),
                     from: $dto->getFrom(),
                     to: $dto->getTo(),
+                    userId: $userId,
                     types: $dto->getTypes())
             ]);
         }
@@ -42,7 +43,9 @@ final class FindMetricController extends AbstractController
             'collection' => $find->findByTypesTimeAscOrdered(
                 from: $dto->getFrom(),
                 to: $dto->getTo(),
-                types: $dto->getTypes())
+                userId: $userId,
+                types: $dto->getTypes()
+            )
         ]);
     }
 }

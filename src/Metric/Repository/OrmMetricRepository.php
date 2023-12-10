@@ -30,7 +30,7 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
     }
 
     /** @inheritDoc */
-    public function findByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
+    public function findByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, string $userId, array $types = []): array
     {
         $from = $this->adjustTime($from, true);
         $to = $this->adjustTime($to, false);
@@ -39,6 +39,9 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
         $qb->select('metric')
             ->from(Metric::class, 'metric')
             ->where($qb->expr()->between('metric.time', ':from', ':to'));
+
+        $qb->andWhere('metric.userId = :userId')
+            ->setParameter('userId', $userId);
 
         if (!empty($types)) {
             $qb->andWhere($qb->expr()->in('metric.type', ':types'));
@@ -66,7 +69,13 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
      * @return Metric[]
      * @throws Exception
      */
-    public function getResultsUsingSqlFromFile(DateTimeImmutable $from, DateTimeImmutable $to, array $types, string $fileName, ?AggregationType $aggregationType = null): array
+    public function getResultsUsingSqlFromFile(DateTimeImmutable $from,
+                                               DateTimeImmutable $to,
+                                               array             $types,
+                                               string            $fileName,
+                                               ?AggregationType  $aggregationType = null,
+                                               string            $userId,
+    ): array
     {
         $from = $this->adjustTime($from, true);
         $to = $this->adjustTime($to, false);
@@ -82,10 +91,16 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
 
         $statement->bindValue('from', $from->format('Y-m-d H:i'));
         $statement->bindValue('to', $to->format('Y-m-d H:i'));
+        $statement->bindValue('userId', $userId);
 
         $result = $statement->executeQuery()->fetchAllAssociative();
 
-        return array_map(fn(array $row) => new Metric($row['type'], $row['value'], new DateTimeImmutable($row['time'])), $result);
+        return array_map(fn(array $row) => new Metric(
+            type: $row['type'],
+            value: $row['value'],
+            time: new DateTimeImmutable($row['time']),
+            userId: $userId),
+            $result);
     }
 
     public function removeByParentIdAndName(string $parentId, string $parentName): void
@@ -124,8 +139,19 @@ final readonly class OrmMetricRepository implements CreateMetricInterface, FindM
      * @inheritDoc
      * @throws Exception
      */
-    public function findAggregatedByTypesTimeAscOrdered(AggregationType $aggregation, DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array
+    public function findAggregatedByTypesTimeAscOrdered(AggregationType   $aggregation,
+                                                        DateTimeImmutable $from,
+                                                        DateTimeImmutable $to,
+                                                        string            $userId,
+                                                        array             $types = []
+    ): array
     {
-        return $this->getResultsUsingSqlFromFile($from, $to, $types, 'findAggregatedByTypesTimeAscOrdered.sql', $aggregation);
+        return $this->getResultsUsingSqlFromFile($from,
+            $to,
+            $types,
+            'findAggregatedByTypesTimeAscOrdered.sql',
+            $aggregation,
+            $userId,
+        );
     }
 }

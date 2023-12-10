@@ -10,9 +10,9 @@ use App\NutritionLog\View\DayView;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class OrmDayViewViewRepository implements FindDayViewInterface
+final readonly class OrmDayViewViewRepository implements FindDayViewInterface
 {
-    public function __construct(private readonly EntityManagerInterface $viewsEntityManager)
+    public function __construct(private EntityManagerInterface $viewsEntityManager)
     {
     }
 

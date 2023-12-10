@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/users/{userId}/days/{date}', methods: 'GET')]
+#[Route('/api/nutrition-log/users/{userId}/days/{date}', requirements: ['date' => '(?!stats)[^\/]+'], methods: 'GET')]
 final class FindDayController extends AbstractController
 {
     public function __invoke(Request $request, FindDayApiPresenter $presenter, string $userId, string $date): JsonResponse

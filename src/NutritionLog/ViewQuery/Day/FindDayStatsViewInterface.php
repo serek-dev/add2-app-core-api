@@ -8,5 +8,5 @@ use DateTimeInterface;
 interface FindDayStatsViewInterface
 {
     /** @return DayStatsView[] */
-    public function findStats(DateTimeInterface $from, DateTimeInterface $to): array;
+    public function findStats(DateTimeInterface $from, DateTimeInterface $to, string $userId): array;
 }

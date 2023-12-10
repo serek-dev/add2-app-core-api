@@ -39,4 +39,5 @@ FROM
     ) AS dp ON dp.day_id = day.id
 WHERE
     day.date >= :from AND day.date <= :to
+    AND day.user_id = :userId
 ORDER BY day.date ASC;

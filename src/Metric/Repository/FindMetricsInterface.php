@@ -12,11 +12,18 @@ interface FindMetricsInterface
      * @param string[] $types
      * @return Metric[]
      */
-    public function findByTypesTimeAscOrdered(DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
+    public function findByTypesTimeAscOrdered(DateTimeImmutable $from,
+                                              DateTimeImmutable $to,
+                                              string            $userId,
+                                              array             $types = []): array;
 
     /**
      * @param string[] $types
      * @return Metric[]
      */
-    public function findAggregatedByTypesTimeAscOrdered(AggregationType $aggregation, DateTimeImmutable $from, DateTimeImmutable $to, array $types = []): array;
+    public function findAggregatedByTypesTimeAscOrdered(AggregationType   $aggregation,
+                                                        DateTimeImmutable $from,
+                                                        DateTimeImmutable $to,
+                                                        string            $userId,
+                                                        array             $types = []): array;
 }
