@@ -15,12 +15,12 @@ final class WeightMetricFactory implements MetricFactoryInterface
         return $type === 'weight';
     }
 
-    public function create(string $type, float|int|string $value, DateTimeInterface $date, ?string $parentId, ?string $parentName): Metric
+    public function create(string $type, float|string|int $value, DateTimeInterface $date, string $userId, ?string $parentId, ?string $parentName): Metric
     {
         if ($value <= 5 || $value >= 250) {
             throw new DomainException('Invalid weight value');
         }
 
-        return new Metric($type, (float)$value, $date);
+        return new Metric($type, (float)$value, $date, $userId);
     }
 }

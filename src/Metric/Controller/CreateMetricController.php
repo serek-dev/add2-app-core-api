@@ -31,6 +31,7 @@ final class CreateMetricController extends AbstractController
             type: $request->getPayload()->get('type'),
             value: $request->getPayload()->get('value'),
             date: $request->getPayload()->get('date'),
+            userId: $userId,
         );
 
         $errors = $validator->validate($dto);

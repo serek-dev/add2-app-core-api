@@ -15,4 +15,6 @@ interface AddDayMealDtoInterface
     public function getConsumptionTime(): ConsumptionTime;
 
     public function getMealId(): string;
+
+    public function getUserId(): string;
 }

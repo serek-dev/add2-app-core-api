@@ -40,15 +40,15 @@ final class AddDayProductHandler
      */
     public function __invoke(AddDayProductDtoInterface $dto): void
     {
-        $day = $this->findDayByDate->findDayByDate($dto->getDay());
+        $day = $this->findDayByDate->findDayByDate($dto->getDay(), $dto->getUserId());
 
         if (!$day) {
-            $day = $this->dayFactory->create($dto->getDay());
+            $day = $this->dayFactory->create($dto->getDay(), $dto->getUserId());
         }
 
         $dayProduct = $this->dayProductFactory->create(
             consumptionTime: $dto->getConsumptionTime(),
-            product: $this->getOneProduct->getOne($dto->getProductId()),
+            product: $this->getOneProduct->getOne($dto->getProductId(), $dto->getUserId()),
             quantity: $dto->getProductWeight()
         );
 
@@ -59,6 +59,7 @@ final class AddDayProductHandler
                 dayProductId: $dayProduct->getId(),
                 date: DateTimeImmutable::createFromFormat('Y-m-d H:i', $day->getDate() . ' ' . $dto->getConsumptionTime()),
                 kcal: $dayProduct->getNutritionValues()->getKcal(),
+                userId: $dto->getUserId(),
             )
         );
 

@@ -17,5 +17,7 @@ interface AddDayProductDtoInterface
 
     public function getProductId(): string;
 
+    public function getUserId(): string;
+
     public function getProductWeight(): Weight;
 }

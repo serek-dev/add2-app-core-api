@@ -19,6 +19,7 @@ final class AddDayProductCommand implements AddDayProductDtoInterface
         private readonly string $consumptionTime,
         private readonly string $productId,
         private readonly float $productWeight,
+        private readonly string $userId,
     ) {
     }
 
@@ -40,5 +41,10 @@ final class AddDayProductCommand implements AddDayProductDtoInterface
     public function getProductWeight(): Weight
     {
         return new Weight($this->productWeight);
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

@@ -13,5 +13,5 @@ interface GetOneProductInterface
     /**
      * @throws NotFoundException
      */
-    public function getOne(string $productId): Product;
+    public function getOne(string $productId, string $userId): Product;
 }

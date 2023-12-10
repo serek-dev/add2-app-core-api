@@ -13,5 +13,5 @@ interface GetOneMealInterface
     /**
      * @throws NotFoundException
      */
-    public function getOne(string $mealId): Meal;
+    public function getOne(string $mealId, string $userId): Meal;
 }

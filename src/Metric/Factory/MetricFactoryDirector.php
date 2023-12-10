@@ -28,7 +28,10 @@ final readonly class MetricFactoryDirector
                 $new = $f->create(
                     $dto->getType(),
                     $dto->getValue(),
-                    $dto->getDate() ?? new DateTimeImmutable(), null, null
+                    $dto->getDate() ?? new DateTimeImmutable(),
+                    $dto->getUserId(),
+                    null,
+                    null
                 );
                 return $new;
             }
@@ -45,6 +48,7 @@ final readonly class MetricFactoryDirector
                     'kcal',
                     $event->getKcal(),
                     $event->getDate(),
+                    $event->getUserId(),
                     $event->getDayProductId(),
                     $event::NAME,
                 );
@@ -55,7 +59,7 @@ final readonly class MetricFactoryDirector
         throw new DomainException('Unsupported metric type');
     }
 
-    public function createByArguments(MetricType $type, float|string|int $value, DateTimeInterface $date, ?string $parentId, ?string $parentName): Metric
+    public function createByArguments(MetricType $type, float|string|int $value, DateTimeInterface $date, string $userId, ?string $parentId, ?string $parentName): Metric
     {
         foreach ($this->factories as $f) {
             if ($f->supports('kcal')) {
@@ -63,6 +67,7 @@ final readonly class MetricFactoryDirector
                     $type->value,
                     $value,
                     $date,
+                    $userId,
                     $parentId ?? null,
                     $parentName ?? null,
                 );

@@ -44,15 +44,15 @@ final readonly class AddDayMealHandler
      */
     public function __invoke(AddDayMealDtoInterface $dto): void
     {
-        $day = $this->findDayByDate->findDayByDate($dto->getDay());
+        $day = $this->findDayByDate->findDayByDate($dto->getDay(), $dto->getUserId());
 
         if (!$day) {
-            $day = $this->dayFactory->create($dto->getDay());
+            $day = $this->dayFactory->create($dto->getDay(), $dto->getUserId());
         }
 
         $dayMeal = $this->dayMealFactory->create(
             consumptionTime: $dto->getConsumptionTime(),
-            realMeal: $this->getOneMeal->getOne($dto->getMealId())
+            realMeal: $this->getOneMeal->getOne($dto->getMealId(), $dto->getUserId()),
         );
 
         $day->addMeal($dayMeal);
@@ -68,6 +68,7 @@ final readonly class AddDayMealHandler
                         dayProductId: $product->getId(),
                         date: $this->extractDateTime($day, $dto),
                         kcal: $product->getKcal(),
+                        userId: $dto->getUserId(),
                     );
                 }, $dayMeal->getProducts()),
             )

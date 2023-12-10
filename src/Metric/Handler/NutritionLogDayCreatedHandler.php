@@ -33,6 +33,7 @@ final readonly class NutritionLogDayCreatedHandler
                 type: MetricType::KCAL_TARGET,
                 value: $event->getKcalTarget(),
                 date: new DateTimeImmutable($event->getDate()),
+                userId: $event->getUserId(),
                 parentId: $event->getDate(),
                 parentName: $event::NAME,
             ),

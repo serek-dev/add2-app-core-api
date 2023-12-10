@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Metric\Dto;
 
-use DateTimeImmutable;
 use DateTimeInterface;
 
 interface CreateMetricDtoInterface
@@ -14,4 +13,6 @@ interface CreateMetricDtoInterface
     public function getValue(): float|int|string;
 
     public function getDate(): ?DateTimeInterface;
+
+    public function getUserId(): string;
 }

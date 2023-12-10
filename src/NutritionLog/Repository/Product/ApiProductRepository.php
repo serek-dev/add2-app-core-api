@@ -9,16 +9,16 @@ namespace App\NutritionLog\Repository\Product;
 use App\NutritionLog\Entity\Product;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiProductRepository implements GetOneProductInterface, FindAllProductsInterface
+final readonly class ApiProductRepository implements GetOneProductInterface, FindAllProductsInterface
 {
-    public function __construct(private readonly HttpClientInterface $catalogApi)
+    public function __construct(private HttpClientInterface $catalogApi)
     {
     }
 
     /** @inheritDoc */
-    public function getOne(string $productId): Product
+    public function getOne(string $productId, string $userId): Product
     {
-        $response = $this->catalogApi->request('GET', '/api/catalog/products/' . $productId);
+        $response = $this->catalogApi->request('GET', "/api/catalog/users/$userId/products/$productId");
 
         $body = $response->toArray()['item'];
 

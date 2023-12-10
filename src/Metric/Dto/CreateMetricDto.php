@@ -24,6 +24,7 @@ final readonly class CreateMetricDto implements CreateMetricDtoInterface
         public string|int|float|null $value,
         #[DateTime]
         public string|null           $date,
+        public string $userId,
     )
     {
     }
@@ -41,5 +42,10 @@ final readonly class CreateMetricDto implements CreateMetricDtoInterface
     public function getDate(): ?DateTimeInterface
     {
         return $this->date ? new DateTimeImmutable($this->date) : null;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

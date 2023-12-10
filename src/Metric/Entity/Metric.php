@@ -27,6 +27,8 @@ class Metric implements JsonSerializable
         private string|int|float           $value,
         #[Column(type: 'datetime_immutable')]
         private readonly DateTimeInterface $time,
+        #[Column]
+        private readonly string $userId,
         #[Column(length: 75, nullable: true)]
         private readonly ?string           $parentId = null,
         #[Column(length: 75, nullable: true)]

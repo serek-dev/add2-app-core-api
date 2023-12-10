@@ -17,6 +17,7 @@ final class AddDayMealCommand implements AddDayMealDtoInterface
         private readonly string $date,
         private readonly string $consumptionTime,
         private readonly string $mealId,
+        private readonly string $userId,
     ) {
     }
 
@@ -33,5 +34,10 @@ final class AddDayMealCommand implements AddDayMealDtoInterface
     public function getMealId(): string
     {
         return $this->mealId;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
