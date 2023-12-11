@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\NutritionLog\Controller;
+namespace App\NutritionLog\Controller\Statefull;
 
 
 use App\NutritionLog\Command\RemoveDayProductsByConsumptionTimeCommand;
@@ -16,15 +16,20 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
-#[Route('/api/nutrition-log/days/{date}/{consumptionTime}', methods: 'DELETE')]
+#[Route('/api/nutrition-log/users/{userId}/days/{date}/{consumptionTime}', requirements: ['date' => '(?!stats)[^\/]+'], methods: 'DELETE')]
 final class RemoveDayProductsByConsumptionTimeController extends AbstractController
 {
-    public function __invoke(Request $request, MessageBusInterface $bus): JsonResponse
+    public function __invoke(Request             $request,
+                             string              $userId,
+                             string              $date,
+                             string              $consumptionTime,
+                             MessageBusInterface $bus): JsonResponse
     {
         $bus->dispatch(
             new RemoveDayProductsByConsumptionTimeCommand(
-                date: $request->get('date'),
-                consumptionTime: $request->get('consumptionTime'),
+                date: $date,
+                consumptionTime: $consumptionTime,
+                userId: $userId,
             )
         );
 
