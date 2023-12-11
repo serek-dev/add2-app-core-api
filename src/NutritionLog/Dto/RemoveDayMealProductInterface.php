@@ -12,4 +12,6 @@ interface RemoveDayMealProductInterface
     public function getDay(): DateTimeInterface;
 
     public function getProductId(): string;
+
+    public function getUserId(): string;
 }
