@@ -26,7 +26,7 @@ final class RemoveProductHandler
 
     public function __invoke(RemoveDayProductDtoInterface $command): void
     {
-        $day = $this->findDayByDate->findDayByDate($command->getDay());
+        $day = $this->findDayByDate->findDayByDate($command->getDay(), $command->getUserId());
 
         if (!$day) {
             throw new NotFoundException('There is no day with date: ' . $command->getDay()->format('Y-m-d'));
