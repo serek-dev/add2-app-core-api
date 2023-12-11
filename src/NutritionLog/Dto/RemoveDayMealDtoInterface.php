@@ -12,4 +12,6 @@ interface RemoveDayMealDtoInterface
     public function getDay(): DateTimeInterface;
 
     public function getMealId(): string;
+
+    public function getUserId(): string;
 }

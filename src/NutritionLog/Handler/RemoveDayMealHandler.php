@@ -16,11 +16,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use function array_map;
 
 #[AsMessageHandler]
-final class RemoveDayMealHandler
+final readonly class RemoveDayMealHandler
 {
-    public function __construct(private readonly FindDayByDateInterface $findDayByDate,
-                                private readonly RemoveInterface        $remove,
-                                private readonly MessageBusInterface    $integrationEventBus
+    public function __construct(private FindDayByDateInterface $findDayByDate,
+                                private RemoveInterface        $remove,
+                                private MessageBusInterface    $integrationEventBus
 
     )
     {
@@ -28,7 +28,7 @@ final class RemoveDayMealHandler
 
     public function __invoke(RemoveDayMealDtoInterface $command): void
     {
-        $day = $this->findDayByDate->findDayByDate($command->getDay());
+        $day = $this->findDayByDate->findDayByDate($command->getDay(), $command->getUserId());
 
         if (!$day) {
             throw new NotFoundException('Day not found');

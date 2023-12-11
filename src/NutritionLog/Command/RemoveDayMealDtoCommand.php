@@ -8,11 +8,12 @@ use App\NutritionLog\Dto\RemoveDayMealDtoInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class RemoveDayMealDtoCommand implements RemoveDayMealDtoInterface
+final readonly class RemoveDayMealDtoCommand implements RemoveDayMealDtoInterface
 {
     public function __construct(
-        private readonly string $day,
-        private readonly string $mealId,
+        private string $day,
+        private string $mealId,
+        private string $userId,
     )
     {
     }
@@ -25,5 +26,10 @@ final class RemoveDayMealDtoCommand implements RemoveDayMealDtoInterface
     public function getMealId(): string
     {
         return $this->mealId;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
