@@ -7,8 +7,6 @@ services:
       context: .
       dockerfile: ./docker/app/Dockerfile
       target: static_analysis
-    volumes:
-      - ./:/app/
 
   tests_architecture:
     build:
@@ -16,8 +14,6 @@ services:
       dockerfile: ./docker/app/Dockerfile
       target: static_analysis
     command: [ "composer", "tests:architecture" ]
-    volumes:
-      - ./:/app/
 
   build_app:
     build:
