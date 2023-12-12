@@ -9,8 +9,6 @@ services:
       dockerfile: ./docker/web_app/Dockerfile
     volumes:
       - ./:/var/www/html/
-    expose:
-      - 9000
     networks:
       - amciu_backend
 
