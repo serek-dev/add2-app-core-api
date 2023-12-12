@@ -27,12 +27,14 @@ final class UserFixtures extends Fixture
             id: self::USER_1,
             identifier: 'st',
             hashedPassword: self::PASSWORD,
+            email: 'admin@admin.pl',
         );
 
         $user2 = new User(
             id: self::USER_2,
             identifier: 'test',
             hashedPassword: self::PASSWORD,
+            email: 'test@test.pl',
         );
 
         $this->em->persist($user1);

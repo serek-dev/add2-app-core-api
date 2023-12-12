@@ -132,3 +132,5 @@ fabric.properties
 
 app.zip
 .idea
+
+.env.prod.local

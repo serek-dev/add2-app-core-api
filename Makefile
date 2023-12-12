@@ -75,3 +75,9 @@ seed_metrics: ### Appends more metric seeds
 
 logs:
 	$(docker-compose) logs -f
+
+ssh:
+	ssh debian@57.128.196.185
+
+unblock_ip:
+	curl -X POST https://www.mydevil.net/odblokuj.html -F "server=5"

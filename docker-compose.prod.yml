@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+
+  app:
+    container_name: core_api
+    image: registry.gitlab.com/addtwo/core-api/app:prod
+    networks:
+      - amciu_backend
+
+networks:
+  amciu_backend:
+    external: true

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Identity\Entity;
 
-use Column as ColumnAlias;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 
 #[Entity]
-final class User
+class User
 {
     #[Column(length: 1000, nullable: true)]
     private ?string $jwt = null;
@@ -23,6 +22,8 @@ final class User
         private string $id,
         #[Column]
         private string $identifier,
+        #[Column]
+        private string $email,
         #[Column(nullable: true)]
         private string $hashedPassword,
         ?string        $jwt = null)
@@ -53,5 +54,10 @@ final class User
     public function getJwt(): ?string
     {
         return $this->jwt;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 }
