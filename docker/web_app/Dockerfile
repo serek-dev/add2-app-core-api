@@ -1,5 +1,5 @@
 # Use the PHP Apache version as the base image
-FROM php:8.2-apache
+FROM php:8.2-apache as dev
 
 # Install required PHP extensions and packages
 RUN apt-get update && apt-get install -y \
@@ -25,6 +25,8 @@ COPY symfony.lock symfony.lock
 
 COPY bin bin
 COPY config config
+COPY migrations migrations
+COPY tools tools
 COPY public public
 COPY src src
 
@@ -45,3 +47,17 @@ EXPOSE 8080
 
 # Start Apache and serve the app
 CMD ["apache2-foreground"]
+
+FROM dev as prod
+
+ARG APP_ENV=prod
+ENV APP_ENV=${APP_ENV}
+
+WORKDIR /var/www/html
+
+COPY .env.prod .env.prod
+COPY .env.prod.local .env.prod.local
+
+RUN rm -rf vendor \
+    && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader --no-dev \
+    && chmod +x tools/post_deploy.sh

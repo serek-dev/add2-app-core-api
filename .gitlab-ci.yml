@@ -23,31 +23,46 @@ tests_architecture:
   script:
     - docker-compose -f docker-compose.gitlab.yml run --rm tests_architecture
 
-build:
-  stage: build
-  script:
-    - docker-compose -f docker-compose.gitlab.yml run build_app
-    - docker cp $(docker-compose -f docker-compose.gitlab.yml ps -q -a build_app):/app/app.zip .
-    - docker rm $(docker-compose -f docker-compose.gitlab.yml ps -q -a build_app)
-  artifacts:
-    paths:
-      - app.zip
-  only:
-    - master # Only run on the master branch
-
-deploy:
-  stage: deploy
-  script:
+.before_script_template: &prepare-ssh
+  before_script:
+    # Prepare SSH keys
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$MYDEVIL_SSH" > ~/.ssh/mydevil_rsa
-    - chmod 600 ~/.ssh/mydevil_rsa
-    - eval $(ssh-agent -s)
-    - ssh-add ~/.ssh/mydevil_rsa
-    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - ssh -o StrictHostKeyChecking=no $MYDEVIL_HOST "ls -l -a ~/domains/add.2ap.pl && exit"
-    - scp -i ~/.ssh/mydevil_rsa app.zip $MYDEVIL_HOST:~/domains/add.2ap.pl/app.zip
-    - ssh $MYDEVIL_HOST "cd ./domains/add.2ap.pl && ./deploy.sh && exit"
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    # Establish connection & Deploy
+    - ssh -o StrictHostKeyChecking=no $VM_USER@$VM_IPADDRESS "ls -l -a"
+
+build_production:
+  stage: build
   only:
-    - master
+    - identity
+  script:
+    - docker login registry.gitlab.com -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD
+    - echo "$ENV" >> .env.prod.local
+    # Build app
+    - docker build -f docker/web_app/Dockerfile --target prod -t registry.gitlab.com/addtwo/core-api/app:prod .
+    - docker push registry.gitlab.com/addtwo/core-api/app --all-tags
+
+deploy_production:
+  image: alpine:latest
+  stage: deploy
+  <<: *prepare-ssh
+  needs:
+    - job: build_production
+  only:
+    - identity
+  script:
+    # Copy production.yml
+    - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $VM_USER@$VM_IPADDRESS:~/core-api.yml
+    # Update docker images for app & web
+    - ssh $VM_USER@$VM_IPADDRESS "docker compose -f core-api.yml pull && exit"
+    # Stop production instances removing volumes, network and orphans
+    - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml down -v --remove-orphans && exit"
+    # Re-run and serve
+    - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml up --build --force-recreate -d && exit"
