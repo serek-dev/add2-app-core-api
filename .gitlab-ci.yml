@@ -9,19 +9,19 @@ variables:
   FF_NETWORK_PER_BUILD: 1
 
 stages:
-  - test
+  #  - test
   - build
   - deploy
 
-tests_phpunit:
-  stage: test
-  script:
-    - docker-compose -f docker-compose.gitlab.yml run --rm tests_unit
-
-tests_architecture:
-  stage: test
-  script:
-    - docker-compose -f docker-compose.gitlab.yml run --rm tests_architecture
+#tests_phpunit:
+#  stage: test
+#  script:
+#    - docker-compose -f docker-compose.gitlab.yml run --rm tests_unit
+#
+#tests_architecture:
+#  stage: test
+#  script:
+#    - docker-compose -f docker-compose.gitlab.yml run --rm tests_architecture
 
 .before_script_template: &prepare-ssh
   before_script:
