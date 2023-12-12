@@ -66,3 +66,4 @@ deploy_production:
     - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml down -v --remove-orphans && exit"
     # Re-run and serve
     - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml up --build --force-recreate -d && exit"
+    - ssh $VM_USER@$VM_IPADDRESS "docker compose -f core-api.yml -p core-api exec app /bin/sh ./tools/post_deploy.sh && exit"
