@@ -25,10 +25,6 @@ CMD ["composer", "tests:unit"]
 
 FROM php:8.2-fpm-alpine as dev
 
-# Use the default production configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 5M/' /usr/local/etc/php/php.ini
-
 RUN apk add --no-cache \
     libpng-dev \
     libzip-dev \
@@ -52,3 +48,20 @@ COPY src src
 
 RUN mkdir -p var/ && chmod 777 -R var/ \
     && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader
+
+FROM dev as prod
+
+ENV APP_ENV=prod
+
+WORKDIR /app
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY /docker/app/php.ini $PHP_INI_DIR/php.ini
+
+COPY .env.prod .env.prod
+
+RUN mkdir -p var/ vendor/ \
+    && chmod 777 -R var/ vendor/ \
+    && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader --no-dev \
+    && composer dump-autoload --no-dev --classmap-authoritative \
+    && php bin/console cache:clear --env=prod --no-debug
