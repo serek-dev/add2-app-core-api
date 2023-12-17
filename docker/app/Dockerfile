@@ -25,6 +25,8 @@ CMD ["composer", "tests:unit"]
 
 FROM php:8.2-fpm-alpine as dev
 
+ENV APP_ENV=dev
+
 RUN apk add --no-cache \
     libpng-dev \
     libzip-dev \
@@ -59,9 +61,12 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY /docker/app/php.ini $PHP_INI_DIR/php.ini
 
 COPY .env.prod .env.prod
+COPY .env.prod.local .env.prod.local
 
-RUN mkdir -p var/ vendor/ \
+RUN rm -rf var/ vendor/ \
+    && mkdir -p var/ vendor/ \
     && chmod 777 -R var/ vendor/ \
     && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader --no-dev \
     && composer dump-autoload --no-dev --classmap-authoritative \
-    && php bin/console cache:clear --env=prod --no-debug
+    && php bin/console cache:clear --env=prod --no-debug \
+    && chmod 777 -R var/ vendor/

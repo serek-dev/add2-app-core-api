@@ -46,8 +46,11 @@ build_production:
     - docker login registry.gitlab.com -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD
     - echo "$ENV" >> .env.prod.local
     # Build app
-    - docker build -f docker/web_app/Dockerfile --target prod -t registry.gitlab.com/addtwo/core-api/app:prod .
+    - docker build -f docker/app/Dockerfile --target prod -t registry.gitlab.com/addtwo/core-api/app:prod .
     - docker push registry.gitlab.com/addtwo/core-api/app --all-tags
+    # Build proxy
+    - docker build -f docker/proxy/Dockerfile -t registry.gitlab.com/addtwo/core-api/proxy:prod .
+    - docker push registry.gitlab.com/addtwo/core-api/proxy --all-tags
 
 deploy_production:
   image: alpine:latest
@@ -56,7 +59,7 @@ deploy_production:
   needs:
     - job: build_production
   only:
-    - identity
+    - master
   script:
     # Copy production.yml
     - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $VM_USER@$VM_IPADDRESS:~/core-api.yml
@@ -66,4 +69,3 @@ deploy_production:
     - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml down -v --remove-orphans && exit"
     # Re-run and serve
     - ssh $VM_USER@$VM_IPADDRESS "docker compose -p core-api -f core-api.yml up --build --force-recreate -d && exit"
-    - ssh $VM_USER@$VM_IPADDRESS "docker compose -f core-api.yml -p core-api exec app /bin/sh ./tools/post_deploy.sh && exit"

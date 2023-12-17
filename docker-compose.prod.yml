@@ -4,10 +4,24 @@ services:
 
   app:
     container_name: core_api
+    restart: always
     image: registry.gitlab.com/addtwo/core-api/app:prod
+    expose:
+      - 9000
     networks:
+      - amciu_core_api
+
+  proxy:
+    container_name: core_api_proxy
+    restart: always
+    image: registry.gitlab.com/addtwo/core-api/proxy:prod
+    expose:
+      - "80:80"
+    networks:
+      - amciu_core_api
       - amciu_backend
 
 networks:
+  amciu_core_api:
   amciu_backend:
     external: true
