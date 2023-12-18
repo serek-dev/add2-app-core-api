@@ -14,6 +14,7 @@ use App\NutritionLog\Value\NutritionalTarget;
 use App\NutritionLog\Value\Weight;
 use App\Shared\Entity\AggregateRoot;
 use DateTimeInterface;
+use DivisionByZeroError;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embedded;
@@ -171,7 +172,11 @@ class Day implements AggregateRoot
 
         $caloriesPer100g = $product->getNutritionValues()->getKcal();
 
-        $amountNeeded = round(($desiredKcal) / ($caloriesPer100g) * 100, 2);
+        try {
+            $amountNeeded = round(($desiredKcal) / ($caloriesPer100g) * 100, 2);
+        } catch (DivisionByZeroError $e) {
+            $amountNeeded = 0;
+        }
 
         $replacedProduct->replaceByProduct($product);
         $replacedProduct->changeWeight(new Weight($amountNeeded));

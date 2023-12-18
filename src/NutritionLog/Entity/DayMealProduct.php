@@ -80,11 +80,13 @@ class DayMealProduct
 
     public function changeWeight(Weight $weight): void
     {
+        $weightDivider = $this->weight > 0 ? $this->weight : 1;
+
         $per100 = new NutritionalValues(
-            new Weight($this->proteins / $this->weight * 100),
-            new Weight($this->fats / $this->weight * 100),
-            new Weight($this->carbs / $this->weight * 100),
-            $this->kcal / $this->weight * 100
+            new Weight($this->proteins / $weightDivider * 100),
+            new Weight($this->fats / $weightDivider * 100),
+            new Weight($this->carbs / $weightDivider * 100),
+            $this->kcal / $weightDivider * 100
         );
 
         $divider = $weight->getRaw() / 100; // grams
