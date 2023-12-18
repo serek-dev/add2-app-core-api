@@ -18,4 +18,6 @@ interface ProductUpdatedInNutritionLogInterface
     public function getDate(): DateTimeInterface;
 
     public function getNewKcal(): float;
+
+    public function getUserId(): string;
 }

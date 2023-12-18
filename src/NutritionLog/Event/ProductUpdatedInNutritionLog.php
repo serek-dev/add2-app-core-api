@@ -13,6 +13,7 @@ final readonly class ProductUpdatedInNutritionLog implements ProductUpdatedInNut
         private string            $dayProductId,
         private DateTimeInterface $date,
         private float             $newKcal,
+        private string $userId,
     )
     {
     }
@@ -30,5 +31,10 @@ final readonly class ProductUpdatedInNutritionLog implements ProductUpdatedInNut
     public function getNewKcal(): float
     {
         return $this->newKcal;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

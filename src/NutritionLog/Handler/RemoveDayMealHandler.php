@@ -38,9 +38,10 @@ final readonly class RemoveDayMealHandler
 
         $this->integrationEventBus->dispatch(
             new ProductsRemovedFromNutritionLog(
-                array_map(function (string $id) {
+                array_map(function (string $id) use ($command) {
                     return new ProductRemovedFromNutritionLog(
                         dayProductId: $id,
+                        userId: $command->getUserId(),
                     );
                 }, $removedMealProductIds),
             )

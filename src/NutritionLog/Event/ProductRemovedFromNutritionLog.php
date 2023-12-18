@@ -10,6 +10,7 @@ final readonly class ProductRemovedFromNutritionLog implements ProductRemovedFro
 {
     public function __construct(
         private string $dayProductId,
+        private string $userId,
     )
     {
     }
@@ -17,5 +18,10 @@ final readonly class ProductRemovedFromNutritionLog implements ProductRemovedFro
     public function getDayProductId(): string
     {
         return $this->dayProductId;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

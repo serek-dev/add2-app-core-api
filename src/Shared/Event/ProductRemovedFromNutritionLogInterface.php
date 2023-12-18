@@ -7,4 +7,6 @@ namespace App\Shared\Event;
 interface ProductRemovedFromNutritionLogInterface
 {
     public function getDayProductId(): string;
+
+    public function getUserId(): string;
 }

@@ -248,7 +248,8 @@ class Day implements AggregateRoot
 
         $this->events[] = new NutritionLogDayTargetUpdated(
             date: $this->date->format('Y-m-d'),
-            kcalTarget: $new->getKcal()
+            kcalTarget: $new->getKcal(),
+            userId: $this->userId,
         );
     }
 

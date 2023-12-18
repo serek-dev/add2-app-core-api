@@ -40,6 +40,7 @@ final readonly class UpdateDayMealProductWeightHandler
                 dayProductId: $dto->getProductId(),
                 date: $dto->getDay(),
                 newKcal: $kcal,
+                userId: $dto->getUserId(),
             )
         );
     }

@@ -11,4 +11,6 @@ interface NutritionLogDayTargetUpdatedInterface
     public function getDate(): string;
 
     public function getKcalTarget(): float;
+
+    public function getUserId(): string;
 }

@@ -11,6 +11,7 @@ final readonly class NutritionLogDayTargetUpdated implements NutritionLogDayTarg
     public function __construct(
         private string $date,
         private float  $kcalTarget,
+        private string $userId,
     )
     {
     }
@@ -23,5 +24,10 @@ final readonly class NutritionLogDayTargetUpdated implements NutritionLogDayTarg
     public function getKcalTarget(): float
     {
         return $this->kcalTarget;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
