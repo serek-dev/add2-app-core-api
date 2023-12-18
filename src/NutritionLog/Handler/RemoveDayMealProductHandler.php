@@ -14,17 +14,17 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-final class RemoveDayMealProductHandler
+final readonly class RemoveDayMealProductHandler
 {
-    public function __construct(private readonly FindDayByDateInterface $findDayByDate,
-                                private readonly MessageBusInterface    $integrationEventBus,
-                                private readonly RemoveInterface        $remove)
+    public function __construct(private FindDayByDateInterface $findDayByDate,
+                                private MessageBusInterface    $integrationEventBus,
+                                private RemoveInterface        $remove)
     {
     }
 
     public function __invoke(RemoveDayMealProductInterface $command): void
     {
-        $day = $this->findDayByDate->findDayByDate($command->getDay());
+        $day = $this->findDayByDate->findDayByDate($command->getDay(), $command->getUserId());
 
         if (!$day) {
             throw new NotFoundException('Day not found');
@@ -35,6 +35,7 @@ final class RemoveDayMealProductHandler
         $this->integrationEventBus->dispatch(
             new ProductRemovedFromNutritionLog(
                 dayProductId: $command->getProductId(),
+                userId: $command->getUserId(),
             )
         );
     }

@@ -39,6 +39,7 @@ final class UpdateDayProductWeightHandler
                 dayProductId: $dto->getProductId(),
                 date: $dto->getDay(),
                 newKcal: $kcal,
+                userId: $dto->getUserId(),
             )
         );
     }

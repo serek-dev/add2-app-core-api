@@ -37,6 +37,7 @@ final class RemoveProductHandler
         $this->integrationEventBus->dispatch(
             new ProductRemovedFromNutritionLog(
                 dayProductId: $command->getProductId(),
+                userId: $command->getUserId(),
             )
         );
     }
