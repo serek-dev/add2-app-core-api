@@ -9,12 +9,13 @@ use App\NutritionLog\Value\Weight;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class UpdateDayProductWeightCommand implements UpdateDayProductWeightDtoInterface
+final readonly class UpdateDayProductWeightCommand implements UpdateDayProductWeightDtoInterface
 {
     public function __construct(
-        private readonly string $day,
-        private readonly string $productId,
-        private readonly float  $weight,
+        private string $day,
+        private string $productId,
+        private float  $weight,
+        private string $userId,
     )
     {
     }
@@ -32,5 +33,10 @@ final class UpdateDayProductWeightCommand implements UpdateDayProductWeightDtoIn
     public function getWeight(): Weight
     {
         return new Weight($this->weight);
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
