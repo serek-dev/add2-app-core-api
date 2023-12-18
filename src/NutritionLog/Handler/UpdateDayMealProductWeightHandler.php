@@ -25,7 +25,7 @@ final readonly class UpdateDayMealProductWeightHandler
 
     public function __invoke(UpdateDayMealProductWeightDtoInterface $dto): void
     {
-        $day = $this->find->findDayByDate($dto->getDay());
+        $day = $this->find->findDayByDate($dto->getDay(), $dto->getUserId());
 
         if (!$day) {
             throw new NotFoundException('Day: ' . $dto->getDay() . ' does not exist');
