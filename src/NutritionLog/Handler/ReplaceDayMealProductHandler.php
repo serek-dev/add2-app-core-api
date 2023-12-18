@@ -25,7 +25,7 @@ final class ReplaceDayMealProductHandler
 
     public function __invoke(ReplaceMealProductDtoInterface $command): void
     {
-        $day = $this->findDayByDate->findDayByDate($command->getDay());
+        $day = $this->findDayByDate->findDayByDate($command->getDay(), $command->getUserId());
 
         if (!$day) {
             throw new NotFoundException('Day not found');
@@ -34,7 +34,7 @@ final class ReplaceDayMealProductHandler
         $day->replaceMealProduct(
             $command->getMealId(),
             $command->getProductId(),
-            $this->product->getOne($command->getNewProductId())
+            $this->product->getOne($command->getNewProductId(), $command->getUserId())
         );
 
         $this->persistence->store($day);

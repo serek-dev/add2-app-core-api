@@ -13,4 +13,6 @@ interface ReplaceMealProductDtoInterface
     public function getProductId(): string;
 
     public function getNewProductId(): string;
+
+    public function getUserId(): string;
 }

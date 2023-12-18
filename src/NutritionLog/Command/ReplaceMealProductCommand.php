@@ -9,13 +9,14 @@ use App\NutritionLog\Dto\ReplaceMealProductDtoInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
+final readonly class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
 {
     public function __construct(
-        private readonly string $day,
-        private readonly string $mealId,
-        private readonly string $productId,
-        private readonly string $newProductId,
+        private string $day,
+        private string $mealId,
+        private string $productId,
+        private string $newProductId,
+        private string $userId,
     )
     {
     }
@@ -38,5 +39,10 @@ final class ReplaceMealProductCommand implements ReplaceMealProductDtoInterface
     public function getDay(): DateTimeInterface
     {
         return new DateTimeImmutable($this->day);
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
