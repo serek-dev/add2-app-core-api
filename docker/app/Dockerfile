@@ -45,6 +45,7 @@ COPY bin bin
 COPY config config
 COPY public public
 COPY tools tools
+COPY migrations migrations
 COPY resources resources
 COPY src src
 
