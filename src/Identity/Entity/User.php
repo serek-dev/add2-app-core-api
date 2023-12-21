@@ -22,6 +22,10 @@ class User
         private string $id,
         #[Column]
         private string $identifier,
+        #[Column(length: 50)]
+        private string $firstName,
+        #[Column(length: 50)]
+        private string $lastName,
         #[Column]
         private string $email,
         #[Column(nullable: true)]
@@ -59,5 +63,15 @@ class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
     }
 }

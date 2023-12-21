@@ -26,6 +26,7 @@ final class GetUserByIdentifierController extends AbstractController
             'item' => [
                 'id' => $user->getId(),
                 'identifier' => $user->getIdentifier(),
+                'displayName' => $user->getFirstName() . ' ' . $user->getLastName(),
                 'hashedPassword' => $user->getHashedPassword(),
                 'jwt' => $user->getJwt(),
             ],
