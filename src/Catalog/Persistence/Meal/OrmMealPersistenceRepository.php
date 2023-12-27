@@ -21,7 +21,7 @@ final class OrmMealPersistenceRepository implements MealPersistenceInterface, Fi
         $this->em->flush();
     }
 
-    public function findByName(string $name): ?Meal
+    public function findByName(string $name, string $userId): ?Meal
     {
         $qb = $this->em->createQueryBuilder();
 
@@ -30,6 +30,9 @@ final class OrmMealPersistenceRepository implements MealPersistenceInterface, Fi
 
         $qb->where('m.name = :name');
         $qb->setParameter('name', $name);
+
+        $qb->andWhere('m.userId = :userId');
+        $qb->setParameter('userId', $userId);
 
         $qb->setMaxResults(1);
 

@@ -25,7 +25,7 @@ final class MealBuilder
 
     public function build(string $userId, string $name, ?string $producerName = null): Meal
     {
-        if ($this->findMealByName->findByName($name)) {
+        if ($this->findMealByName->findByName($name, $userId)) {
             throw new DuplicateException(
                 "Meal with name: {$name} and produced by: {$producerName} already exist"
             );
