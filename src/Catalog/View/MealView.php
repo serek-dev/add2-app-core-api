@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\Immutable;
 use JsonSerializable;
+use function array_map;
+use function array_sum;
 
 #[Entity(readOnly: true)]
 #[Table('catalog_meal')]
@@ -56,26 +58,26 @@ class MealView implements JsonSerializable
 
     public function getProteins(): float
     {
-        return round(array_sum(array_map(fn(MealProductView $p) => $p->getProteins(), $this->products->toArray())), 2);
+        return array_sum(array_map(fn(MealProductView $p) => $p->getProteins(), $this->products->toArray()));
     }
 
     public function getFats(): float
     {
-        return round(array_sum(array_map(fn(MealProductView $p) => $p->getFats(), $this->products->toArray())), 2);
+        return array_sum(array_map(fn(MealProductView $p) => $p->getFats(), $this->products->toArray()));
     }
 
     public function getCarbs(): float
     {
-        return round(array_sum(array_map(fn(MealProductView $p) => $p->getCarbs(), $this->products->toArray())), 2);
+        return array_sum(array_map(fn(MealProductView $p) => $p->getCarbs(), $this->products->toArray()));
     }
 
     public function getKcal(): float
     {
-        return round(array_sum(array_map(fn(MealProductView $p) => $p->getKcal(), $this->products->toArray())), 2);
+        return array_sum(array_map(fn(MealProductView $p) => $p->getKcal(), $this->products->toArray()));
     }
 
     public function getWeight(): float
     {
-        return round(array_sum(array_map(fn(MealProductView $p) => $p->getWeight(), $this->products->toArray())), 2);
+        return array_sum(array_map(fn(MealProductView $p) => $p->getWeight(), $this->products->toArray()));
     }
 }

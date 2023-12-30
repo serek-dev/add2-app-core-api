@@ -36,10 +36,12 @@ class Meal
         #[GeneratedValue(strategy: "NONE")]
         #[Column]
         private readonly string $id,
-        #[Column]
+        #[Column(length: 150)]
         private readonly string $name,
-        #[Column]
+        #[Column(length: 50)]
         private readonly string $userId,
+        #[Column(type: 'text', nullable: true)]
+        private readonly ?string $description,
         array                   $products,
     )
     {

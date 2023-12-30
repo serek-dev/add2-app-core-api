@@ -9,6 +9,8 @@ interface CreateMealDtoInterface
 {
     public function getName(): string;
 
+    public function getDescription(): ?string;
+
     /**
      * @return array<array{id: string, weight: float}>
      */

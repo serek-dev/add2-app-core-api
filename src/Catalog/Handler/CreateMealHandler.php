@@ -15,12 +15,12 @@ use App\Catalog\Value\Weight;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class CreateMealHandler
+final readonly class CreateMealHandler
 {
     public function __construct(
-        private readonly MealBuilder              $mealBuilder,
-        private readonly FindProductByIdInterface $findProductById,
-        private readonly MealPersistenceInterface $storeMeal,
+        private MealBuilder              $mealBuilder,
+        private FindProductByIdInterface $findProductById,
+        private MealPersistenceInterface $storeMeal,
     )
     {
     }
@@ -40,6 +40,10 @@ final class CreateMealHandler
 
         if ($createMealDto->getId()) {
             $this->mealBuilder->withId($createMealDto->getId());
+        }
+
+        if ($createMealDto->getDescription()) {
+            $this->mealBuilder->withDescription($createMealDto->getDescription());
         }
 
         $meal = $this->mealBuilder->build($createMealDto->getUserId(), $createMealDto->getName());

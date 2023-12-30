@@ -29,7 +29,7 @@ final class MealBuilderTest extends TestCase
     public function testBuildThrowsDuplicate(): void
     {
         $mealByName = $this->createMock(FindMealByNameInterface::class);
-        $meal = new Meal('id', 'name', 'user', []);
+        $meal = new Meal('id', 'name', 'user', null, []);
         $mealByName->method('findByName')->willReturn($meal);
 
         $sut = new MealBuilder($mealByName);

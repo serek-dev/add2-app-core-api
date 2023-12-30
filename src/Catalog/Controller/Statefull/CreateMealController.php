@@ -27,6 +27,7 @@ final class CreateMealController extends AbstractController
                 userId: $userId,
                 name: $request->getPayload()->get('name'),
                 products: $request->getPayload()->get('products') ?? [],
+                description: $request->getPayload()->get('description'),
                 id: $id = uniqid('M-'),
             )
         );

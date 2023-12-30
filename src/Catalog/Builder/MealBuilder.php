@@ -17,20 +17,21 @@ use App\Catalog\Value\Weight;
 final class MealBuilder
 {
     private ?string $id = null;
+    private ?string $description = null;
     private array $products = [];
 
     public function __construct(private readonly FindMealByNameInterface $findMealByName)
     {
     }
 
-    public function build(string $userId, string $name, ?string $producerName = null): Meal
+    public function build(string $userId, string $name): Meal
     {
         if ($this->findMealByName->findByName($name, $userId)) {
             throw new DuplicateException(
-                "Meal with name: {$name} and produced by: {$producerName} already exist"
+                "Meal with name: {$name} already exist"
             );
         }
-        return new Meal($this->id ?? uniqid('M-'), $name, $userId, $this->products);
+        return new Meal($this->id ?? uniqid('M-'), $name, $userId, $this->description, $this->products);
     }
 
     public function addProduct(Weight $quantity, Product $product): self
@@ -61,6 +62,12 @@ final class MealBuilder
     public function withId(string $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function withDescription(?string $description): self
+    {
+        $this->description = $description;
         return $this;
     }
 }

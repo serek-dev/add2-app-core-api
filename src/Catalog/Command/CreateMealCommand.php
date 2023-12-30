@@ -8,16 +8,17 @@ namespace App\Catalog\Command;
 
 use App\Catalog\Dto\CreateMealDtoInterface;
 
-final class CreateMealCommand implements CreateMealDtoInterface
+final readonly class CreateMealCommand implements CreateMealDtoInterface
 {
     /**
      * @param array<array{id: string, weight: float}> $products
      */
     public function __construct(
-        private readonly string $userId,
-        private readonly string $name,
-        private readonly array  $products,
-        private readonly ?string $id = null,
+        private string  $userId,
+        private string  $name,
+        private array   $products,
+        private ?string $description = null,
+        private ?string $id = null,
     )
     {
     }
@@ -41,5 +42,10 @@ final class CreateMealCommand implements CreateMealDtoInterface
     public function getUserId(): string
     {
         return $this->userId;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }
