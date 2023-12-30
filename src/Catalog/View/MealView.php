@@ -33,6 +33,9 @@ class MealView implements JsonSerializable
     #[Column]
     public string $userId;
 
+    #[Column(type: 'text', nullable: true)]
+    public ?string $description = null;
+
     private function __construct()
     {
         $this->products = new ArrayCollection();
@@ -48,6 +51,7 @@ class MealView implements JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'proteins' => $this->getProteins(),
+            'description' => $this->description,
             'fats' => $this->getFats(),
             'carbs' => $this->getCarbs(),
             'kcal' => $this->getKcal(),

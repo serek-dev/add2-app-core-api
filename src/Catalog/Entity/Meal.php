@@ -37,11 +37,11 @@ class Meal
         #[Column]
         private readonly string $id,
         #[Column(length: 150)]
-        private readonly string $name,
+        private string  $name,
         #[Column(length: 50)]
         private readonly string $userId,
         #[Column(type: 'text', nullable: true)]
-        private readonly ?string $description,
+        private ?string $description,
         array                   $products,
     )
     {
@@ -126,5 +126,20 @@ class Meal
         $replacedProduct->changeWeight(new Weight($amountNeeded));
 
         $this->changeProductWeight($productId, new Weight($amountNeeded));
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setDescription(?string $value): void
+    {
+        $this->description = $value;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }

@@ -12,6 +12,10 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     _instanceof:
+
+        App\Catalog\Specification\MealSpecificationInterface:
+            tags: [ 'app.catalog.meal_specification.update' ]
+
         App\Catalog\Specification\ProductSpecificationInterface:
             tags: [ 'app.catalog.product_specification.create' ]
         App\Catalog\Specification\Product\NutritionMistakeThresholdSpecification:
@@ -51,3 +55,8 @@ services:
         class: App\Metric\Factory\MetricFactoryDirector
         arguments:
             $factories: !tagged app.metric.factory
+
+    App\Catalog\Handler\UpdateMealHandler:
+        class: App\Catalog\Handler\UpdateMealHandler
+        arguments:
+            $specifications: !tagged app.catalog.meal_specification.update
