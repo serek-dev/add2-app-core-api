@@ -10,6 +10,12 @@ nutrition_log:
     namespace: App\NutritionLog\Controller
   type: attribute
 
+activity_log:
+  resource:
+    path: ../src/ActivityLog/Controller/
+    namespace: App\ActivityLog\Controller
+  type: attribute
+
 metrics:
   resource:
     path: ../src/Metric/Controller/

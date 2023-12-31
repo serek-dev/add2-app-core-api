@@ -31,6 +31,11 @@ doctrine:
             dir: '%kernel.project_dir%/src/NutritionLog/Entity'
             prefix: 'App\NutritionLog\Entity'
             alias: App\NutritionLog
+          ActivityLog:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/ActivityLog/Entity'
+            prefix: 'App\ActivityLog\Entity'
+            alias: App\ActivityLog
           NutritionLogValue:
             is_bundle: false
             dir: '%kernel.project_dir%/src/NutritionLog/Value'
